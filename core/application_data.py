@@ -18,12 +18,14 @@ class AppData:
     
     def add_customer(self, firstname, lastname, phone_number, email) -> User:
         customer = User(firstname, lastname, phone_number, email)
+        self._users.append(customer)
         return customer
     
-    def find_customer(self, email) -> User:
+    def find_customer_by_email(self, email) -> User:
         for user in self.users:
             if user.email == email:
                 return user
+            
         raise ValueError(f'User with e-mail {email} not found')
         
         
