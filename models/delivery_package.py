@@ -3,16 +3,14 @@ from models.user import User
 
 
 class DeliveryPackage:
-    packages_ids = []
     id_implementer = 1
 
     def __init__(self, weight: float, start_location: Locations, end_location: Locations, contact_info: User):
-        self._id = DeliveryPackage.id_implementer
-        DeliveryPackage.packages_ids.append(self._id)
         self.weight = weight
         self._start_location = start_location
         self._end_location = end_location
         self._contact_info = contact_info
+        self._id = DeliveryPackage.id_implementer
         DeliveryPackage.id_implementer += 1
 
     @property
