@@ -5,6 +5,7 @@ from commands.helper_methods import Validate
 
 class AddCustomer(BaseCommand):
     def __init__(self, params: list[str], app_data: AppData) -> None:
+        Validate.params_count(params, 4, self.__class__.__name__)
         super().__init__(params, app_data)
 
     def execute(self):

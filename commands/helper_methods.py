@@ -6,6 +6,10 @@ class Validate:
         if not min <= len(val) <= max:
             raise ValueError(f'Invalid input')
 
+    @staticmethod
+    def params_count(params: list[str], count: int, cmd_name: str):
+        if len(params) != count:
+            raise ValueError(f'{cmd_name} command expects {count} parameters.')
 
 
 class Parse:
