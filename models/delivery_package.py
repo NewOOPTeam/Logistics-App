@@ -1,5 +1,5 @@
-from locations import Locations
-from user import User
+from models.locations import Locations
+from models.user import User
 
 
 class DeliveryPackage:
