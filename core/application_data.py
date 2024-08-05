@@ -1,8 +1,9 @@
 from models.delivery_package import DeliveryPackage
 from models.user import User
-from models.locations import Locations
 from models.employee_roles import EmployeeRoles
 from models.employee import Employee
+
+
 class AppData:
     
     def __init__(self) -> None:
