@@ -28,7 +28,7 @@ class DistanceCalculator:
         return distance_dict
 
     def get_distance(self, starting_point, end_point):
-        if starting_point or end_point not in self.distance_dict:
+        if starting_point not in self.distance_dict or end_point not in self.distance_dict:
             raise ValueError(f"City '{starting_point}' or '{end_point}' not found in the distance dictionary.")
         return self.distance_dict[starting_point][end_point]
 
