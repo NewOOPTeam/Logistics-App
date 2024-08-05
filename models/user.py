@@ -1,9 +1,9 @@
 class User:
     def __init__(self, firstname, lastname, phone_number, email):
-        self._firstname = firstname
-        self._lastname = lastname
-        self._phone_number = phone_number
-        self._email = email
+        self.firstname = firstname
+        self.lastname = lastname
+        self.phone_number = phone_number
+        self.email = email
 
     @property
     def firstname(self):
@@ -51,3 +51,5 @@ class User:
         return (f'Name: {self.firstname} {self.lastname}\n'
                 f'Phone: {self.phone_number}\n'
                 f'E-mail: {self.email}')
+
+
