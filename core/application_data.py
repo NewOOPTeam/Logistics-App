@@ -6,6 +6,7 @@ class AppData:
     
     def __init__(self) -> None:
         self._users: list[User] = list()
+        # delivery packages list 
     
     @property        
     def users(self):

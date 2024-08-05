@@ -11,6 +11,7 @@ class CreatePackage(BaseCommand):
         
     # Creating a delivery package – unique id, start location, end location and weight in kg, and contact information for the customer.
 
+    ### add start date!!!!!
 
     def execute(self):
         weight, starting_location, target_location, contact_info = self._params
