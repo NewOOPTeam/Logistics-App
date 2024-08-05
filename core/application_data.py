@@ -8,9 +8,11 @@ class AppData:
     
     def __init__(self) -> None:
         self._users: list[User] = list()
-        self._delivery_packages = list()
         self._employees = list()
-    
+        
+        self._delivery_packages: list[DeliveryPackage] = list()
+
+        
     @property        
     def users(self):
         return self._users
@@ -24,6 +26,12 @@ class AppData:
         self._delivery_packages.append(package)
         return package
     
+    def find_package_by_id(self, id) -> DeliveryPackage:
+        for package in self._delivery_packages:
+            if package.id == id:
+                return package
+        raise ValueError(f'Package with ID {id} not found')
+    
     
     def add_customer(self, firstname, lastname, phone_number, email) -> User:
         customer = User(firstname, lastname, phone_number, email)
@@ -34,7 +42,6 @@ class AppData:
         for user in self.users:
             if user.email == email:
                 return user
-            
         raise ValueError(f'User with e-mail {email} not found')
     
     def add_employee(self, firstname, lastname, role: EmployeeRoles) -> Employee:

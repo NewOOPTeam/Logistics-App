@@ -34,8 +34,3 @@ class DeliveryPackage:
                 f'-----Client-----\n'
                 f'{self._contact_info}\n'
                 f'----------------')
-
-
-
-
-

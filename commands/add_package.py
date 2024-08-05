@@ -3,7 +3,7 @@ from commands.base_command import BaseCommand
 from commands.helper_methods import Parse, Validate
 from models.locations import Locations
 
-class CreatePackage(BaseCommand):
+class AddPackage(BaseCommand):
     def __init__(self, params: list[str], app_data: AppData) -> None:
         Validate.params_count(params, 4, self.__class__.__name__)
         super().__init__(params, app_data)

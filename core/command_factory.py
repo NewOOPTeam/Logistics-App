@@ -1,6 +1,8 @@
-from commands.create_package import CreatePackage
+from commands.add_package import AddPackage
+from commands.create_delivery_route import CreateDeliveryRoute
 from commands.add_customer import AddCustomer
 from commands.add_employee import AddEmployee
+from commands.view_package import ViewPackage
 
 class CommandFactory:
     def __init__(self, data):
@@ -8,12 +10,6 @@ class CommandFactory:
 
     def create(self, input_line: str):
         command, *params = input_line.split()
-        
-        
-        #### EMPLOYEE ####
-        # An employee of the company must be able to record the details of a delivery package, create or search for suitable delivery routes, and inspect the current state of delivery packages, transport vehicles and delivery routes.
-        
-        # Creating a delivery package – unique id, start location, end location and weight in kg, and contact information for the customer.
 
 
         #### APPLICATION FUNCTIONALITIES ####
@@ -34,17 +30,17 @@ class CommandFactory:
         match command.lower():
             case 'addemployee':
                 return AddEmployee(params, self._app_data)
-            case 'login':
-                pass
             case 'addcustomer':
                 return AddCustomer(params, self._app_data)
-            case 'createpackage':
-                return CreatePackage(params, self._app_data)
+            case 'addpackage':
+                return AddPackage(params, self._app_data)
             case 'viewpackage':
-                pass
+                return ViewPackage(params, self._app_data)
             case 'createdeliveryroute':
-                pass
+                return CreateDeliveryRoute(params, self._app_data)
             case 'viewdeliveryroute':
                 pass
             case 'searchdeliveryroute':
                 pass
+            case _:
+                raise ValueError(f"Unknown command: '{command}'")
