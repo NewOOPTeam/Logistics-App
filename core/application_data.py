@@ -7,7 +7,6 @@ class AppData:
     
     def __init__(self) -> None:
         self._users: list[User] = list()
-        # delivery packages list 
         self._delivery_packages = list()
         self._employees = list()
     
@@ -24,19 +23,20 @@ class AppData:
         self._delivery_packages.append(package)
         return package
     
+    
     def add_customer(self, firstname, lastname, phone_number, email) -> User:
         customer = User(firstname, lastname, phone_number, email)
         self._users.append(customer)
         return customer
 
-    def add_employee(self, firstname, lastname, role: EmployeeRoles) -> Employee:
-        employee = Employee(firstname, lastname, role)
-        self._employees.append(employee)
-        return employee
-    
     def find_customer_by_email(self, email) -> User:
         for user in self.users:
             if user.email == email:
                 return user
             
         raise ValueError(f'User with e-mail {email} not found')
+    
+    def add_employee(self, firstname, lastname, role: EmployeeRoles) -> Employee:
+        employee = Employee(firstname, lastname, role)
+        self._employees.append(employee)
+        return employee

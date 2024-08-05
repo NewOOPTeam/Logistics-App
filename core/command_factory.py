@@ -1,5 +1,6 @@
 from commands.create_package import CreatePackage
 from commands.add_customer import AddCustomer
+from commands.add_employee import AddEmployee
 
 class CommandFactory:
     def __init__(self, data):
@@ -28,11 +29,11 @@ class CommandFactory:
         # Updating a delivery route – assign a delivery package.
 
         # View a information about routes, packages and trucks.
-        #case match 
+
         
         match command.lower():
-            case 'createemployee':
-                pass
+            case 'addemployee':
+                return AddEmployee(params, self._app_data)
             case 'login':
                 pass
             case 'addcustomer':

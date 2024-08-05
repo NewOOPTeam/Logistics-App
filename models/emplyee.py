@@ -1,4 +1,4 @@
-from employee_roles import EmployeeRoles
+from models.employee_roles import EmployeeRoles
 
 
 class Employee:
