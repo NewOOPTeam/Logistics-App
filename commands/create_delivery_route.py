@@ -17,6 +17,9 @@ class CreateDeliveryRoute(BaseCommand):
             if package:
                 break
             
+        if package == 'cancel':
+            return
+                    
         calc = DistanceCalculator()                    
         route_input = input(" Enter your route: ")
         distance = calc.get_route_distance(route_input)
@@ -43,5 +46,5 @@ class CreateDeliveryRoute(BaseCommand):
             
             if (action := input(input_message).strip().lower()) == 'cancel':
                 print("Operation cancelled.")
-                return "Operation cancelled."
-            return
+                return 'cancel'
+            return None

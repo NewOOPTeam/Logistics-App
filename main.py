@@ -1,6 +1,6 @@
 from core.application_data import AppData
 from core.command_factory import CommandFactory
-from core.engine2 import Engine
+from core.engine import Engine
 
 app_data = AppData()
 cmd_factory = CommandFactory(app_data)
