@@ -3,6 +3,8 @@ from core.application_data import AppData
 from commands.helper_methods import Validate, Parse
 from csv_file.distance_calculator import DistanceCalculator
 
+CANCEL = 'cancel'
+
 class CreateDeliveryRoute(BaseCommand):
     def __init__(self, params: list[str], app_data: AppData) -> None:
         Validate.params_count(params, 0, self.__class__.__name__)
@@ -27,7 +29,7 @@ class CreateDeliveryRoute(BaseCommand):
             if package:
                 break
             
-        if package == 'cancel':
+        if package == CANCEL:
             return 'Operation cancelled'
                     
         calc = DistanceCalculator()                    
@@ -45,7 +47,7 @@ class CreateDeliveryRoute(BaseCommand):
             except ValueError:
                 print('Invalid ID')   
     
-    def assign_package(self, id):
+    def assign_package(self, id):        
         try:
             package = self._app_data.find_package_by_id(id) 
             return package             
@@ -55,4 +57,4 @@ class CreateDeliveryRoute(BaseCommand):
             
             if (action := input(input_message).strip().lower()) != 'cancel':
                 return None
-            return 'cancel'
+            return CANCEL
