@@ -1,7 +1,7 @@
 from commands.base_command import BaseCommand
 from core.application_data import AppData
 from commands.helper_methods import Validate, Parse
-from csv_file.distance_calculator import DistanceCalculator as dc
+from csv_file.distance_calculator import DistanceCalculator
 
 
 class CreateDeliveryRoute(BaseCommand):
@@ -10,24 +10,32 @@ class CreateDeliveryRoute(BaseCommand):
         super().__init__(params, app_data)
         
     def execute(self):
-        id = input(' Input package ID\n ')
-        id = Parse.to_int(id)
-        package = self._app_data.find_package_by_id(id)
-        if not package:
+        
+        id = self.get_id()   
+
+        try:
+            package = self._app_data.find_package_by_id(id)
+        except ValueError:
             print(f'Package with {id} not found')
+            if (action := input("Do you want to try another ID or cancel? (enter 'retry' or 'cancel'): ").strip().lower()) == 'cancel':
+                print("Operation cancelled.")
+                return "Operation cancelled."
+            else:
+                id = self.get_id()   
         
-        stops = []
-                    
-        number_of_stops = Parse.to_int(input(' Input number of stops: \n'))
-        for _ in range(number_of_stops):
-            stops.append(input())
-        
-        route = ' '.join(stops)
-        
-        distance = dc.get_route_distance(route)
-        
-        # start_location = package._start_location
-        # end_location = package._end_location
-        
-        print(f'Route for package {id} created: {route}, overall distance: {distance}')
+        calc = DistanceCalculator()                    
+        route_input = input(" Enter your route: ")
+        distance = calc.get_route_distance(route_input)
+
+        print(f'Route for package {id} created: {''.join(route_input)}, {calc}')
         return f'Route for package {id} created'
+    
+    
+    def get_id(self):
+        while (id := input(' Input package ID\n ')):
+            try:
+                id = Parse.to_int(id)
+                return id
+            except ValueError:
+                print('Invalid ID')   
+        
