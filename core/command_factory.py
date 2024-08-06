@@ -1,5 +1,6 @@
 from commands.add_package import AddPackage
 from commands.create_delivery_route import CreateDeliveryRoute
+from commands.search_delivery_route import SearchRoute
 from commands.add_customer import AddCustomer
 from commands.add_employee import AddEmployee
 from commands.view_employees import ViewEmployees
@@ -12,23 +13,7 @@ class CommandFactory:
 
     def create(self, input_line: str):
         command, *params = input_line.split()
-
-
-        #### APPLICATION FUNCTIONALITIES ####
-        # Creating a delivery route – should have a unique id, and a list of locations (at least two).
-        # The first location is the starting location – it has a departure time.
-
-        # The other locations have expected arrival time.
-
-        # Search for a route based on package’s start and end locations.
-
-        # Updating a delivery route – assign a free truck to it.
-
-        # Updating a delivery route – assign a delivery package.
-
-        # View a information about routes, packages and trucks.
-
-        
+                
         match command.lower():
             case 'addemployee':
                 return AddEmployee(params, self._app_data)
@@ -42,15 +27,17 @@ class CommandFactory:
                 return ViewPackage(params, self._app_data)
             case 'viewallpackages':
                 return ViewAllPackages(params, self._app_data)
-            case 'viewunassignedpackages':
-                pass
             case 'createdeliveryroute':
                 return CreateDeliveryRoute(params, self._app_data)
-            case 'selectdeliveryroute':
+            case 'viewunassignedpackages':
+                pass
+            case 'searchroute':
                 pass
             case 'viewdeliveryroute':
                 pass
             case 'viewactiveroutes':
+                pass
+            case 'viewavailabletrucks':
                 pass
             case _:
                 raise ValueError(f"Unknown command: '{command}'")

@@ -11,4 +11,4 @@ class ViewEmployees(BaseCommand):
 
     def execute(self):
         
-        return print(self._app_data.view_employees())
+        return self._app_data.view_employees()

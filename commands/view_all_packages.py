@@ -9,4 +9,4 @@ class ViewAllPackages(BaseCommand):
 
 
     def execute(self):
-        return print(self._app_data.view_packages())
+        return self._app_data.view_packages()

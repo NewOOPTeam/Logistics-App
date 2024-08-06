@@ -8,9 +8,6 @@ class AddPackage(BaseCommand):
         Validate.params_count(params, 4, self.__class__.__name__)
         super().__init__(params, app_data)
 
-        
-    # Creating a delivery package – unique id, start location, end location and weight in kg, and contact information for the customer.
-
     ### add start date!!!!!
 
     def execute(self):
