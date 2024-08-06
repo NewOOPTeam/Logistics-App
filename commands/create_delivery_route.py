@@ -10,6 +10,8 @@ class CreateDeliveryRoute(BaseCommand):
         super().__init__(params, app_data)
         
     def execute(self):
+        package = None
+        
         while True:
             id = self.get_id()
             
@@ -18,14 +20,13 @@ class CreateDeliveryRoute(BaseCommand):
                 break
             
         if package == 'cancel':
-            return
+            return 'Operation cancelled'
                     
         calc = DistanceCalculator()                    
         route_input = input(" Enter your route: ")
         distance = calc.get_route_distance(route_input)
 
-        print(f'Route for package {id} created: {''.join(route_input)}, {calc}')
-        return f'Route for package {id} created'
+        return f'Route for package {id} created: {''.join(route_input)}, {calc}'
     
     
     def get_id(self):
@@ -42,9 +43,8 @@ class CreateDeliveryRoute(BaseCommand):
             return package             
         except ValueError:
             print(f'Package with {id} not found')
-            input_message = "Do you want to try another ID or cancel? (enter 'retry' or 'cancel'): "
+            input_message = "Do you want to try another ID or cancel? (enter 'cancel' to abort): "
             
-            if (action := input(input_message).strip().lower()) == 'cancel':
-                print("Operation cancelled.")
-                return 'cancel'
-            return None
+            if (action := input(input_message).strip().lower()) != 'cancel':
+                return None
+            return 'cancel'

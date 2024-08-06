@@ -2,7 +2,9 @@ from commands.add_package import AddPackage
 from commands.create_delivery_route import CreateDeliveryRoute
 from commands.add_customer import AddCustomer
 from commands.add_employee import AddEmployee
+from commands.view_employees import ViewEmployees
 from commands.view_package import ViewPackage
+from commands.view_all_packages import ViewAllPackages
 
 class CommandFactory:
     def __init__(self, data):
@@ -30,17 +32,25 @@ class CommandFactory:
         match command.lower():
             case 'addemployee':
                 return AddEmployee(params, self._app_data)
+            case 'viewallemployees':
+                return ViewEmployees(params, self._app_data)
             case 'addcustomer':
                 return AddCustomer(params, self._app_data)
             case 'addpackage':
                 return AddPackage(params, self._app_data)
             case 'viewpackage':
                 return ViewPackage(params, self._app_data)
+            case 'viewallpackages':
+                return ViewAllPackages(params, self._app_data)
+            case 'viewunassignedpackages':
+                pass
             case 'createdeliveryroute':
                 return CreateDeliveryRoute(params, self._app_data)
+            case 'selectdeliveryroute':
+                pass
             case 'viewdeliveryroute':
                 pass
-            case 'searchdeliveryroute':
+            case 'viewactiveroutes':
                 pass
             case _:
                 raise ValueError(f"Unknown command: '{command}'")

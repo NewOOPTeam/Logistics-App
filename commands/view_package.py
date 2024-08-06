@@ -12,5 +12,9 @@ class ViewPackage(BaseCommand):
         id = self._params[0]
         id = Parse.to_int(id)
         
-        package = self._app_data.find_package_by_id(id)
-        return str(package)
+        try:
+            package = self._app_data.find_package_by_id(id)
+        except ValueError:
+            return f'Package with ID {id} not found'
+            
+        return str(package) 

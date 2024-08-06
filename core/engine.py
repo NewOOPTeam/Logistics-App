@@ -7,10 +7,12 @@ class Engine:
     def start(self):
         output = []
 
-        while (input_line := input('Enter application command: \n').strip()) and input_line.lower() != 'done':
+        while (input_line := input(' Enter application command: \n').strip()) and input_line.lower() != 'done':
             try:
                 command = self._factory.create(input_line)
-                output.append(command.execute())
+                user_output = command.execute()
+                print(user_output)
+                output.append(user_output)
             except Exception as error:
                 output.append(error.args[0])
                 

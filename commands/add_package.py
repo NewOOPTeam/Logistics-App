@@ -21,6 +21,7 @@ class AddPackage(BaseCommand):
         target_location = Locations.from_string(target_location)
         
         contact = self._app_data.find_customer_by_email(contact_info)
+        
         package = self._app_data.create_delivery_package(weight, starting_location, target_location, contact)
         
         return f'Package with ID #{package.id} was created'

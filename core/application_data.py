@@ -8,7 +8,7 @@ class AppData:
     
     def __init__(self) -> None:
         self._users: list[User] = list()
-        self._employees = list()
+        self._employees: list[Employee] = list()
         
         self._delivery_packages: list[DeliveryPackage] = list()
 
@@ -32,6 +32,15 @@ class AppData:
                 return package
         raise ValueError(f'Package with ID {id} not found')
     
+    def view_packages(self):
+        packages = [str(package) for package in self._delivery_packages]
+        
+        return '\n'.join(packages)
+    
+    def view_employees(self):
+        employees = [str(employee) for employee in self._employees]
+        
+        return '\n'.join(employees)
     
     def add_customer(self, firstname, lastname, phone_number, email) -> User:
         customer = User(firstname, lastname, phone_number, email)
@@ -48,3 +57,6 @@ class AppData:
         employee = Employee(firstname, lastname, role)
         self._employees.append(employee)
         return employee
+    
+    def assign_package_to_delivery_route(self, id):
+        pass
