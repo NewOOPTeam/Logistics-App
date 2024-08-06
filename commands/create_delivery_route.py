@@ -10,19 +10,13 @@ class CreateDeliveryRoute(BaseCommand):
         super().__init__(params, app_data)
         
     def execute(self):
-        
-        id = self.get_id()   
-
-        try:
-            package = self._app_data.find_package_by_id(id)
-        except ValueError:
-            print(f'Package with {id} not found')
-            if (action := input("Do you want to try another ID or cancel? (enter 'retry' or 'cancel'): ").strip().lower()) == 'cancel':
-                print("Operation cancelled.")
-                return "Operation cancelled."
-            else:
-                id = self.get_id()   
-        
+        while True:
+            id = self.get_id()
+            
+            package = self.assign_package(id)
+            if package:
+                break
+            
         calc = DistanceCalculator()                    
         route_input = input(" Enter your route: ")
         distance = calc.get_route_distance(route_input)
@@ -38,4 +32,16 @@ class CreateDeliveryRoute(BaseCommand):
                 return id
             except ValueError:
                 print('Invalid ID')   
-        
+    
+    def assign_package(self, id):
+        try:
+            package = self._app_data.find_package_by_id(id) 
+            return package             
+        except ValueError:
+            print(f'Package with {id} not found')
+            input_message = "Do you want to try another ID or cancel? (enter 'retry' or 'cancel'): "
+            
+            if (action := input(input_message).strip().lower()) == 'cancel':
+                print("Operation cancelled.")
+                return "Operation cancelled."
+            return
