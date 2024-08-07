@@ -1,0 +1,32 @@
+
+
+        #### APPLICATION FUNCTIONALITIES ####
+
+        # Creating a delivery route – should have a unique id, and a list of locations (at least two).
+        # The first location is the starting location – it has a departure time.
+
+        # The other locations have expected arrival time.
+
+        # Search for a route based on package’s start and end locations.
+
+        # Updating a delivery route – assign a free truck to it.
+
+        # Updating a delivery route – assign a delivery package.
+
+        # View information about routes, packages and trucks.
+
+        ######################################
+        # upon creating the package, we could ask if we want to assign for delivery straight away
+
+        # a truck needs to be assigned also
+
+        # we need to implement the time/date shit
+        # we could make the app more interactive, like we could have a list of commands that opens when you start the app and then each command could have subcommands like in Search Delivery Route
+
+        # we probably need some command to log in as admin etc and make the check who can perform which action
+
+        # check if package weight etc, package status
+
+        # prices
+
+        # check if any truck is available for a given time period

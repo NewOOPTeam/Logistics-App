@@ -83,3 +83,10 @@ class TruckModel:
                 f'Status: {self.status}\n')
 
 
+    def mark_unavailable(self, truck_id: int):
+        truck = self.get_truck_by_id(truck_id)
+        truck.status = 'Unavailable'
+
+    def mark_available(self, truck_id: int):
+        truck = self.get_truck_by_id(truck_id)
+        truck.status = 'Available'

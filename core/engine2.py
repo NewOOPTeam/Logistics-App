@@ -7,12 +7,13 @@ class Engine:
     def start(self):
         output = []
 
-        while (input_line := input(' Enter application command: \n').strip()) and input_line.lower() != 'done':
+        while (input_line := input().strip()) and input_line.lower() != 'done':
             try:
                 command = self._factory.create(input_line)
-                user_output = command.execute()
-                print(user_output)
-                output.append(user_output)
+                
+                if command is None:
+                    raise ValueError(f"Unknown command: '{input_line}'")
+                output.append(command.execute())
             except Exception as error:
                 output.append(error.args[0])
                 

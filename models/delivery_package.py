@@ -12,6 +12,8 @@ class DeliveryPackage:
         self._contact_info = contact_info
         self._id = DeliveryPackage.id_implementer
         DeliveryPackage.id_implementer += 1
+        # status
+        # assigned route
 
     @property
     def id(self):
@@ -34,8 +36,3 @@ class DeliveryPackage:
                 f'-----Client-----\n'
                 f'{self._contact_info}\n'
                 f'----------------')
-
-
-
-
-
