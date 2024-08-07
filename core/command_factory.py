@@ -39,5 +39,7 @@ class CommandFactory:
                 pass
             case 'viewavailabletrucks':
                 pass
+            case 'assigntruck':
+                pass
             case _:
                 raise ValueError(f"Unknown command: '{command}'")

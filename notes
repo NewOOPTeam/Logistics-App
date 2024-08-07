@@ -1,7 +1,7 @@
 
 
         #### APPLICATION FUNCTIONALITIES ####
-        
+
         # Creating a delivery route – should have a unique id, and a list of locations (at least two).
         # The first location is the starting location – it has a departure time.
 
@@ -24,3 +24,9 @@
         # we could make the app more interactive, like we could have a list of commands that opens when you start the app and then each command could have subcommands like in Search Delivery Route
 
         # we probably need some command to log in as admin etc and make the check who can perform which action
+
+        # check if package weight etc, package status
+
+        # prices
+
+        # check if any truck is available for a given time period

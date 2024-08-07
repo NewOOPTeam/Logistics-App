@@ -4,6 +4,7 @@ from models.employee_roles import EmployeeRoles
 from models.employee import Employee
 from Vehicles.truck_class_model import TruckConstants as tc
 from Vehicles.truck_class_model import TruckModel
+from models.delivery_route import DeliveryRoute
 
 
 class AppData:
@@ -11,18 +12,27 @@ class AppData:
     def __init__(self) -> None:
         self._users: list[User] = list()
         self._employees: list[Employee] = list()
-        self.trucks: list[TruckModel] = list()
-        self._delivery_routes = list()
+        self._trucks: list[TruckModel] = list()
+        self._delivery_routes: list[DeliveryRoute] = list()
         self._delivery_packages: list[DeliveryPackage] = list()
 
         
     @property        
     def users(self):
-        return self._users
+        return tuple(self._users)
 
     @property
     def delivery_packages(self):
-        return self._delivery_packages
+        return tuple(self._delivery_packages)
+    
+    @property
+    def employees(self):
+        return tuple(self._employees)
+    
+    @property
+    def trucks(self):
+        return tuple(self._trucks)
+    
 
     def create_delivery_package(self, weight, starting_location, target_location, contact_info: User) -> DeliveryPackage:
         package = DeliveryPackage(weight, starting_location, target_location, contact_info)
@@ -61,7 +71,14 @@ class AppData:
         self._employees.append(employee)
         return employee
     
-    def assign_package_to_delivery_route(self, id):
+    # TODO
+    def assign_package_to_delivery_route(self, package_id, truck_id):
+        pass #assign truck and package
+    
+    def assign_truck_to_route(self, id):
+        pass
+    
+    def find_truck_by_weight(self, weight):
         pass
     
     

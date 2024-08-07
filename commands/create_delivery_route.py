@@ -14,7 +14,8 @@ class CreateDeliveryRoute(BaseCommand):
         ################### UNFINISHED #####################
 
         # Creating a delivery route – should have a unique id, and a list of locations (at least two).
-        
+        # datetime
+        # expected delivery date
         # route needs to be assigned an ID, so we need to create a DeliveryRoute class
         
         # The first location is the starting location – it has a departure time.
