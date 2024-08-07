@@ -2,6 +2,8 @@ from models.delivery_package import DeliveryPackage
 from models.user import User
 from models.employee_roles import EmployeeRoles
 from models.employee import Employee
+from Vehicles.truck_class_model import TruckConstants as tc
+from Vehicles.truck_class_model import TruckModel
 
 
 class AppData:
@@ -9,8 +11,8 @@ class AppData:
     def __init__(self) -> None:
         self._users: list[User] = list()
         self._employees: list[Employee] = list()
-        
-        # self._delivery_routes = list()
+        self.trucks: list[TruckModel] = list()
+        self._delivery_routes = list()
         self._delivery_packages: list[DeliveryPackage] = list()
 
         
@@ -61,3 +63,21 @@ class AppData:
     
     def assign_package_to_delivery_route(self, id):
         pass
+    
+    
+    def get_truck_by_id(self, truck_id: int) -> TruckModel:
+        for truck in self.trucks:
+            if truck.truck_id == truck_id:
+                return truck
+        raise ValueError(f'Truck ID {truck_id} does not exist.')
+
+    def _create_trucks(self):
+        for truck_id in range(tc.SCANIA_MIN_ID, tc.SCANIA_MAX_ID + 1):
+            self.trucks.extend(TruckModel(truck_id, tc.SCANIA_CAPACITY, tc.SCANIA_MAX_RANGE, "Scania"))
+
+        for truck_id in range(tc.MAN_MIN_ID, tc.MAN_MAX_ID + 1):
+            self.trucks.extend(TruckModel(truck_id, tc.MAN_CAPACITY, tc.MAN_MAX_RANGE, "Man"))
+
+        for truck_id in range(tc.ACTROS_MIN_ID, tc.ACTROS_MAX_ID + 1):
+            self.trucks.extend(TruckModel(truck_id, tc.ACTROS_CAPACITY, tc.ACTROS_MAX_RANGE, "Actros"))
+
