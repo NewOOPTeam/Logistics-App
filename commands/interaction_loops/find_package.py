@@ -1,20 +1,19 @@
 from models.delivery_package import DeliveryPackage
 from commands.helper_methods import Validate, Parse, AcceptInput
 from commands.constants.constants import CANCEL, OPERATION_CANCELLED
-from core.application_data import AppData
 
 
 
 class FindPackage:
     
-    def __init__(self, app_data: AppData) -> None:
+    def __init__(self, app_data) -> None:
         self.app_data = app_data
 
-    @staticmethod
-    def loop():
+
+    def loop(self):
         while True:
-            id = FindPackage.get_id()
-            package = FindPackage.find_package(id)
+            id = self.get_id()
+            package = self.find_package(id)
             if package:
                 break
         if package == CANCEL:

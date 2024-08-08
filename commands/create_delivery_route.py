@@ -1,8 +1,9 @@
 from commands.base_command import BaseCommand
 from core.application_data import AppData
-from commands.helper_methods import Validate, Parse, AcceptInput
+from commands.helper_methods import Validate, AcceptInput
 from csv_file.distance_calculator import DistanceCalculator
 from date_time.date_time_functionalities import DateTime
+from commands.interaction_loops.find_package import FindPackage
 from commands.constants.constants import CANCEL, OPERATION_CANCELLED
 
 
@@ -22,15 +23,10 @@ class CreateDeliveryRoute(BaseCommand):
         # The first location is the starting location – it has a departure time.
         # The other locations have expected arrival time.
 
-        while True:
-            id = self.get_id()
-            package = self.find_package(id)
-            if package:
-                break
-        if package == CANCEL:
+        package = FindPackage(self._app_data).loop()
+        if package == OPERATION_CANCELLED:
             return OPERATION_CANCELLED
-                    
-                    
+
         while True:
             route = self.get_route()
             if route:
@@ -46,14 +42,7 @@ class CreateDeliveryRoute(BaseCommand):
         # return f'Route for package ID{id} created: {''.join(route_input)}, {calc}'
     
     
-    
-    def get_id(self):
-        while (id := input(' Input package ID\n ')):
-            try:
-                id = Parse.to_int(id)
-                return id
-            except ValueError:
-                print('Invalid ID') 
+
     
     def get_route(self):
         calc = DistanceCalculator()                    
@@ -66,15 +55,7 @@ class CreateDeliveryRoute(BaseCommand):
             print(err)
             input_message = "Do you want to retry or cancel? (input 'cancel' to abort): "
             AcceptInput.retry_or_cancel(input_message)
-    
-    def find_package(self, id):
-        try:
-            package = self._app_data.find_package_by_id(id) 
-            return package             
-        except ValueError:
-            print(f'Package with ID {id} not found')
-            input_message = "Do you want to try another ID? (input 'cancel' to abort): "
-            AcceptInput.retry_or_cancel(input_message)
+
             
     def get_start_date(self):
         pass
