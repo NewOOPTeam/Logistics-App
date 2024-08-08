@@ -1,12 +1,7 @@
-class EmployeeRoles:
-    ADMIN = "Admin"
+from enum import Enum
+
+class EmployeeRoles(Enum):
+    MANAGER = "Manager"
     SUPERVISOR = "Supervisor"
     EMPLOYEE = "Employee"
-
-    @classmethod
-    def from_string(cls, role_string):
-        if role_string not in [cls.ADMIN, cls.SUPERVISOR, cls.EMPLOYEE]:
-            raise ValueError(
-                f'None of the possible Roles matches {role_string}.')
-
-        return role_string
+    ADMIN = "Admin" #da se implementira
