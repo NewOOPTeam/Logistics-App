@@ -27,4 +27,4 @@ class InputRoute(BaseLoop):
         except ValueError as err:
             print(err)
             input_message = "Do you want to retry or cancel? (input 'cancel' to abort): "
-            AcceptInput.retry_or_cancel(input_message)
+            return AcceptInput.retry_or_cancel(input_message)

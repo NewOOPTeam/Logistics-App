@@ -8,6 +8,7 @@ class Engine:
     def start(self):
         output = []
         print(WELCOMING_MESSAGE)
+        
         while (input_line := input(' Enter application command: \n').strip()) and input_line.lower() != 'done':
             try:
                 command = self._factory.create(input_line)

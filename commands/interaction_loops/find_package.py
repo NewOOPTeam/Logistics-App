@@ -8,9 +8,9 @@ class FindPackage(BaseLoop):
     def __init__(self, app_data) -> None:
         super().__init__(app_data)
     
-    def loop(self):
+    def loop(self, msg):
         while True:
-            id = self.get_id()
+            id = self.get_id(msg)
             package = self.find_package(id)
             if package:
                 break
@@ -19,8 +19,8 @@ class FindPackage(BaseLoop):
         return package
 
 
-    def get_id(self):
-        while (id := input(' Input package ID\n ')):
+    def get_id(self, msg):
+        while (id := input(msg)):
             try:
                 id = Parse.to_int(id)
                 return id
@@ -34,4 +34,4 @@ class FindPackage(BaseLoop):
         except ValueError:
             print(f'Package with ID {id} not found')
             input_message = "Do you want to try another ID? (input 'cancel' to abort): "
-            AcceptInput.retry_or_cancel(input_message)
+            return AcceptInput.retry_or_cancel(input_message)
