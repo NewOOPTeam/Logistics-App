@@ -3,7 +3,7 @@ from core.application_data import AppData
 from commands.helper_methods import Validate, AcceptInput
 from date_time.date_time_functionalities import DateTime
 from commands.interaction_loops.find_package import FindPackage
-from commands.interaction_loops.find_route import FindRoute
+from commands.interaction_loops.find_route import InputRoute
 from commands.constants.constants import CANCEL, OPERATION_CANCELLED
 
 
@@ -23,11 +23,11 @@ class CreateDeliveryRoute(BaseCommand):
         # The first location is the starting location – it has a departure time.
         # The other locations have expected arrival time.
 
-        package = FindPackage(self._app_data).loop()
+        package = FindPackage(self._app_data).loop(' Input delivery route stops: ')
         if package == OPERATION_CANCELLED:
             return OPERATION_CANCELLED
 
-        route = FindRoute(self._app_data).loop()
+        route = InputRoute(self._app_data).loop()
         if route == OPERATION_CANCELLED:
             return OPERATION_CANCELLED
         

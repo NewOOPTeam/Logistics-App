@@ -4,22 +4,22 @@ from commands.interaction_loops.base_interaction_class import BaseLoop
 from csv_file.distance_calculator import DistanceCalculator
 
 
-class FindRoute(BaseLoop):
+class InputRoute(BaseLoop):
     def __init__(self, app_data) -> None:
         super().__init__(app_data)
     
-    def loop(self):
+    def loop(self, msg):
         while True:
-            route = self.get_route()
+            route = self.get_route(msg)
             if route:
                 break
         if route == CANCEL:
             return OPERATION_CANCELLED
     
      
-    def get_route(self):
+    def get_route(self, msg):
         calc = DistanceCalculator()
-        route_input = input(" Enter your route: ")
+        route_input = input(msg)
         try:
             route = route_input.strip().split()
             calc.validate_route(route)

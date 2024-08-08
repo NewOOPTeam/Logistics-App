@@ -4,6 +4,7 @@ from models.employee_roles import EmployeeRoles
 from models.employee import Employee
 from Vehicles.truck_class_model import TruckConstants as tc
 from Vehicles.truck_class_model import TruckModel
+from models.locations import Locations
 from models.delivery_route import DeliveryRoute
 
 
@@ -26,6 +27,10 @@ class AppData:
         return tuple(self._delivery_packages)
     
     @property
+    def delivery_routes(self):
+        return tuple(self._delivery_routes)
+    
+    @property
     def employees(self):
         return tuple(self._employees)
     
@@ -43,6 +48,15 @@ class AppData:
         delivery_route = DeliveryRoute(route_id, deprature_time, arrival_time, *destinations)
         self._delivery_routes.extend(delivery_route)
         return delivery_route
+    
+    def find_delivery_route(self, start_point: Locations, end_point: Locations) -> DeliveryRoute:
+        available_routes = []
+        for route in self._delivery_routes:
+            if route.starting_location == start_point and route.final_location == end_point:
+                available_routes.append(route)
+                
+        return tuple(available_routes) if available_routes else f'No available routes for {start_point} - {end_point}'
+        
     
     def find_package_by_id(self, package_id) -> DeliveryPackage:
         for package in self._delivery_packages:
