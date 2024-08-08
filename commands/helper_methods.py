@@ -1,6 +1,7 @@
+from commands.constants.constants import CANCEL
+
 
 class Validate:
-    
     @staticmethod
     def str_len(val, min, max):
         if not min <= len(val) <= max:
@@ -13,7 +14,6 @@ class Validate:
 
 
 class Parse:
-    
     @staticmethod
     def to_int(val):
         try:
@@ -27,3 +27,11 @@ class Parse:
             return float(val)
         except:
             raise ValueError('Invalid package weight')
+
+
+class AcceptInput:
+    @staticmethod
+    def retry_or_cancel(input_message):
+        if (action := input(input_message).strip().lower()) != 'cancel':
+            return None
+        return CANCEL

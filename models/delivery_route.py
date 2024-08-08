@@ -1,14 +1,18 @@
 from models.delivery_package import DeliveryPackage
 from Vehicles.truck_class_model import TruckModel
 from date_time.date_time_functionalities import DateTime
+from models.locations import Locations
 
 
 class DeliveryRoute:
-    ID = 1
+    ID = 0
     
-    def __init__(self, route_id: int, departure_time: str) -> None:
+    def __init__(self, route_id: int, departure_time: DateTime, arrival_time: DateTime, *destinations: Locations) -> None:
         self._id = route_id
         self._departure_time = departure_time
+        self._arrival_time = arrival_time
+        
+        self._destinations: list[Locations] = list(destinations)
         self._packages: list[DeliveryPackage] = list()
         self._assigned_trucks: list[TruckModel] = list()
 
@@ -17,25 +21,32 @@ class DeliveryRoute:
         return self._id
 
     @classmethod
-    def generate_id(self):
-        DeliveryRoute.ID += 1
-        delivery_route_id = DeliveryRoute.ID
+    def generate_id(cls):
+        cls.ID += 1
+        delivery_route_id = cls.ID
         
         return delivery_route_id
     
+    @property
+    def destinations(self):
+        return tuple(self._destinations)
     
+    @destinations.setter
+    def destinations(self, *destinations: Locations):
+        self._destinations = list(destinations)
+        
+    @property
+    def packages(self):
+        return tuple(self._packages)
     
-    
-    
-    
-    # id
-    # list of packages
-    # init: assigned truck
-    # departure time
-    # arrival time
-    # dict with locations in the route
+    @property
+    def assigned_trucks(self):
+        return tuple(self._assigned_trucks)
 
 
-# date time module
+# departure time
+# arrival time
+# dict with locations in the route
+
 # total distance
 # completed bool

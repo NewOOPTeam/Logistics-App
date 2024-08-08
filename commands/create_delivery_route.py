@@ -1,9 +1,10 @@
 from commands.base_command import BaseCommand
 from core.application_data import AppData
-from commands.helper_methods import Validate, Parse
+from commands.helper_methods import Validate, Parse, AcceptInput
 from csv_file.distance_calculator import DistanceCalculator
+from date_time.date_time_functionalities import DateTime
+from commands.constants.constants import CANCEL, OPERATION_CANCELLED
 
-CANCEL = 'cancel'
 
 class CreateDeliveryRoute(BaseCommand):
     def __init__(self, params: list[str], app_data: AppData) -> None:
@@ -21,23 +22,29 @@ class CreateDeliveryRoute(BaseCommand):
         # The first location is the starting location – it has a departure time.
         # The other locations have expected arrival time.
 
-        
-        
         while True:
             id = self.get_id()
-            
-            package = self.assign_package(id)
+            package = self.find_package(id)
             if package:
                 break
-            
         if package == CANCEL:
-            return 'Operation cancelled'
+            return OPERATION_CANCELLED
                     
-        calc = DistanceCalculator()                    
-        route_input = input(" Enter your route: ")
-        distance = calc.get_route_distance(route_input)
+                    
+        while True:
+            route = self.get_route()
+            if route:
+                break
+        if route == CANCEL:
+            return OPERATION_CANCELLED
+        
+        # package ID
+        # route
+        
+        
 
-        return f'Route for package ID{id} created: {''.join(route_input)}, {calc}'
+        # return f'Route for package ID{id} created: {''.join(route_input)}, {calc}'
+    
     
     
     def get_id(self):
@@ -46,16 +53,28 @@ class CreateDeliveryRoute(BaseCommand):
                 id = Parse.to_int(id)
                 return id
             except ValueError:
-                print('Invalid ID')   
+                print('Invalid ID') 
     
-    def assign_package(self, id):        
+    def get_route(self):
+        calc = DistanceCalculator()                    
+        route_input = input(" Enter your route: ")
+        try:
+            route = route_input.strip().split()
+            calc.validate_route(route)
+            return tuple(route)
+        except ValueError as err:
+            print(err)
+            input_message = "Do you want to retry or cancel? (input 'cancel' to abort): "
+            AcceptInput.retry_or_cancel(input_message)
+    
+    def find_package(self, id):
         try:
             package = self._app_data.find_package_by_id(id) 
             return package             
         except ValueError:
-            print(f'Package with ID{id} not found')
-            input_message = "Do you want to try another ID or cancel? (enter 'cancel' to abort): "
+            print(f'Package with ID {id} not found')
+            input_message = "Do you want to try another ID? (input 'cancel' to abort): "
+            AcceptInput.retry_or_cancel(input_message)
             
-            if (action := input(input_message).strip().lower()) != 'cancel':
-                return None
-            return CANCEL
+    def get_start_date(self):
+        pass
