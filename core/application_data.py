@@ -39,9 +39,14 @@ class AppData:
         self._delivery_packages.append(package)
         return package
     
-    def find_package_by_id(self, id) -> DeliveryPackage:
+    def create_delivery_route(self, route_id, deprature_time, arrival_time, *destinations) -> DeliveryRoute:
+        delivery_route = DeliveryRoute(route_id, deprature_time, arrival_time, *destinations)
+        self._delivery_routes.extend(delivery_route)
+        return delivery_route
+    
+    def find_package_by_id(self, package_id) -> DeliveryPackage:
         for package in self._delivery_packages:
-            if package.id == id:
+            if package.id == package_id:
                 return package
         raise ValueError(f'Package with ID {id} not found')
     

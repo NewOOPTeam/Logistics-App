@@ -1,15 +1,13 @@
-from models.delivery_package import DeliveryPackage
-from commands.helper_methods import Validate, Parse, AcceptInput
+from commands.helper_methods import Parse, AcceptInput
 from commands.constants.constants import CANCEL, OPERATION_CANCELLED
+from commands.interaction_loops.base_interaction_class import BaseLoop
 
 
-
-class FindPackage:
+class FindPackage(BaseLoop):
     
     def __init__(self, app_data) -> None:
-        self.app_data = app_data
-
-
+        super().__init__(app_data)
+    
     def loop(self):
         while True:
             id = self.get_id()

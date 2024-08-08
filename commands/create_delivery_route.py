@@ -1,9 +1,9 @@
 from commands.base_command import BaseCommand
 from core.application_data import AppData
 from commands.helper_methods import Validate, AcceptInput
-from csv_file.distance_calculator import DistanceCalculator
 from date_time.date_time_functionalities import DateTime
 from commands.interaction_loops.find_package import FindPackage
+from commands.interaction_loops.find_route import FindRoute
 from commands.constants.constants import CANCEL, OPERATION_CANCELLED
 
 
@@ -27,35 +27,18 @@ class CreateDeliveryRoute(BaseCommand):
         if package == OPERATION_CANCELLED:
             return OPERATION_CANCELLED
 
-        while True:
-            route = self.get_route()
-            if route:
-                break
-        if route == CANCEL:
+        route = FindRoute(self._app_data).loop()
+        if route == OPERATION_CANCELLED:
             return OPERATION_CANCELLED
+        
+        # def get_arrival_time:
+            # choice 1 - asap
+            # choice 2 - input
         
         # package ID
         # route
         
         
-
-        # return f'Route for package ID{id} created: {''.join(route_input)}, {calc}'
-    
-    
-
-    
-    def get_route(self):
-        calc = DistanceCalculator()                    
-        route_input = input(" Enter your route: ")
-        try:
-            route = route_input.strip().split()
-            calc.validate_route(route)
-            return tuple(route)
-        except ValueError as err:
-            print(err)
-            input_message = "Do you want to retry or cancel? (input 'cancel' to abort): "
-            AcceptInput.retry_or_cancel(input_message)
-
-            
+ 
     def get_start_date(self):
         pass
