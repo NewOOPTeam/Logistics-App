@@ -48,12 +48,13 @@ class DateTime:
         return delivery_date.strftime('%b %d %Y')
     
     
-# d = '12/02/24'
-# dt = DateTime()
-# d_ = dt.date_from_string(d).strftime('%b %d %Y')
-# arrival = dt.get_arrival_time_str('12/7/24', 3)
-# # arr = dt.string_from_date(arrival)
+d = '12/02/24'
+dt = DateTime()
+d_ = dt.date_from_string(d).strftime('%b %d %Y')
+arrival = dt.get_arrival_time_str('12/7/24', 3)
+# arr = dt.string_from_date(arrival)
 
-# print(d_)
-# print(arrival, 'datetime', type(arrival))
-# # print(arr, 'string from date', type(arr))
+print(d_)
+print(arrival, 'datetime', type(arrival))
+# print(arr, 'string from date', type(arr))
+

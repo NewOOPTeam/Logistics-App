@@ -6,14 +6,14 @@ from models.route_stop import RouteStop
 
 
 class DeliveryRoute:
-    ID = 0
+    ID = 1
     
-    def __init__(self, route_id: int, departure_time: DateTime, arrival_time: DateTime, *destinations: RouteStop) -> None:
+    def __init__(self, route_id: int, departure_time: DateTime, arrival_time: DateTime, *destinations: Locations) -> None:
         self._id = route_id
         self._departure_time = departure_time
         self._arrival_time = arrival_time
         
-        self._destinations: list[RouteStop] = list(destinations)
+        self._destinations: list[Locations] = list(destinations)
         self._packages: list[DeliveryPackage] = list()
         self._assigned_trucks: list[TruckModel] = list()
 
@@ -21,13 +21,7 @@ class DeliveryRoute:
     def id(self):
         return self._id
 
-    @classmethod
-    def generate_id(cls):
-        cls.ID += 1
-        delivery_route_id = cls.ID
-        
-        return delivery_route_id
-    
+    ## according to distance we assign a truck
     @property
     def destinations(self):
         return tuple(self._destinations)
@@ -52,6 +46,11 @@ class DeliveryRoute:
     def assigned_trucks(self):
         return tuple(self._assigned_trucks)
 
+    @classmethod
+    def generate_id(cls):
+        delivery_route_id = cls.ID
+        cls.ID += 1
+        return delivery_route_id
 
 # departure time
 # arrival time

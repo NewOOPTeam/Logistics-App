@@ -44,15 +44,17 @@ class AppData:
         self._delivery_packages.append(package)
         return package
     
-    def create_delivery_route(self, route_id, deprature_time, arrival_time, *destinations) -> DeliveryRoute:
+    def create_delivery_route(self, deprature_time, arrival_time, *destinations) -> DeliveryRoute:
+        route_id = DeliveryRoute.generate_id()
         delivery_route = DeliveryRoute(route_id, deprature_time, arrival_time, *destinations)
         self._delivery_routes.extend(delivery_route)
         return delivery_route
     
     def find_delivery_route(self, start_point: Locations, end_point: Locations) -> DeliveryRoute:
         available_routes = []
+        
         for route in self._delivery_routes:
-            if route.starting_location == start_point and route.final_location == end_point:
+            if start_point in route._destinations and end_point in route._destinations and route._destinations.index(end_point) > route._destinations.index(start_point):
                 available_routes.append(route)
                 
         return tuple(available_routes) if available_routes else f'No available routes for {start_point} - {end_point}'
@@ -91,11 +93,11 @@ class AppData:
         return employee
     
     # TODO
-    def assign_package_to_delivery_route(self, package_id, truck_id):
-        pass #assign truck and package
+    def assign_package_to_truck(self, package_id, truck_id):
+        pass #assign truck and package Ico
     
     def assign_truck_to_route(self, id):
-        pass
+        pass #Ico
     
     def find_truck_by_weight(self, weight):
         pass #ico
