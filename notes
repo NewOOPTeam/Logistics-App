@@ -30,3 +30,7 @@
         # prices
 
         # check if any truck is available for a given time period
+
+        #create roles -   ADMIN = "Admin"
+    SUPERVISOR = "Supervisor"
+    EMPLOYEE = "Employee" - Log/in/out

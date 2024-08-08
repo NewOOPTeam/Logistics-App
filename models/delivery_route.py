@@ -6,7 +6,7 @@ class DeliveryRoute:
     # departure time
     # arrival time
     # dict with locations in the route
-    
+
 
 # date time module
 # total distance
