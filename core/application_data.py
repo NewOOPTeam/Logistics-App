@@ -13,14 +13,42 @@ class AppData:
     def __init__(self) -> None:
         self._users: list[User] = list()
         self._employees: list[Employee] = list()
+        self._logged_employee = []
         self._trucks: list[TruckModel] = list()
         self._delivery_routes: list[DeliveryRoute] = list()
         self._delivery_packages: list[DeliveryPackage] = list()
-
         
+
+    def initialize_employees(self):
+        self._employees.extend([
+            Employee("Employee", "EmployeeLast", EmployeeRoles.EMPLOYEE, "employee_user", "password123!"),
+            Employee("Supervisor", "SupervisorLast", EmployeeRoles.SUPERVISOR, "supervisor_user", "password456!"),
+            Employee("Manager", "ManagerLast", EmployeeRoles.MANAGER, "manager_user", "password789!"),
+            Employee("Admin", "AdminLast", EmployeeRoles.ADMIN, "admin_user", "password000!")
+        ])
+
     @property        
     def users(self):
         return tuple(self._users)
+    
+    @property
+    def logged_in_employee(self):
+        if self.has_logged_in_employee:
+            return self._logged_employee
+        else:
+            raise ValueError('There is no logged in employee.')
+
+    @property
+    def has_logged_in_employee(self):
+        return self._logged_employee is not None
+
+    def login(self, employee: Employee):
+        if employee not in self._employees:
+            raise ValueError('Employee is not recognized.')
+        self._logged_employee = employee
+
+    def logout(self):
+        self._logged_employee = None
 
     @property
     def delivery_packages(self):
@@ -121,6 +149,20 @@ class AppData:
 
         for truck_id in range(tc.ACTROS_MIN_ID, tc.ACTROS_MAX_ID + 1):
             self.trucks.extend(TruckModel(truck_id, tc.ACTROS_CAPACITY, tc.ACTROS_MAX_RANGE, "Actros"))
+
+ #  TODO
+    def assign_package_to_delivery_route(self, package_id, truck_id):
+        pass #assign truck and package
+    
+    def assign_truck_to_route(self, id):
+        pass
+    
+    def find_truck_by_weight(self, weight):
+        pass #ico
+
+    def find_truck_by_km(self, km):
+        pass #ico
+
 
     
 
