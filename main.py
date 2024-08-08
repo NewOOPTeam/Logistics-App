@@ -9,7 +9,7 @@ engine = Engine(cmd_factory)
 engine.start()
 
 # addcustomer Ivan Slavov 0883837373 ivan@slavov
-# addpackage 34 Sydney Melbourne ivan@slavov
+# createpackage 34 Sydney Melbourne ivan@slavov
 # viewpackage 1
 # createdeliveryroute
 # done

@@ -1,9 +1,9 @@
-from commands.add_package import AddPackage
+from commands.create_package import CreatePackage
 from commands.create_delivery_route import CreateDeliveryRoute
 from commands.search_delivery_route import SearchRoute
 from commands.add_customer import AddCustomer
 from commands.add_employee import AddEmployee
-from commands.view_employees import ViewEmployees
+from commands.help import Help
 from commands.view_package import ViewPackage
 from commands.view_all_packages import ViewAllPackages
 
@@ -16,14 +16,14 @@ class CommandFactory:
         command, *params = input_line.split()
                 
         match command.lower():
-            case 'addemployee':
-                return AddEmployee(params, self._app_data)
-            case 'viewallemployees':
-                return ViewEmployees(params, self._app_data)
+            # case 'addemployee':
+            #     return AddEmployee(params, self._app_data)
+            case 'help':
+                return Help(params, self._app_data)
+            case 'createpackage':
+                return CreatePackage(params, self._app_data)
             case 'addcustomer':
                 return AddCustomer(params, self._app_data)
-            case 'addpackage':
-                return AddPackage(params, self._app_data)
             case 'viewpackage':
                 return ViewPackage(params, self._app_data)
             case 'viewallpackages':

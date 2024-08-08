@@ -1,4 +1,5 @@
 from core.command_factory import CommandFactory
+from commands.constants.constants import WELCOMING_MESSAGE
 
 class Engine:
     def __init__(self, factory: CommandFactory) -> None:
@@ -6,7 +7,7 @@ class Engine:
         
     def start(self):
         output = []
-
+        print(WELCOMING_MESSAGE)
         while (input_line := input(' Enter application command: \n').strip()) and input_line.lower() != 'done':
             try:
                 command = self._factory.create(input_line)
