@@ -16,6 +16,8 @@
         # View information about routes, packages and trucks.
 
         ######################################
+
+        # we need to create login menu, password, username
         # upon creating the package, we could ask if we want to assign for delivery straight away
 
         # a truck needs to be assigned also

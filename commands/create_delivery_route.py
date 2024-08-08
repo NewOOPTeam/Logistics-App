@@ -37,7 +37,7 @@ class CreateDeliveryRoute(BaseCommand):
         route_input = input(" Enter your route: ")
         distance = calc.get_route_distance(route_input)
 
-        return f'Route for package {id} created: {''.join(route_input)}, {calc}'
+        return f'Route for package ID{id} created: {''.join(route_input)}, {calc}'
     
     
     def get_id(self):
@@ -53,7 +53,7 @@ class CreateDeliveryRoute(BaseCommand):
             package = self._app_data.find_package_by_id(id) 
             return package             
         except ValueError:
-            print(f'Package with {id} not found')
+            print(f'Package with ID{id} not found')
             input_message = "Do you want to try another ID or cancel? (enter 'cancel' to abort): "
             
             if (action := input(input_message).strip().lower()) != 'cancel':

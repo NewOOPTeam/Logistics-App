@@ -81,6 +81,8 @@ class AppData:
     def find_truck_by_weight(self, weight):
         pass
     
+    def select_shortest_route(self):
+        pass
     
     def get_truck_by_id(self, truck_id: int) -> TruckModel:
         for truck in self.trucks:
@@ -97,4 +99,3 @@ class AppData:
 
         for truck_id in range(tc.ACTROS_MIN_ID, tc.ACTROS_MAX_ID + 1):
             self.trucks.extend(TruckModel(truck_id, tc.ACTROS_CAPACITY, tc.ACTROS_MAX_RANGE, "Actros"))
-
