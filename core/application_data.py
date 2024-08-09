@@ -42,13 +42,17 @@ class AppData:
     def has_logged_in_employee(self):
         return self._logged_employee is not None
 
-    def login(self, employee: Employee):
+    def login(self, employee):
         if employee not in self._employees:
             raise ValueError('Employee is not recognized.')
-        self._logged_employee = employee
+        if self.logged_in_employee is not None:
+            raise ValueError('There is already a user logged in.')
+        self.logged_in_employee = employee
 
     def logout(self):
-        self._logged_employee = None
+        if self.logged_in_employee is None:
+            raise ValueError('No user is currently logged in.')
+        self.logged_in_employee = None
 
     @property
     def delivery_packages(self):
@@ -74,13 +78,16 @@ class AppData:
     
     def create_delivery_route(self, deprature_time, arrival_time, *destinations) -> DeliveryRoute:
         route_id = DeliveryRoute.generate_id()
-        delivery_route = DeliveryRoute(route_id, deprature_time, arrival_time, destinations)
+        delivery_route = DeliveryRoute(route_id, deprature_time, arrival_time, *destinations)
         self._delivery_routes.append(delivery_route)
         return delivery_route
     
     def find_delivery_route(self, start_point: Locations, end_point: Locations) -> DeliveryRoute:
+        if start_point not in Locations or end_point not in Locations:
+            return f'Invalid start or end point: {start_point}, {end_point}' #Proverka dali start_point i end_point sa vuv validnite lokacii
+       
         available_routes = []
-        
+            
         for route in self._delivery_routes:
             if start_point in route._destinations and end_point in route._destinations and route._destinations.index(end_point) > route._destinations.index(start_point):
                 available_routes.append(route)
@@ -100,8 +107,10 @@ class AppData:
         return '\n'.join(packages)
     
     def view_employees(self):
-        employees = [str(employee) for employee in self._employees]
-        
+        employees = [
+            f"{employee.firstname} {employee.lastname}, Role: {employee.role}, Username: {employee.username}"
+            for employee in self._employees
+        ]
         return '\n'.join(employees)
     
     def add_customer(self, firstname, lastname, phone_number, email) -> User:
@@ -115,23 +124,10 @@ class AppData:
                 return user
         raise ValueError(f'User with e-mail {email} not found')
     
-    def add_employee(self, firstname, lastname, role: EmployeeRoles) -> Employee:
-        employee = Employee(firstname, lastname, role)
+    def add_employee(self, firstname, lastname, role: EmployeeRoles, username: Employee, pw: Employee) -> Employee:
+        employee = Employee(firstname, lastname, role, username, pw)
         self._employees.append(employee)
         return employee
-    
-    # TODO
-    def assign_package_to_truck(self, package_id, truck_id):
-        pass #assign truck and package Ico
-    
-    def assign_truck_to_route(self, id):
-        pass #Ico
-    
-    def find_truck_by_weight(self, weight):
-        pass #ico
-
-    def find_truck_by_km(self, km):
-        pass #ico
 
     
     def get_truck_by_id(self, truck_id: int) -> TruckModel:
@@ -140,6 +136,16 @@ class AppData:
                 return truck
         raise ValueError(f'Truck ID {truck_id} does not exist.')
 
+    # def _create_trucks(self):
+    #     for truck_id in range(tc.SCANIA_MIN_ID, tc.SCANIA_MAX_ID + 1):
+    #         self.trucks.extend(TruckModel(truck_id, tc.SCANIA_CAPACITY, tc.SCANIA_MAX_RANGE, "Scania"))
+
+    #     for truck_id in range(tc.MAN_MIN_ID, tc.MAN_MAX_ID + 1):
+    #         self.trucks.extend(TruckModel(truck_id, tc.MAN_CAPACITY, tc.MAN_MAX_RANGE, "Man"))
+
+    #     for truck_id in range(tc.ACTROS_MIN_ID, tc.ACTROS_MAX_ID + 1):
+    #         self.trucks.extend(TruckModel(truck_id, tc.ACTROS_CAPACITY, tc.ACTROS_MAX_RANGE, "Actros"))
+        
     def _create_trucks(self):
         for truck_id in range(tc.SCANIA_MIN_ID, tc.SCANIA_MAX_ID + 1):
             self.trucks.extend(TruckModel(truck_id, tc.SCANIA_CAPACITY, tc.SCANIA_MAX_RANGE, "Scania"))
@@ -149,3 +155,20 @@ class AppData:
 
         for truck_id in range(tc.ACTROS_MIN_ID, tc.ACTROS_MAX_ID + 1):
             self.trucks.extend(TruckModel(truck_id, tc.ACTROS_CAPACITY, tc.ACTROS_MAX_RANGE, "Actros"))
+
+ #  TODO
+    def assign_package_to_delivery_route(self, package_id, truck_id):
+        pass #assign truck and package
+    
+    def assign_truck_to_route(self, id):
+        pass
+    
+    def find_truck_by_weight(self, weight):
+        pass #ico
+
+    def find_truck_by_km(self, km):
+        pass #ico
+
+
+    
+

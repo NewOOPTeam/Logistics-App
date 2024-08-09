@@ -43,10 +43,10 @@ class Employee:
     
     @username.setter
     def username(self, name):
-        if len(name) < 3 or len(name) > 12:
-            raise ValueError('Username should be between 3 and 12 characters long')
-        if not name.isalnum():
-            raise ValueError('Username should contain only letters and digits')
+        if len(name) < 3 or len(name) > 20:
+            raise ValueError('Username should be between 3 and 20 characters long')
+        if not re.match(r'^[a-zA-Z0-9!@#$_]*$', name):
+            raise ValueError('Username should contain only letters, digits, and special symbols !@#$_')
         if any(char.isspace() for char in name):
             raise ValueError('Username should not contain whitespace')
         self._username = name
@@ -57,8 +57,8 @@ class Employee:
 
     @password.setter
     def password(self, pw):
-        if len(pw) < 3 or len(pw) > 15:
-            raise ValueError('Password should be between 3 and 15 characters long')
+        if len(pw) < 3 or len(pw) > 20:
+            raise ValueError('Password should be between 3 and 20 characters long')
         if not re.match(r'^[a-zA-Z0-9!@#$]*$', pw):
             raise ValueError('Password should contain only letters, digits, and special symbols !@#$')
         self._password = pw
