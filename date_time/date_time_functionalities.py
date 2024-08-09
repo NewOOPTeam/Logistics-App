@@ -44,7 +44,7 @@ class DateTime:
         Returns <str> object for printing
         """
         start_date = self.date_from_string(start_date)
-        delivery_date = start_date + timedelta(days_till_delivery)
+        delivery_date = start_date + timedelta() # <= kilometrite/razstoianieto
         return delivery_date.strftime('%b %d %Y')
     
     

@@ -23,14 +23,16 @@ class CreateDeliveryRoute(BaseCommand):
         # The first location is the starting location – it has a departure time.
         # The other locations have expected arrival time.
 
-        package = FindPackage(self._app_data).loop(' Input package ID: ')
-        if package == OPERATION_CANCELLED:
-            return OPERATION_CANCELLED
+        # package = FindPackage(self._app_data).loop(' Input package ID: ') - da premahnem package- da ostavim samo route
+        # if package == OPERATION_CANCELLED:
+        #     return OPERATION_CANCELLED
 
         route = InputRoute(self._app_data).loop(' Input delivery route stops: ')
         if route == OPERATION_CANCELLED:
             return OPERATION_CANCELLED
-        
+        # it should return arrival time from location to location when i have more than 2 locations
+
+
         # def get_arrival_time:
             # choice 1 - asap
             # choice 2 - input
@@ -42,3 +44,4 @@ class CreateDeliveryRoute(BaseCommand):
  
     def get_start_date(self):
         pass
+
