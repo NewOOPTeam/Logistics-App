@@ -135,40 +135,53 @@ class AppData:
             if truck.truck_id == truck_id:
                 return truck
         raise ValueError(f'Truck ID {truck_id} does not exist.')
-
+    
     # def _create_trucks(self):
     #     for truck_id in range(tc.SCANIA_MIN_ID, tc.SCANIA_MAX_ID + 1):
     #         self.trucks.extend(TruckModel(truck_id, tc.SCANIA_CAPACITY, tc.SCANIA_MAX_RANGE, "Scania"))
-
+ 
     #     for truck_id in range(tc.MAN_MIN_ID, tc.MAN_MAX_ID + 1):
     #         self.trucks.extend(TruckModel(truck_id, tc.MAN_CAPACITY, tc.MAN_MAX_RANGE, "Man"))
-
+ 
     #     for truck_id in range(tc.ACTROS_MIN_ID, tc.ACTROS_MAX_ID + 1):
     #         self.trucks.extend(TruckModel(truck_id, tc.ACTROS_CAPACITY, tc.ACTROS_MAX_RANGE, "Actros"))
         
     def _create_trucks(self):
-        for truck_id in range(tc.SCANIA_MIN_ID, tc.SCANIA_MAX_ID + 1):
-            self.trucks.extend(TruckModel(truck_id, tc.SCANIA_CAPACITY, tc.SCANIA_MAX_RANGE, "Scania"))
-
-        for truck_id in range(tc.MAN_MIN_ID, tc.MAN_MAX_ID + 1):
-            self.trucks.extend(TruckModel(truck_id, tc.MAN_CAPACITY, tc.MAN_MAX_RANGE, "Man"))
-
-        for truck_id in range(tc.ACTROS_MIN_ID, tc.ACTROS_MAX_ID + 1):
-            self.trucks.extend(TruckModel(truck_id, tc.ACTROS_CAPACITY, tc.ACTROS_MAX_RANGE, "Actros"))
-
- #  TODO
-    def assign_package_to_delivery_route(self, package_id, truck_id):
-        pass #assign truck and package
+        # Create SCANIA trucks
+        scania_trucks = [TruckModel(truck_id, tc.SCANIA_CAPACITY, tc.SCANIA_MAX_RANGE, "Scania")
+        for truck_id in range(tc.SCANIA_MIN_ID, tc.SCANIA_MAX_ID + 1)]
+        self._trucks.extend(scania_trucks)
+ 
+        # Create MAN trucks
+        man_trucks = [TruckModel(truck_id, tc.MAN_CAPACITY, tc.MAN_MAX_RANGE, "Man")
+        for truck_id in range(tc.MAN_MIN_ID, tc.MAN_MAX_ID + 1)]
+        self._trucks.extend(man_trucks)
+ 
+        # Create ACTROS trucks
+        actros_trucks = [TruckModel(truck_id, tc.ACTROS_CAPACITY, tc.ACTROS_MAX_RANGE, "Actros")
+        for truck_id in range(tc.ACTROS_MIN_ID, tc.ACTROS_MAX_ID + 1)]
+        self._trucks.extend(actros_trucks)
+            
+            
+    def assign_package_to_delivery_route(self, package_id: int, route_id: int):
+        package = self.find_package_by_id(package_id)
+        route = self.get_route_by_id(route_id)
+        route.assign_package(package)
+ 
+    def find_suitable_truck(self, weight: DeliveryPackage, km: int):
+        for truck in self._trucks:
+            if weight <= truck._truck_capacity and km <= truck.max_range:
+                return truck
+        raise ValueError("No suitable truck found") #status sushto da se impl
+ 
+    def get_route_by_id(self, id: int) -> DeliveryRoute:
+        for route in self._delivery_routes:
+            if route.id == id:
+                return route
+        raise ValueError(f'Route with ID {id} not found.')
     
-    def assign_truck_to_route(self, id):
-        pass
-    
-    def find_truck_by_weight(self, weight):
-        pass #ico
-
-    def find_truck_by_km(self, km):
-        pass #ico
-
-
-    
+    def assign_truck_to_route(self, route_id: int, truck_id: int):
+        truck = self.get_truck_by_id(truck_id)
+        route = self.get_route_by_id(route_id)
+        route.assign_truck(truck) # da se proveri
 
