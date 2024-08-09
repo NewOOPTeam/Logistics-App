@@ -8,7 +8,7 @@ from models.route_stop import RouteStop
 class DeliveryRoute:
     ID = 1
     
-    def __init__(self, route_id: int, departure_time: DateTime, arrival_time: DateTime, *destinations: Locations) -> None:
+    def __init__(self, route_id: int, departure_time: DateTime, arrival_time: DateTime, destinations: dict) -> None:
         self._id = route_id
         self._departure_time = departure_time
         self._arrival_time = arrival_time

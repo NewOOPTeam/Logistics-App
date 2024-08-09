@@ -14,8 +14,8 @@ class CreatePackage(BaseCommand):
         weight, starting_location, target_location, contact_info = self._params
         
         weight = Parse.to_float(weight)
-        starting_location = Locations.from_string(starting_location)
-        target_location = Locations.from_string(target_location)
+        starting_location = Locations(starting_location)
+        target_location = Locations(target_location)
         
         contact = self._app_data.find_customer_by_email(contact_info)
         

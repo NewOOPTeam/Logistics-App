@@ -7,12 +7,12 @@ class DateTime:
     def __init__(self) -> None:
         self.date_time = datetime
     
-    
+    @classmethod
     def create_time_stamp_for_now(self) -> str:
         """
         Creates stamp for the date and time right now
-        """
-        return datetime.now().strftime('%b %d-%Y, %I:%M')
+        """ #.strftime('%b %d-%Y, %I:%M')
+        return datetime.now()
     
     
     def date_from_string(self, date_str: str) -> datetime:

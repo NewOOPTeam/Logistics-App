@@ -1,4 +1,4 @@
-from commands.helper_methods import Parse, AcceptInput
+from commands.helper_methods import AcceptInput
 from commands.constants.constants import CANCEL, OPERATION_CANCELLED
 from commands.interaction_loops.base_interaction_class import BaseLoop
 from csv_file.distance_calculator import DistanceCalculator
@@ -15,7 +15,7 @@ class InputRoute(BaseLoop):
                 break
         if route == CANCEL:
             return OPERATION_CANCELLED
-    
+        return route
      
     def get_route(self, msg):
         calc = DistanceCalculator()

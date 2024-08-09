@@ -74,8 +74,8 @@ class AppData:
     
     def create_delivery_route(self, deprature_time, arrival_time, *destinations) -> DeliveryRoute:
         route_id = DeliveryRoute.generate_id()
-        delivery_route = DeliveryRoute(route_id, deprature_time, arrival_time, *destinations)
-        self._delivery_routes.extend(delivery_route)
+        delivery_route = DeliveryRoute(route_id, deprature_time, arrival_time, destinations)
+        self._delivery_routes.append(delivery_route)
         return delivery_route
     
     def find_delivery_route(self, start_point: Locations, end_point: Locations) -> DeliveryRoute:
@@ -149,20 +149,3 @@ class AppData:
 
         for truck_id in range(tc.ACTROS_MIN_ID, tc.ACTROS_MAX_ID + 1):
             self.trucks.extend(TruckModel(truck_id, tc.ACTROS_CAPACITY, tc.ACTROS_MAX_RANGE, "Actros"))
-
- #  TODO
-    def assign_package_to_delivery_route(self, package_id, truck_id):
-        pass #assign truck and package
-    
-    def assign_truck_to_route(self, id):
-        pass
-    
-    def find_truck_by_weight(self, weight):
-        pass #ico
-
-    def find_truck_by_km(self, km):
-        pass #ico
-
-
-    
-
