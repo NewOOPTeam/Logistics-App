@@ -4,8 +4,11 @@ from models.employee_roles import EmployeeRoles
 from models.employee import Employee
 from Vehicles.truck_class_model import TruckConstants as tc
 from Vehicles.truck_class_model import TruckModel
+from models.route_stop import RouteStop
 from models.locations import Locations
 from models.delivery_route import DeliveryRoute
+from date_time.date_time_functionalities import DateTime
+from csv_file.distance_calculator import DistanceCalculator as DC
 
 
 class AppData:
@@ -86,11 +89,47 @@ class AppData:
         self._delivery_packages.append(package)
         return package
     
-    def create_delivery_route(self, deprature_time, arrival_time, *destinations) -> DeliveryRoute:
+    def create_delivery_route(self, deprature_time, arrival_time, route_stops, total_distance) -> DeliveryRoute:
         route_id = DeliveryRoute.generate_id()
-        delivery_route = DeliveryRoute(route_id, deprature_time, arrival_time, *destinations)
+        delivery_route = DeliveryRoute(route_id, deprature_time, arrival_time, route_stops, total_distance)
         self._delivery_routes.append(delivery_route)
         return delivery_route
+    
+    
+    def calculate_route_times(self, route): #could take departure_time as argument depending on user input????
+        starting_location = route[0]
+        departure_time = DateTime.create_time_stamp_for_today() 
+        start_location = RouteStop(starting_location, departure_time, departure_time)
+        
+        locations = route[1:]
+        route_stops = [start_location]
+
+        distance_calculator = DC()
+
+        previous_location = starting_location
+        previous_time = departure_time
+        
+        for location in locations:
+            pointA_pointB = [previous_location, location]
+            distance = distance_calculator.calculate_total_distance(route=pointA_pointB)
+            arrival_time = DateTime.get_arrival_time_str(previous_time, distance)
+        
+            route_stops.append(RouteStop(location, departure_time, arrival_time))
+            
+            print(f"Arrival at {location}: {arrival_time}")
+            
+            previous_location = location
+            previous_time = arrival_time
+
+        # route = list(route)
+            
+        # total_distance = distance_calculator.get_route_distance(route)
+        delivery_route = self.create_delivery_route(departure_time, arrival_time, route_stops, total_distance = 1019)
+        print('created')
+        print(route_stops)
+        return delivery_route
+
+    
     
     def find_delivery_route(self, start_point: Locations, end_point: Locations) -> DeliveryRoute:
         if start_point not in Locations or end_point not in Locations:
@@ -194,3 +233,6 @@ class AppData:
         route = self.get_route_by_id(route_id)
         route.assign_truck(truck) # da se proveri
 
+    def find_unassigned_packages(self):
+        unassigned_packages = [package for package in self._delivery_packages if package.status == DeliveryPackage.UNASSIGNED]
+        return '\n\n'.join(unassigned_packages)

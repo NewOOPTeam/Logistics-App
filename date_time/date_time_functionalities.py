@@ -7,54 +7,50 @@ class DateTime:
     def __init__(self) -> None:
         self.date_time = datetime
     
-    @classmethod
-    def create_time_stamp_for_now(self) -> str:
+    @staticmethod
+    def create_time_stamp_for_today() -> str:
         """
         Creates stamp for the date and time right now
-        """ #.strftime('%b %d-%Y, %I:%M')
-        return datetime.now()
+        """ #
+        return datetime.now().strftime('%b %d %Y %H:%Mh')
     
-    
-    def date_from_string(self, date_str: str) -> datetime:
+    @staticmethod
+    def date_from_string(date_str: str) -> datetime:
         """
         Converts a date <str> in the format d/m/y (passed as decimals) to a <datetime> object
         """        
-        format_str = '%d/%m/%y'
+        format_str = '%b %d %Y %H:%Mh'
 
         try:
             return datetime.strptime(date_str, format_str)
-        except ValueError:
-            raise ValueError
-        
-    def string_from_date(self, date: datetime) -> str:    
-        return date.strftime('%b %d %Y')
+        except ValueError as err:
+            print(err)
+            
+    @staticmethod    
+    def string_from_date(date: datetime) -> str:    
+        return date.strftime('%b %d %Y %H:%Mh')
     
-    
-    def get_arrival_time_datetime(self, start_date: str, days_till_delivery: int) -> datetime:
+    @staticmethod
+    def get_arrival_time_datetime(start_date: str, days_till_delivery: int) -> datetime:
         """
         Calculates arrival date using start date and days until delivery.
         Returns <datetime> object
         """
-        start_date = self.date_from_string(start_date)
+        start_date = DateTime.date_from_string(start_date)
         return start_date + timedelta(days_till_delivery)
 
-    def get_arrival_time_str(self, start_date: str, days_till_delivery: int) -> str:
+    @staticmethod
+    def get_arrival_time_str(start_date: str, distance: int) -> str:
         """
         Calculates arrival date using start date and days until delivery.
         Returns <str> object for printing
         """
-        start_date = self.date_from_string(start_date)
-        delivery_date = start_date + timedelta() # <= kilometrite/razstoianieto
-        return delivery_date.strftime('%b %d %Y')
-    
-    
-d = '12/02/24'
-dt = DateTime()
-d_ = dt.date_from_string(d).strftime('%b %d %Y')
-arrival = dt.get_arrival_time_str('12/7/24', 3)
-# arr = dt.string_from_date(arrival)
+        start_date = DateTime.date_from_string(start_date)
+        delivery_date = start_date + timedelta(hours= distance // 87 + 4) 
+        return delivery_date.strftime('%b %d %Y %H:%Mh')
 
-print(d_)
-print(arrival, 'datetime', type(arrival))
-# print(arr, 'string from date', type(arr))
-
+# start_date = '12/07/24 06:00'
+# distance = 909
+# arrival = DateTime.get_arrival_time_str(start_date, distance)
+# print(arrival)
+# print(type(arrival))

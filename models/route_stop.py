@@ -1,9 +1,24 @@
-from date_time.date_time_functionalities import DateTime
 from models.locations import Locations
 
 class RouteStop:
-    def __init__(self, location: Locations, arrival_time: DateTime, departure_time: DateTime):
-        self.location = location
-        self.departure_time = departure_time
-        self.arrival_time = arrival_time
+    def __init__(self, location: Locations, arrival_time: str, departure_time: str):
+        self._location = location
+        self._departure_time = departure_time
+        self._arrival_time = arrival_time
 
+    def __str__(self) -> str:
+        return (f'Location: {self._location}\n'
+                f'Arrival Time: {self._arrival_time}\n'
+                f'Departure Time: {self._departure_time}')
+
+    @property
+    def location(self):
+        return self._location
+
+    @property
+    def departure_time(self):
+        return self._departure_time
+
+    @property
+    def arrival_time(self):
+        return self._arrival_time
