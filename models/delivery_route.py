@@ -7,12 +7,12 @@ from models.route_stop import RouteStop
 class DeliveryRoute:
     ID = 1
     
-    def __init__(self, route_id: int, departure_time: str, arrival_time: str, destinations: list, total_distance: int) -> None:
+    def __init__(self, route_id: int, departure_time: str, arrival_time: str, destinations: tuple, total_distance: int) -> None:
         self._id = route_id
         self._departure_time = departure_time
         self._arrival_time = arrival_time
         
-        self._destinations: list[RouteStop] = list()
+        self._destinations: list[RouteStop] = destinations
         self._packages: list[DeliveryPackage] = list()
         self._assigned_trucks: list[TruckModel] = list()
         self._total_distance = total_distance
@@ -20,10 +20,11 @@ class DeliveryRoute:
         
     def __str__(self) -> str:
         return (f'Delivery route #{self.id}\n'
-                f'{self.starting_location} - {self.final_location}\n'
-                f'Departing: {self.arrival_time}'
-                f'Arriving: {self.arrival_time}'
-                f'Total distance: {self.total_distance}'
+                f'{self.destinations}'
+                # f'{self.starting_location} - {self.final_location}\n'
+                # f'Departing: {self.departure_time}'
+                # f'Arriving: {self.arrival_time}'
+                # f'Total distance: {self.total_distance}'
                 )
         
     @property
@@ -41,19 +42,19 @@ class DeliveryRoute:
         
     @property
     def starting_location(self):
-        return self.destinations[0]
+        return self._destinations[0]
     
     @property
     def final_location(self):
-        return self.destinations[-1]
+        return self._destinations[-1]
         
     @property
     def departure_time(self): 
-        return self.destinations[0].departure_time
+        return self._destinations[0].departure_time
     
     @property
     def arrival_time(self):
-        return self.destinations[-1].arrival_time
+        return self._destinations[-1].arrival_time
     
     @property
     def packages(self):

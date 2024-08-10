@@ -36,7 +36,7 @@ class CreateDeliveryRoute(BaseCommand):
         
         delivery_route = self._app_data.calculate_route_times(route)
         
-        return f'Delivery route created: \n{delivery_route}'
+        return f'Delivery route created: \n{str(delivery_route)}'
 
 
         # def get_arrival_time:

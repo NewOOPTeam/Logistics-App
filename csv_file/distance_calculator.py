@@ -52,8 +52,8 @@ class DistanceCalculator:
             if route[i] == route[i + 1]:
                 raise ValueError("Route can't have the same city twice in a row.")
 
-    def get_route_distance(self, route_input):
-        route = route_input.strip().split()
+    def get_route_distance(self, route):
+        # route = route_input.strip().split()
         self.validate_route(route)
         self.total_distance = self.calculate_total_distance(route)
         return self.total_distance

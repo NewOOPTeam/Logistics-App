@@ -85,14 +85,14 @@ class AppData:
         self._delivery_routes.append(delivery_route)
         return delivery_route
     
-        
     
     def calculate_route_times(self, route): #could take departure_time as argument depending on user input????
         starting_location = route[0]
         departure_time = DateTime.create_time_stamp_for_today() 
+        start_location = RouteStop(starting_location, departure_time, departure_time)
         
         locations = route[1:]
-        route_stops = []
+        route_stops = [start_location]
 
         distance_calculator = DC()
 
@@ -110,9 +110,13 @@ class AppData:
             
             previous_location = location
             previous_time = arrival_time
+
+        # route = list(route)
             
-        total_distance = DC.calculate_total_distance(route)
-        delivery_route = self.create_delivery_route(departure_time, arrival_time, route_stops, total_distance)
+        # total_distance = distance_calculator.get_route_distance(route)
+        delivery_route = self.create_delivery_route(departure_time, arrival_time, route_stops, total_distance = 1019)
+        print('created')
+        print(route_stops)
         return delivery_route
 
     
