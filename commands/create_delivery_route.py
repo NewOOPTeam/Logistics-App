@@ -35,6 +35,8 @@ class CreateDeliveryRoute(BaseCommand):
             return OPERATION_CANCELLED
         
         delivery_route = self._app_data.calculate_route_times(route)
+        
+        return f'Delivery route created: \n{delivery_route}'
 
 
         # def get_arrival_time:

@@ -12,23 +12,23 @@ class DateTime:
         """
         Creates stamp for the date and time right now
         """ #
-        return datetime.now().strftime('%b %d-%Y %H:%M')
+        return datetime.now().strftime('%b %d %Y %H:%Mh')
     
     @staticmethod
     def date_from_string(date_str: str) -> datetime:
         """
         Converts a date <str> in the format d/m/y (passed as decimals) to a <datetime> object
         """        
-        format_str = '%d/%m/%y %H:%M'
+        format_str = '%b %d %Y %H:%Mh'
 
         try:
             return datetime.strptime(date_str, format_str)
-        except ValueError:
-            raise ValueError
-    
+        except ValueError as err:
+            print(err)
+            
     @staticmethod    
     def string_from_date(date: datetime) -> str:    
-        return date.strftime('%b %d %Y %H:%M')
+        return date.strftime('%b %d %Y %H:%Mh')
     
     @staticmethod
     def get_arrival_time_datetime(start_date: str, days_till_delivery: int) -> datetime:
@@ -47,7 +47,7 @@ class DateTime:
         """
         start_date = DateTime.date_from_string(start_date)
         delivery_date = start_date + timedelta(hours= distance // 87 + 4) 
-        return delivery_date.strftime('%b %d %Y %H:%M')
+        return delivery_date.strftime('%b %d %Y %H:%Mh')
 
 # start_date = '12/07/24 06:00'
 # distance = 909

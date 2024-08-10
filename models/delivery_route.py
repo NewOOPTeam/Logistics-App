@@ -16,7 +16,15 @@ class DeliveryRoute:
         self._packages: list[DeliveryPackage] = list()
         self._assigned_trucks: list[TruckModel] = list()
         self._total_distance = total_distance
-
+        
+        
+    def __str__(self) -> str:
+        return (f'Delivery route #{self.id}\n'
+                f'{self.starting_location} - {self.final_location}\n'
+                f'Departing: {self.arrival_time}'
+                f'Arriving: {self.arrival_time}'
+                f'Total distance: {self.total_distance}'
+                )
         
     @property
     def id(self):
