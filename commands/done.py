@@ -1,6 +1,7 @@
 from commands.base_command import BaseCommand
 from core.application_data import AppData
 from commands.interaction_loops.base_interaction_class import BaseLoop
+from commands.constants.constants import EXIT_MESSAGE
 
 
 class Done(BaseCommand):
@@ -8,5 +9,5 @@ class Done(BaseCommand):
         super().__init__(params, app_data)
 
     def execute(self):
-        exit = BaseLoop()
-        exit.exit_system('Shutting program down...')
+        exit = BaseLoop(self._app_data)
+        exit.exit_system(EXIT_MESSAGE)

@@ -1,14 +1,18 @@
 from commands.interaction_loops.base_interaction_class import BaseLoop
+from core.application_data import AppData
 from models.employee import Employee
 from commands.constants.constants import CANCEL, LOGIN_MESSAGE
 
 
 
 class Login(BaseLoop):
-    def __init__(self, app_data) -> None:
+    def __init__(self, app_data: AppData) -> None:
         super().__init__(app_data)
         
     def loop(self):
+        base = BaseLoop(self._app_data)
+
+        
         print(LOGIN_MESSAGE)
         
         while True:
@@ -16,22 +20,20 @@ class Login(BaseLoop):
             if username:
                 break
         if username == CANCEL:
-            self.exit_system('Command cancelled, exiting program.')            
+            base.exit_system('Command cancelled, exiting program.')            
             
-        user = self.app_data.find_employee_by_username(username)
+        user = self._app_data.find_employee_by_username(username)
         
         while True:
             password = self.get_password(user)
             if password:
                 break    
         if password == CANCEL:
-            self.exit_system('Command cancelled, exiting program.')
+            base.exit_system('Command cancelled, exiting program.')
 
-        # self.app_data.logged_in_employee = user
-        self.app_data.login(user)
-        self.enter_system(username)        
-    
-    
+        self._app_data.login(user)
+        base.enter_system(username)      
+        
             
     def get_username(self):
         try:
@@ -39,7 +41,7 @@ class Login(BaseLoop):
             if username.lower() == CANCEL:
                 return CANCEL
             
-            if not self.app_data.user_exists(username):
+            if not self._app_data.user_exists(username):
                 raise ValueError('Wrong username, retry or enter "cancel"')
             return username  
         except ValueError as err:

@@ -6,7 +6,7 @@ from core.application_data import AppData
 class BaseLoop:
     
     def __init__(self, app_data: AppData) -> None:
-        self.app_data = app_data
+        self._app_data = app_data
 
     def enter_system(self, username):
         print(f'Employee {username} successfully logged in')

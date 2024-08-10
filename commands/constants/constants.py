@@ -38,3 +38,4 @@ The Manager is able to:
 """
 
 LOGIN_MESSAGE = 'Please login in order to use the system'
+EXIT_MESSAGE = 'Shutting program down...'

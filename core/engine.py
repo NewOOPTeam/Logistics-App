@@ -5,9 +5,9 @@ from core.application_data import AppData
 
 
 class Engine:
-    def __init__(self, factory: CommandFactory) -> None:
+    def __init__(self, factory: CommandFactory, app_data: AppData) -> None:
         self._factory = factory
-        self._app_data = AppData()
+        self._app_data = app_data
         
     def start(self):
         output = []
