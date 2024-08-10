@@ -8,6 +8,7 @@ from commands.view_package import ViewPackage
 from commands.view_all_packages import ViewAllPackages
 from commands.login_command import LoginCommand
 from commands.logout_command import LogoutCommand
+from commands.done import Done
 
 
 
@@ -49,5 +50,7 @@ class CommandFactory:
                 pass
             case 'assigntruck':
                 pass
+            case 'done':
+                return Done(params, self._app_data)
             case _:
                 raise ValueError(f"Unknown command: '{command}'")

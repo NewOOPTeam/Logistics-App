@@ -36,3 +36,5 @@ The Manager is able to:
     the time of day.
 ====================================================================
 """
+
+LOGIN_MESSAGE = 'Please login in order to use the system'

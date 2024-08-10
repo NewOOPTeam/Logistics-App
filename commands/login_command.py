@@ -7,6 +7,7 @@ class LoginCommand(BaseCommand):
         super().__init__(params, app_data)
 
     def execute(self):
+        
         if self._app_data.has_logged_in_employee:
             logged_employee = self._app_data.logged_in_employee
             raise ValueError(f'Employee {logged_employee.username} is already logged in! Please log out first.')

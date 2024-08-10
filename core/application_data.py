@@ -61,12 +61,18 @@ class AppData:
             raise ValueError('No user is currently logged in.')
         self.logged_in_employee = None
 
-    def find_employee_by_username(self, username: str): #dobaveno ot men
+    def find_employee_by_username(self, username: str) -> Employee: #dobaveno ot men
         for employee in self._employees:
             if employee.username == username:
                 return employee
         raise ValueError('Employee not found!')
-
+    
+    def user_exists(self, username: str) -> bool:
+        for employee in self._employees:
+            if employee.username == username:
+                return True
+        return False
+        
     @property
     def delivery_packages(self):
         return tuple(self._delivery_packages)

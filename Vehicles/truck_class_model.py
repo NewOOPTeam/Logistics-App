@@ -30,10 +30,10 @@ class TruckModel:
     vehicles_id = set()
 
     def __init__(self, truck_id: int, truck_capacity: int, max_range: int, name: str, status='Available') -> None:
-        if truck_id in TruckModel.vehicles_id:
-            raise ValueError(f"Truck ID {truck_id} already exists.")
-        if not self.validate_id(truck_id):
-            raise ValueError(f"Truck ID {truck_id} is out of valid range.")
+        # if truck_id in TruckModel.vehicles_id:
+        #     raise ValueError(f"Truck ID {truck_id} already exists.")
+        # if not self.validate_id(truck_id):
+        #     raise ValueError(f"Truck ID {truck_id} is out of valid range.")
         
         self._truck_id = truck_id
         self._truck_capacity = truck_capacity

@@ -1,6 +1,5 @@
 from models.delivery_package import DeliveryPackage
 from Vehicles.truck_class_model import TruckModel
-from models.locations import Locations
 from models.route_stop import RouteStop
 
 AWAITING = "Awaiting"

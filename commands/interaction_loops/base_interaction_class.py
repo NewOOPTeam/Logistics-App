@@ -1,14 +1,19 @@
-# from models.delivery_package import DeliveryPackage
-# from commands.helper_methods import Validate, Parse, AcceptInput
-# from commands.constants.constants import CANCEL, OPERATION_CANCELLED
-
+import sys
+import time
+from core.application_data import AppData
 
 
 class BaseLoop:
     
-    def __init__(self, app_data) -> None:
+    def __init__(self, app_data: AppData) -> None:
         self.app_data = app_data
 
+    def enter_system(self, username):
+        print(f'Employee {username} successfully logged in')
+        print('Loading system...')
+        time.sleep(1)
 
-    def loop(self):
-        pass
+    def exit_system(self, msg):
+        print(msg)
+        time.sleep(1)
+        sys.exit()
