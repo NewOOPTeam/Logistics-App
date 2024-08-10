@@ -3,6 +3,9 @@ from Vehicles.truck_class_model import TruckModel
 from models.locations import Locations
 from models.route_stop import RouteStop
 
+AWAITING = "Awaiting"
+IN_PROGRESS = 'In progress'
+COMPLETED = 'Completed'
 
 class DeliveryRoute:
     ID = 1
@@ -16,15 +19,15 @@ class DeliveryRoute:
         self._packages: list[DeliveryPackage] = list()
         self._assigned_trucks: list[TruckModel] = list()
         self._total_distance = total_distance
-        
+        self._status = AWAITING
         
     def __str__(self) -> str:
         return (f'Delivery route #{self.id}\n'
                 f'{self.destinations}'
-                # f'{self.starting_location} - {self.final_location}\n'
-                # f'Departing: {self.departure_time}'
-                # f'Arriving: {self.arrival_time}'
-                # f'Total distance: {self.total_distance}'
+                f'{self.starting_location} - {self.final_location}\n'
+                f'Departing: {self.departure_time}'
+                f'Arriving: {self.arrival_time}'
+                f'Total distance: {self.total_distance}'
                 )
         
     @property
@@ -88,18 +91,3 @@ class DeliveryRoute:
         for truck in self._assigned_trucks:
             truck.mark_available()
         self._assigned_trucks.clear()
-
-    @property
-    def departure_time(self): 
-        return self._departure_time
-    
-    @property
-    def arrival_time(self):
-        return self._arrival_time
-    
-    
-
-# dict with locations in the route
-
-# total distance
-# completed bool
