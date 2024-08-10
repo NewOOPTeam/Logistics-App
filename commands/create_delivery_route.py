@@ -2,7 +2,7 @@ from commands.base_command import BaseCommand
 from core.application_data import AppData
 from commands.helper_methods import Validate
 from commands.interaction_loops.find_route import InputRoute
-from commands.constants.constants import CANCEL, OPERATION_CANCELLED
+from commands.constants.constants import OPERATION_CANCELLED
 from date_time.date_time_functionalities import DateTime
 from datetime import timedelta
 from csv_file.distance_calculator import DistanceCalculator
@@ -33,7 +33,8 @@ class CreateDeliveryRoute(BaseCommand):
         route = InputRoute(self._app_data).loop(' Input delivery route stops: ')
         if route == OPERATION_CANCELLED:
             return OPERATION_CANCELLED
-        # it should return arrival time from location to location when i have more than 2 locations
+        
+        delivery_route = self._app_data.calculate_route_times(route)
 
 
         # def get_arrival_time:
@@ -44,38 +45,6 @@ class CreateDeliveryRoute(BaseCommand):
         # route
         
 
-
-    def calculate_route_times(self, route):
-        if not route or len(route) < 2:
-            raise ValueError("Route must have at least two locations.")
-
-        starting_location = route[0]
-        departure_time = DateTime.create_time_stamp_for_now()  # Assuming this returns a datetime object
-        
-        locations = route[1:]
-        locations_dict = {}
-
-        distance_calculator = DistanceCalculator()
-
-        previous_location = starting_location
-        previous_time = departure_time
-
-        for location in locations:
-            both_locations = [previous_location, location]
-            distance = distance_calculator.calculate_total_distance(route=both_locations)
-            travel_time = timedelta(hours=distance / 87)
-        
-            arrival_time = previous_time + travel_time
-            locations_dict[location] = arrival_time
-            
-            print(f"Arrival at {location}: {arrival_time}")
-            
-            previous_location = location
-            previous_time = arrival_time
-
-        delivery_route = self._app_data.create_delivery_route(departure_time, arrival_time, locations_dict)
-        
-        return delivery_route
 
 
 

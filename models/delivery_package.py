@@ -52,5 +52,5 @@ class DeliveryPackage:
                 f'To: {self.end_location}\n'
                 f'-----Client-----\n'
                 f'{self._contact_info}\n'
-                f'----------------'
+                f'----------------\n'
                 f'STATUS: {self.status}')
