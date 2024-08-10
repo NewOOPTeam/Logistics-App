@@ -1,9 +1,14 @@
 from models.locations import Locations
 from models.user import User
 
+UNASSIGNED = 'Unassigned'
+ASSIGNED = "Assigned"
+IN_PROGRESS = 'In progress'
+COMPLETED = 'Completed'
 
 class DeliveryPackage:
     id_implementer = 1
+    
 
     def __init__(self, weight: float, start_location: Locations, end_location: Locations, contact_info: User):
         self.weight = weight
@@ -12,8 +17,8 @@ class DeliveryPackage:
         self._contact_info = contact_info
         self._id = DeliveryPackage.id_implementer
         DeliveryPackage.id_implementer += 1
-        # status Toni
-        # assigned route
+        self._status = UNASSIGNED
+        self._assigned_route = None
 
     @property
     def id(self):
@@ -22,6 +27,18 @@ class DeliveryPackage:
     @property
     def weight(self):
         return self._weight
+    
+    @property
+    def start_location(self):
+        return self._start_location
+    
+    @property
+    def end_location(self):
+        return self._end_location
+    
+    @property
+    def status(self):
+        return self._status
 
     @weight.setter
     def weight(self, value):
@@ -31,8 +48,9 @@ class DeliveryPackage:
 
     def __str__(self):
         return (f'#{self.id} Package ({self.weight}kg)\n'
-                f'From: {self._start_location}\n'
-                f'To: {self._end_location}\n'
+                f'From: {self.start_location}\n'
+                f'To: {self.end_location}\n'
                 f'-----Client-----\n'
                 f'{self._contact_info}\n'
-                f'----------------')
+                f'----------------'
+                f'STATUS: {self.status}')

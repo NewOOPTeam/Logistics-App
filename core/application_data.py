@@ -185,3 +185,6 @@ class AppData:
         route = self.get_route_by_id(route_id)
         route.assign_truck(truck) # da se proveri
 
+    def find_unassigned_packages(self):
+        unassigned_packages = [package for package in self._delivery_packages if package.status == DeliveryPackage.UNASSIGNED]
+        return '\n\n'.join(unassigned_packages)
