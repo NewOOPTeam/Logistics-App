@@ -6,6 +6,9 @@ from commands.add_employee import AddEmployee
 from commands.help import Help
 from commands.view_package import ViewPackage
 from commands.view_all_packages import ViewAllPackages
+from commands.login_command import LoginCommand
+from commands.logout_command import LogoutCommand
+
 
 
 class CommandFactory:
@@ -18,6 +21,10 @@ class CommandFactory:
         match command.lower():
             # case 'addemployee':
             #     return AddEmployee(params, self._app_data)
+            case 'login':
+                return LoginCommand(params, self._app_data)
+            case 'logout':
+                return LogoutCommand(self._app_data)
             case 'help':
                 return Help(params, self._app_data)
             case 'createpackage':

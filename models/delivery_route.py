@@ -58,7 +58,15 @@ class DeliveryRoute:
         self._packages.append(package)
     
     def assign_truck(self, truck: TruckModel):
-        self.truck = truck # da se proveri
+        if truck.status == 'Unavailable':
+            raise ValueError(f'Truck with ID {truck.truck_id} is currently unavailable.')
+        self._assigned_trucks.append(truck)
+        truck.mark_unavailable()
+
+    def complete_route(self):
+        for truck in self._assigned_trucks:
+            truck.mark_available()
+        self._assigned_trucks.clear()
 
     @property
     def departure_time(self): 

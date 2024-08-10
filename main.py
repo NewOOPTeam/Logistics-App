@@ -14,3 +14,8 @@ engine.start()
 # createdeliveryroute
 # done
 
+# "employee_user", "password123!",
+# "supervisor_user", "password456!"
+
+# login employee_user password123!
+# login supervisor_user password456!

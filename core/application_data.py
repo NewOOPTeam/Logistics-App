@@ -13,10 +13,13 @@ class AppData:
     def __init__(self) -> None:
         self._users: list[User] = list()
         self._employees: list[Employee] = list()
-        self._logged_employee = []
+        self._logged_employee = None
         self._trucks: list[TruckModel] = list()
         self._delivery_routes: list[DeliveryRoute] = list()
         self._delivery_packages: list[DeliveryPackage] = list()
+
+        self.initialize_employees()  # Initialize employees pod vapros
+        self._create_trucks()  # Initialize trucks pod vapros
         
 
     def initialize_employees(self):
@@ -33,10 +36,11 @@ class AppData:
     
     @property
     def logged_in_employee(self):
-        if self.has_logged_in_employee:
-            return self._logged_employee
-        else:
-            raise ValueError('There is no logged in employee.')
+        return self._logged_employee
+
+    @logged_in_employee.setter
+    def logged_in_employee(self, employee):
+        self._logged_employee = employee
 
     @property
     def has_logged_in_employee(self):
@@ -53,6 +57,12 @@ class AppData:
         if self.logged_in_employee is None:
             raise ValueError('No user is currently logged in.')
         self.logged_in_employee = None
+
+    def find_employee_by_username(self, username: str): #dobaveno ot men
+        for employee in self._employees:
+            if employee.username == username:
+                return employee
+        raise ValueError('Employee not found!')
 
     @property
     def delivery_packages(self):
@@ -128,8 +138,7 @@ class AppData:
         employee = Employee(firstname, lastname, role, username, pw)
         self._employees.append(employee)
         return employee
-
-    
+   
     def get_truck_by_id(self, truck_id: int) -> TruckModel:
         for truck in self.trucks:
             if truck.truck_id == truck_id:

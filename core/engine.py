@@ -16,6 +16,7 @@ class Engine:
                 print(user_output)
                 output.append(user_output)
             except Exception as error:
+                print(error)
                 output.append(error.args[0])
                 
         print('\n'.join(output))
