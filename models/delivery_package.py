@@ -39,6 +39,12 @@ class DeliveryPackage:
     @property
     def status(self):
         return self._status
+    
+    @status.setter
+    def status(self, value):
+        if value not in (UNASSIGNED, ASSIGNED, IN_PROGRESS, COMPLETED):
+            raise ValueError('Invalid status!')
+        self._status = value
 
     @weight.setter
     def weight(self, value):

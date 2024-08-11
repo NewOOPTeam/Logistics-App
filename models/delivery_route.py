@@ -20,6 +20,8 @@ class DeliveryRoute:
         self._total_distance = total_distance
         self._status = AWAITING
         
+        
+        
     def __str__(self) -> str:
         return (f'Delivery route #{self.id}\n'
                 f'{self.destinations}'
@@ -33,7 +35,6 @@ class DeliveryRoute:
     def id(self):
         return self._id
 
-    ## according to distance we assign a truck
     @property
     def destinations(self): # this is route stops
         return tuple(self._destinations)
@@ -80,13 +81,7 @@ class DeliveryRoute:
         cls.ID += 1
         return delivery_route_id
     
-    
-    def assign_package(self, package: DeliveryPackage):
-        self._packages.append(package)
-    
     def assign_truck(self, truck: TruckModel):
-        if truck.status == 'Unavailable':
-            raise ValueError(f'Truck with ID {truck.truck_id} is currently unavailable.')
         self._assigned_trucks.append(truck)
         truck.mark_unavailable()
 
@@ -94,3 +89,61 @@ class DeliveryRoute:
         for truck in self._assigned_trucks:
             truck.mark_available()
         self._assigned_trucks.clear()
+    def select_truck(self, available_trucks: list[TruckModel]):
+        total_weight = self.calculate_weight_at_start()
+        for truck in available_trucks:
+            if truck.status == "Available" and truck.truck_capacity >= total_weight:
+                self.assign_truck(truck)
+                truck.mark_unavailable()
+                return truck
+        raise ValueError("No suitable truck available.")
+
+    # def calculate_total_weight(self):
+    #     total_weight = 0
+    #     for stop in self._destinations:
+    #         for package in self._packages:
+    #             if package.start_location == stop.location:
+    #                 total_weight += package.weight
+    #             if package.end_location == stop.location:
+    #                 total_weight -= package.weight
+    #     return total_weight
+    
+    def calculate_weight_at_each_stop(self):
+        weight_at_stops = {}
+        current_weight = 0
+        
+        for stop in self._destinations:
+            for package in self._packages:
+                if package.start_location == stop.location:
+                    current_weight += package.weight
+                if package.end_location == stop.location:
+                    current_weight -= package.weight
+            weight_at_stops[stop.location] = current_weight
+        
+        return weight_at_stops
+        
+    def calculate_weight_at_start(self):
+        start_location = self.starting_location.location
+        total_weight = sum(package.weight for package in self._packages if package.start_location == start_location)
+        return total_weight
+
+    def delivered_package(self):
+        for stop in self._destinations:
+            for package in self._packages:
+                if package.end_location == stop.location:
+                    package.status = "Completed"
+
+    def completed_route(self,truck_id):
+        for stop in self._destinations:
+            if stop.location == self.final_location:
+                for truck in self._assigned_trucks:
+                    if truck.truck_id == truck_id:
+                        truck.mark_available()
+                        self._assigned_trucks.remove(truck)
+        return self._assigned_trucks
+
+    
+# dict with locations in the route
+
+# total distance
+# completed bool
