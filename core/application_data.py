@@ -129,7 +129,7 @@ class AppData:
         for package in self._delivery_packages:
             if package.id == package_id:
                 return package
-        raise ValueError(f'Package with ID {id} not found')
+        raise ValueError(f'Package with ID {package_id} not found')
     
     def view_packages(self):
         packages = [str(package) for package in self._delivery_packages]

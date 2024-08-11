@@ -18,8 +18,8 @@ class Parse:
     def to_int(val):
         try:
             return int(val)
-        except:
-            raise ValueError()
+        except ValueError:
+            raise ValueError('Invalid number')
     
     @staticmethod
     def to_float(val):
@@ -28,7 +28,7 @@ class Parse:
             if val <= 0:
                 raise ValueError("Value must be greater than zero.")
             return float(val)
-        except:
+        except ValueError:
             raise ValueError('Invalid number')
 
 

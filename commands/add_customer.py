@@ -38,10 +38,10 @@ class AddCustomer(BaseCommand):
         try:
             customer = self._app_data.add_customer(first_name, last_name, phone, email)
         except:
-            raise ValueError('Unexpected error occurred')
-        
-        
-        
+            raise ValueError('Unexpected error occurred')        
         
         return f'User {customer.firstname} {customer.lastname} added'
+    
+    def _requires_login(self) -> bool:
+        return True
         
