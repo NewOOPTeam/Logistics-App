@@ -33,7 +33,7 @@ class BaseLoop:
     def enter_system(self, username):
         print(f'Employee {username} successfully logged in')
         print('Loading system...')
-        time.sleep(2)
+        time.sleep(1)
         print(WELCOMING_MESSAGE)
         print(DESCRIPTION_MESSAGE)
 

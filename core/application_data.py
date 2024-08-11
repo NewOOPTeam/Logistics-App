@@ -133,8 +133,10 @@ class AppData:
     
     def view_packages(self):
         packages = [str(package) for package in self._delivery_packages]
-        
-        return '\n'.join(packages)
+        output = '\n'.join(packages)
+        if not packages:
+            output = 'No packages to show'
+        return output
     
     def get_package_locations(self, package_id: int):
         package = self.find_package_by_id(package_id)
