@@ -1,10 +1,9 @@
 from core.application_data import AppData
 from commands.base_command import BaseCommand
 from commands.helper_methods import Validate
-from models.locations import Locations
 from commands.interaction_loops.get_weight import GetWeight
 from commands.interaction_loops.get_route import GetRoute
-from commands.interaction_loops.get_customer_info import GetCustomerInfo
+from commands.interaction_loops.find_customer_by_email import GetCustomerInfo
 from commands.constants.constants import CANCEL, OPERATION_CANCELLED
 
 

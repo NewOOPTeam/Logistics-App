@@ -19,7 +19,7 @@ class CommandFactory:
     def create(self, input_line: str):
         command, *params = input_line.split()
                 
-        match command.lower():
+        match command.lower().replace(' ', ''):
             # case 'addemployee':
             #     return AddEmployee(params, self._app_data)
             case 'login':

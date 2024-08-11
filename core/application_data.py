@@ -112,6 +112,12 @@ class AppData:
             if user.email == email:
                 return user
         raise ValueError(f'User with e-mail {email} not found')
+    
+    def customer_exists(self, email) -> bool:
+        for user in self.users:
+            if user.email == email:
+                return True
+        return False
 
     def create_delivery_package(self, weight, route, contact_info: User) -> DeliveryPackage:
         starting_location, target_location = route

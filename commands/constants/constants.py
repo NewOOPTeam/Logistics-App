@@ -36,6 +36,10 @@ As a Manager, you can:
   delivery routes in progress. The system responds with each route's
   stops, delivery weight, and the expected current stop based on 
   the time of day.
+  
+  
+- Type HELP to see this message again.
+- Type DONE to exit program.
 
 ====================================================================
 

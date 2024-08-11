@@ -1,6 +1,6 @@
 from commands.helper_methods import Parse, AcceptInput
 from commands.constants.constants import CANCEL, OPERATION_CANCELLED
-from commands.interaction_loops.base_interaction_class import BaseLoop
+from commands.interaction_loops.base_loop import BaseLoop
 
 
 class FindPackage(BaseLoop):

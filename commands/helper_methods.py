@@ -5,7 +5,7 @@ class Validate:
     @staticmethod
     def str_len(val, min, max):
         if not min <= len(val) <= max:
-            raise ValueError('Invalid input')
+            raise ValueError('Invalid parameter lenght')
 
     @staticmethod
     def params_count(params: list[str], count: int, cmd_name: str):
