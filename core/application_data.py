@@ -121,18 +121,15 @@ class AppData:
             arrival_time = DateTime.get_arrival_time_str(previous_time, distance)
         
             route_stops.append(RouteStop(location, departure_time, arrival_time))
-            
-            print(f"Arrival at {location}: {arrival_time}")
-            
+            # print(f"Arrival at {location}: {arrival_time}")
             previous_location = location
             previous_time = arrival_time
 
-        # route = list(route)
+        route = list(route)
             
-        # total_distance = distance_calculator.get_route_distance(route)
-        delivery_route = self.create_delivery_route(departure_time, arrival_time, route_stops, total_distance = 1019)
-        print('created')
-        print(route_stops)
+        total_distance = distance_calculator.get_route_distance(route)
+        delivery_route = self.create_delivery_route(departure_time, arrival_time, route_stops, total_distance)
+
         return delivery_route
 
     
@@ -140,7 +137,8 @@ class AppData:
     def find_delivery_route(self, start_point: Locations, end_point: Locations) -> DeliveryRoute:
         if start_point not in Locations or end_point not in Locations:
             return f'Invalid start or end point: {start_point}, {end_point}' #Proverka dali start_point i end_point sa vuv validnite lokacii
-       
+
+        # destinations = [city.destinations for city in self._delivery_routes]
         available_routes = []
             
         for route in self._delivery_routes:

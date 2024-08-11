@@ -9,10 +9,7 @@ class Login(BaseLoop):
     def __init__(self, app_data: AppData) -> None:
         super().__init__(app_data)
         
-    def loop(self):
-        base = BaseLoop(self._app_data)
-
-        
+    def loop(self):       
         print(LOGIN_MESSAGE)
         
         while True:
@@ -20,19 +17,19 @@ class Login(BaseLoop):
             if username:
                 break
         if username == CANCEL:
-            base.exit_system('Command cancelled, exiting program.')            
+            self.exit_system('Command cancelled, exiting program.')            
             
         user = self._app_data.find_employee_by_username(username)
         
         while True:
             password = self.get_password(user)
             if password:
-                break    
+                break
         if password == CANCEL:
-            base.exit_system('Command cancelled, exiting program.')
+            self.exit_system('Command cancelled, exiting program.')
 
         self._app_data.login(user)
-        base.enter_system(username)      
+        self.enter_system(username)      
         
             
     def get_username(self):
@@ -51,6 +48,9 @@ class Login(BaseLoop):
     def get_password(self, employee: Employee):
         try:
             password = input(' Enter password: ')
+            if password.lower() == CANCEL:
+                return CANCEL
+            
             if password != employee.password:
                 raise ValueError('Invalid password, retry or enter "cancel"')
             return password

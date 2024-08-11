@@ -14,6 +14,7 @@ class SearchRoute(BaseCommand):
     def execute(self):
         start_location, end_location = InputRoute(self._app_data).loop(' Input start and end point: ')
         
+        route = self._app_data.find_delivery_route(start_location, end_location)
         # check if truck on the route has capacity -> bool (from app data)
         # DATES
         # prefer to assign smallest capacity truck

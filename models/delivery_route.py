@@ -35,7 +35,7 @@ class DeliveryRoute:
 
     ## according to distance we assign a truck
     @property
-    def destinations(self):
+    def destinations(self): # this is route stops
         return tuple(self._destinations)
     
     @destinations.setter
@@ -45,6 +45,10 @@ class DeliveryRoute:
     @property
     def starting_location(self):
         return self._destinations[0]
+    
+    # @property
+    # def cities(self):
+    #     return tuple([city.location for city in self._destinations])
     
     @property
     def final_location(self):
