@@ -7,6 +7,8 @@ from models.locations import Locations
 # Remove the unused import statements
 from core.application_data import AppData
 from date_time.date_time_functionalities import DateTime
+from models.delivery_package import DeliveryPackage
+from models.locations import Locations
 
 
 
@@ -152,13 +154,13 @@ class AppDataTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.app_data.find_suitable_truck(3000, 300)
 
-    def test_get_route_by_id(self):
+    def test_find_delivery_route(self):
         route1 = self.app_data.create_delivery_route("10:00", "12:00", Locations.MEL.value, Locations.SYD.value, Locations.BRI.value)
         route2 = self.app_data.create_delivery_route("12:00", "14:00", Locations.SYD.value, Locations.BRI.value, Locations.PER.value)
-        self.assertEqual(self.app_data.get_route_by_id(route1.id), route1)
-        self.assertEqual(self.app_data.get_route_by_id(route2.id), route2)
+        self.assertEqual(self.app_data.find_delivery_route(route1.id), route1)
+        self.assertEqual(self.app_data.find_delivery_route(route2.id), route2)
         with self.assertRaises(ValueError):
-            self.app_data.get_route_by_id(999)
+            self.app_data.find_delivery_route(999)
 
     def test_assign_truck_to_route(self):
         self.app_data._create_trucks()

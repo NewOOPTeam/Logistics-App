@@ -2,7 +2,7 @@ from core.application_data import AppData
 from commands.base_command import BaseCommand
 from commands.helper_methods import Validate
 from commands.interaction_loops.get_weight import GetWeight
-from commands.interaction_loops.get_route import GetRoute
+from commands.interaction_loops.get_start_end_location import GetStartEndLocation
 from commands.interaction_loops.find_customer_by_email import GetCustomerInfo
 from commands.constants.constants import CANCEL, OPERATION_CANCELLED
 
@@ -22,8 +22,8 @@ class CreatePackage(BaseCommand):
         if weight == CANCEL:
             return OPERATION_CANCELLED
         
-        get_route = GetRoute(self._app_data)
-        route = get_route.loop(' Input start and end destination: ')
+        get_start_end_location = GetStartEndLocation(self._app_data)
+        route = get_start_end_location.loop(' Input start and end destination: ')
       
         if route == CANCEL:
             return OPERATION_CANCELLED

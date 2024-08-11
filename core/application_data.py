@@ -148,7 +148,7 @@ class AppData:
         self._delivery_routes.append(delivery_route)
         return delivery_route
     
-    def get_route_by_id(self, id: int) -> DeliveryRoute:
+    def find_delivery_route(self, id: int) -> DeliveryRoute:
         for route in self._delivery_routes:
             if route.id == id:
                 return route

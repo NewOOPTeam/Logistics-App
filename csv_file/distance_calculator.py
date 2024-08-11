@@ -68,7 +68,7 @@ class DistanceCalculator:
 #      calc = DistanceCalculator()  # Will use the default path
 #      try:
 #         route_input = input("Enter your route (e.g., 'CityA CityB CityC'): ")
-#         distance = calc.get_route_distance(route_input)
+#         distance = calc.Get_start_end_location_distance(route_input)
 #         print(f"The total distance for the route '{route_input}' is: {distance}")
 #         print(calc)  # This will use the __str__ method to print total distance
 #      except Exception as e:
