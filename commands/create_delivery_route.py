@@ -1,7 +1,7 @@
 from commands.base_command import BaseCommand
 from core.application_data import AppData
 from commands.helper_methods import Validate
-from commands.interaction_loops.find_route import InputRoute
+from commands.interaction_loops.get_route import GetRoute
 from commands.constants.constants import OPERATION_CANCELLED
 from date_time.date_time_functionalities import DateTime
 from datetime import timedelta
@@ -30,7 +30,7 @@ class CreateDeliveryRoute(BaseCommand):
         # if package == OPERATION_CANCELLED:
         #     return OPERATION_CANCELLED
 
-        route = InputRoute(self._app_data).loop(' Input delivery route stops: ')
+        route = GetRoute(self._app_data).loop(' Input delivery route stops: ')
         if route == OPERATION_CANCELLED:
             return OPERATION_CANCELLED
         

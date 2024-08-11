@@ -94,6 +94,13 @@ class AppData:
         if self.logged_in_employee is None:
             raise ValueError('No user is currently logged in.')
         self.logged_in_employee = None
+        
+    def user_exists(self, username) -> bool:
+        for employee in self._employees:
+            if username == employee.username:
+                return True
+        return False
+            
 
     def add_customer(self, firstname, lastname, phone_number, email) -> User:
         customer = User(firstname, lastname, phone_number, email)
@@ -106,7 +113,8 @@ class AppData:
                 return user
         raise ValueError(f'User with e-mail {email} not found')
 
-    def create_delivery_package(self, weight, starting_location, target_location, contact_info: User) -> DeliveryPackage:
+    def create_delivery_package(self, weight, route, contact_info: User) -> DeliveryPackage:
+        starting_location, target_location = route
         package = DeliveryPackage(weight, starting_location, target_location, contact_info)
         self._delivery_packages.append(package)
         return package

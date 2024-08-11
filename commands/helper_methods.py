@@ -24,9 +24,12 @@ class Parse:
     @staticmethod
     def to_float(val):
         try:
+            val = float(val)
+            if val <= 0:
+                raise ValueError("Value must be greater than zero.")
             return float(val)
         except:
-            raise ValueError('Invalid package weight')
+            raise ValueError('Invalid number')
 
 
 class AcceptInput:
