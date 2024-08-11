@@ -2,7 +2,7 @@ from commands.base_command import BaseCommand
 from core.application_data import AppData
 from commands.helper_methods import Validate
 from commands.interaction_loops.get_route import GetRoute
-from commands.constants.constants import OPERATION_CANCELLED
+from commands.constants.constants import OPERATION_CANCELLED, CANCEL
 from date_time.date_time_functionalities import DateTime
 from datetime import timedelta
 from csv_file.distance_calculator import DistanceCalculator
@@ -31,7 +31,7 @@ class CreateDeliveryRoute(BaseCommand):
         #     return OPERATION_CANCELLED
 
         route = GetRoute(self._app_data).loop(' Input delivery route stops: ')
-        if route == OPERATION_CANCELLED:
+        if route == CANCEL:
             return OPERATION_CANCELLED
         
         delivery_route = self._app_data.calculate_route_times(route)

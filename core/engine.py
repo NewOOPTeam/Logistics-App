@@ -17,9 +17,7 @@ class Engine:
         except ValueError as error:
             print(error)
             output.append(error.args[0])
-        
-        
-        print(WELCOMING_MESSAGE)
+
         while (input_line := input(' Enter application command: \n').strip()):
             try:
                 command = self._factory.create(input_line)

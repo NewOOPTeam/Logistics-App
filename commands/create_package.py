@@ -5,7 +5,7 @@ from models.locations import Locations
 from commands.interaction_loops.get_weight import GetWeight
 from commands.interaction_loops.get_route import GetRoute
 from commands.interaction_loops.get_customer_info import GetCustomerInfo
-from commands.constants.constants import  OPERATION_CANCELLED
+from commands.constants.constants import CANCEL, OPERATION_CANCELLED
 
 
 class CreatePackage(BaseCommand):
@@ -20,14 +20,20 @@ class CreatePackage(BaseCommand):
         get_weight = GetWeight(self._app_data)
         weight = get_weight.loop(' Input package weight: ')
         
+        if weight == CANCEL:
+            return OPERATION_CANCELLED
+        
         get_route = GetRoute(self._app_data)
         route = get_route.loop(' Input start and end destination: ')
+      
+        if route == CANCEL:
+            return OPERATION_CANCELLED
       
         get_customer_info = GetCustomerInfo(self._app_data)
         customer = get_customer_info.loop(' Input customer email address: ')
 
-        if any(param == OPERATION_CANCELLED for param in [weight, route, customer]) == OPERATION_CANCELLED:
-            return
+        if customer == CANCEL:
+            return OPERATION_CANCELLED
         
         package = self._app_data.create_delivery_package(weight, route, customer)
         

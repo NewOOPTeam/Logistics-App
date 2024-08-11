@@ -1,6 +1,8 @@
 from core.application_data import AppData
-from commands.constants.constants import CANCEL, OPERATION_CANCELLED
+from commands.constants.constants import CANCEL, WELCOMING_MESSAGE, DESCRIPTION_MESSAGE
 from commands.helper_methods import AcceptInput
+import sys
+import time
 
 
 class BaseLoop:
@@ -12,9 +14,7 @@ class BaseLoop:
             param = self.get_input(msg)
             if param:
                 break
-        if param == CANCEL:
-            return OPERATION_CANCELLED
-        return param
+        return param if param != CANCEL else CANCEL
             
             
     def get_input(self, msg):
@@ -29,3 +29,15 @@ class BaseLoop:
         
     def helper(self, param):
         pass
+    
+    def enter_system(self, username):
+        print(f'Employee {username} successfully logged in')
+        print('Loading system...')
+        print(WELCOMING_MESSAGE)
+        print(DESCRIPTION_MESSAGE)
+        time.sleep(1)
+
+    def exit_system(self, msg):
+        print(msg)
+        time.sleep(1)
+        sys.exit()
