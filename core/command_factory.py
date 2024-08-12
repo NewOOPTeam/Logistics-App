@@ -43,7 +43,7 @@ class CommandFactory:
             case 'viewunassignedpackages':
                 pass
             case 'searchroute':
-                pass
+                return SearchRoute(params, self._app_data)
             case 'viewdeliveryroute':
                 pass
             case 'viewactiveroutes':

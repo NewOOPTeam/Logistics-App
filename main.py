@@ -11,7 +11,7 @@ engine.start()
 # addcustomer Ivan Slavov 0883837373 ivan@slavov
 # createpackage 34 Sydney Melbourne ivan@slavov
 # viewpackage 1
-# createdeliveryroute ADL SYD PER MEL
+# createdeliveryroute BRI SYD MEL
 # done
 
 # "employee_user", "password123!",

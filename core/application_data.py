@@ -165,8 +165,9 @@ class AppData:
         return '\n'.join(routes)
     
     def calculate_route_times(self, route): #could take departure_time as argument depending on user input????
-        starting_location = route[0]
-        departure_time = DateTime.create_time_stamp_for_today() 
+        starting_location = route[0] #ADL
+        # departure_time = DateTime.create_time_stamp_for_today() 
+        departure_time = 'Oct 10 2024 06:00h'
         start_location = RouteStop(starting_location, departure_time, departure_time)
         
         locations = route[1:]
@@ -182,10 +183,10 @@ class AppData:
             distance = distance_calculator.calculate_total_distance(pointA_pointB)
             arrival_time = DateTime.get_arrival_time_str(previous_time, distance)
         
-            route_stops.append(RouteStop(location, departure_time, arrival_time))
-            # print(f"Arrival at {location}: {arrival_time}")
             previous_location = location
             previous_time = arrival_time
+            route_stops.append(RouteStop(location, previous_time, arrival_time))
+            # print(f"Arrival at {location}: {arrival_time}")
 
         # route = list(route)
             
@@ -195,13 +196,35 @@ class AppData:
         return delivery_route
     
 
+    # def find_valid_routes_for_package(self, package_id: int):
+        
+        # start_location, end_location = self.get_package_locations(package_id)
+        
+        # valid_routes = []
+        
+        # for route in self._delivery_routes:
+        #     destinations = [stop.location for stop in route.destinations]
+        #     if start_location in route.destinations and end_location in route.destinations:
+        #         start_index = route.destinations.index(start_location)
+        #         end_index = route.destinations.index(end_location)
+        #         if start_index < end_index:
+        #             valid_routes.append(route)
+        
+        # return valid_routes
+    
     def find_valid_routes_for_package(self, package_id: int):
         start_location, end_location = self.get_package_locations(package_id)
+        
+        # Convert start_location and end_location to Locations enum if not already
+        if not isinstance(start_location, Locations):
+            start_location = Locations[start_location]
+        if not isinstance(end_location, Locations):
+            end_location = Locations[end_location]
         
         valid_routes = []
         
         for route in self._delivery_routes:
-            destinations = route._destinations
+            destinations = [stop.location for stop in route.destinations]
             if start_location in destinations and end_location in destinations:
                 start_index = destinations.index(start_location)
                 end_index = destinations.index(end_location)
