@@ -130,7 +130,6 @@ class AppData:
         for package in self._delivery_packages:
             if package.id == package_id:
                 return package
-<<<<<<< HEAD
         raise ValueError(f'Package with ID {package_id} not found')
     
     def view_packages(self):
@@ -140,15 +139,6 @@ class AppData:
             output = 'No packages to show'
         return output
     
-=======
-        raise ValueError(f'Package with ID {id} not found')
-   
-    def view_packages(self):
-        packages = [str(package) for package in self._delivery_packages]
-        
-        return '\n'.join(packages)
-   
->>>>>>> origin
     def get_package_locations(self, package_id: int):
         package = self.find_package_by_id(package_id)
         return package.start_location, package.end_location
@@ -160,12 +150,8 @@ class AppData:
         self._delivery_routes.append(delivery_route)
         return delivery_route
     
-<<<<<<< HEAD
-    def find_delivery_route(self, id: int) -> DeliveryRoute:
-=======
     
     def get_route_by_id(self, id: int) -> DeliveryRoute:
->>>>>>> origin
         for route in self._delivery_routes:
             if route.id == id:
                 return route
