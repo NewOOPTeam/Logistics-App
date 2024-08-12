@@ -9,6 +9,7 @@ from models.locations import Locations
 from models.delivery_route import DeliveryRoute
 from date_time.date_time_functionalities import DateTime
 from csv_file.distance_calculator import DistanceCalculator as DC
+from colorama import Fore
 
 
 class AppData:
@@ -75,10 +76,10 @@ class AppData:
         for employee in self._employees:
             if employee.username == username:
                 return employee
-        raise ValueError('Employee not found!')
+        raise ValueError(Fore.RED + 'Employee not found!')
    
     def view_employees(self):
-        employees = [
+        employees = [Fore.LIGHTCYAN_EX +
             f"{employee.firstname} {employee.lastname}, Role: {employee.role}, Username: {employee.username}"
             for employee in self._employees
         ]
@@ -86,14 +87,14 @@ class AppData:
    
     def login(self, employee):
         if employee not in self._employees:
-            raise ValueError('Employee is not recognized.')
+            raise ValueError(Fore.RED + 'Employee is not recognized.')
         if self.logged_in_employee is not None:
-            raise ValueError('There is already a user logged in.')
+            raise ValueError(Fore.RED + 'There is already a user logged in.')
         self.logged_in_employee = employee
 
     def logout(self):
         if self.logged_in_employee is None:
-            raise ValueError('No user is currently logged in.')
+            raise ValueError(Fore.RED + 'No user is currently logged in.')
         self.logged_in_employee = None
         
     def user_exists(self, username) -> bool:
@@ -112,7 +113,7 @@ class AppData:
         for user in self.users:
             if user.email == email:
                 return user
-        raise ValueError(f'User with e-mail {email} not found')
+        raise ValueError(Fore.RED + f'User with e-mail {email} not found')
     
     def customer_exists(self, email) -> bool:
         for user in self.users:
@@ -130,13 +131,13 @@ class AppData:
         for package in self._delivery_packages:
             if package.id == package_id:
                 return package
-        raise ValueError(f'Package with ID {package_id} not found')
+        raise ValueError(Fore.RED + f'Package with ID {package_id} not found')
     
     def view_packages(self):
         packages = [str(package) for package in self._delivery_packages]
         output = '\n'.join(packages)
         if not packages:
-            output = 'No packages to show'
+            output = Fore.YELLOW + 'No packages to show'
         return output
     
     def get_package_locations(self, package_id: int):
@@ -158,7 +159,7 @@ class AppData:
         for route in self._delivery_routes:
             if route.id == id:
                 return route
-        raise ValueError(f'Route with ID {id} not found.')
+        raise ValueError(Fore.RED + f'Route with ID {id} not found.')
     
     def view_all_delivery_routes(self):
         routes = [str(route) for route in self._delivery_routes]
@@ -237,7 +238,7 @@ class AppData:
         valid_routes = self.find_valid_routes_for_package(package_id)
         
         if not valid_routes:
-            return f'No valid routes available for package ID {package_id}.'
+            return Fore.RED + f'No valid routes available for package ID {package_id}.'
     
         route_ids = [route.id for route in valid_routes]
         
@@ -251,10 +252,10 @@ class AppData:
         route = next((r for r in valid_routes if r.id == route_id), None)
         
         if route is None:
-            raise ValueError(f'Route ID {route_id} is not a valid route for package ID {package_id}.')
+            raise ValueError(Fore.RED + f'Route ID {route_id} is not a valid route for package ID {package_id}.')
         
         if package.status == ASSIGNED:
-            raise ValueError(f'Package ID {package_id} is already assigned to a route.')
+            raise ValueError(Fore.RED + f'Package ID {package_id} is already assigned to a route.')
         
         package.status = ASSIGNED
         package._assigned_route = route
@@ -290,13 +291,13 @@ class AppData:
         for truck in self.trucks:
             if truck.truck_id == truck_id:
                 return truck
-        raise ValueError(f'Truck ID {truck_id} does not exist.')
+        raise ValueError(Fore.RED + f'Truck ID {truck_id} does not exist.')
  
     def find_suitable_truck(self, weight: DeliveryPackage, km: int):
         for truck in self._trucks:
             if weight <= truck._truck_capacity and km <= truck.max_range:
                 return truck
-        raise ValueError("No suitable truck found")
+        raise ValueError(Fore.RED + "No suitable truck found")
     
                 
     # def assign_package_to_delivery_route(self, package_id: int, route_id: int): #- Shte go ostavq tuk za momenta.
