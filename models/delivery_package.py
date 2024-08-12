@@ -2,10 +2,10 @@ from models.locations import Locations
 from models.user import User
 from colorama import Fore
 
-UNASSIGNED = 'Unassigned'
-ASSIGNED = "Assigned"
-IN_PROGRESS = 'In progress'
-COMPLETED = 'Completed'
+UNASSIGNED = Fore.RED + 'Unassigned' + Fore.LIGHTCYAN_EX
+ASSIGNED = Fore.LIGHTYELLOW_EX + "Assigned" + Fore.LIGHTCYAN_EX
+IN_PROGRESS = Fore.YELLOW + 'In progress' + Fore.LIGHTCYAN_EX
+COMPLETED = Fore.GREEN + 'Completed' + Fore.LIGHTCYAN_EX
 
 
 class DeliveryPackage:
@@ -54,9 +54,9 @@ class DeliveryPackage:
         self._weight = value
 
     def __str__(self):
-        return (Fore.LIGHTCYAN_EX + f'#{self.id} Package ({self.weight}kg)\n'
-                f'From: {self.start_location}\n'
-                f'To: {self.end_location}\n'
+        return (Fore.LIGHTCYAN_EX + f'#{self.id} Package ({Fore.YELLOW + str(self.weight) + 'kg' + Fore.LIGHTCYAN_EX})\n'
+                f'From: {Fore.YELLOW + self.start_location + Fore.LIGHTCYAN_EX}\n'
+                f'To: {Fore.YELLOW + self.end_location + Fore.LIGHTCYAN_EX}\n'
                 f'-----Client-----\n'
                 f'{self._contact_info}\n'
                 f'----------------\n'
