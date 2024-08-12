@@ -2,10 +2,6 @@ import unittest
 from core.application_data import AppData
 from commands.add_customer import AddCustomer
 
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/main
 class TestAddCustomer(unittest.TestCase):
     def setUp(self):
         self.app_data = AppData()
@@ -15,11 +11,6 @@ class TestAddCustomer(unittest.TestCase):
         result = self.command.execute()
         self.assertEqual(result, "User John Doe added")
 
-<<<<<<< HEAD
-if __name__ == "__main__":
-    unittest.main()
-=======
 
 if __name__ == "__main__":
     unittest.main()
->>>>>>> origin/main

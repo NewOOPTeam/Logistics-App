@@ -3,10 +3,6 @@ from csv_file.distance_calculator import DistanceCalculator
 from models.delivery_package import DeliveryPackage
 from models.courier_cost_calculator import CourierCostCalculator
 
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/main
 class TestCourierCostCalculator(unittest.TestCase):
     def setUp(self):
         self.distance_calculator = DistanceCalculator()

@@ -2,11 +2,6 @@ import unittest
 from models.locations import Locations
 from models.user import User
 from models.delivery_package import DeliveryPackage, UNASSIGNED, ASSIGNED, IN_PROGRESS, COMPLETED
-<<<<<<< HEAD
-=======
-from colorama import Fore
-
->>>>>>> origin/main
 
 class TestDeliveryPackage(unittest.TestCase):
 

@@ -2,10 +2,6 @@ import unittest
 from models.employee import Employee
 from models.employee_roles import EmployeeRoles
 
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/main
 class TestEmployee(unittest.TestCase):
     def test_valid_employee(self):
         emp = Employee("John", "Doe", EmployeeRoles.ADMIN, "johndoe", "password123")

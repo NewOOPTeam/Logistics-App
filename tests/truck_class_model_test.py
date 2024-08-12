@@ -2,10 +2,6 @@ import unittest
 from Vehicles.truck_class_model import TruckModel
 from core.application_data import AppData
 
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/main
 class TestTruckModel(unittest.TestCase):
 
     def setUp(self):
