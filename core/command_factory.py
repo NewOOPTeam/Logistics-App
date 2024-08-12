@@ -9,7 +9,7 @@ from commands.view_all_packages import ViewAllPackages
 from commands.login_command import LoginCommand
 from commands.logout_command import LogoutCommand
 from commands.done import Done
-
+from colorama import Fore
 
 
 class CommandFactory:
@@ -55,4 +55,4 @@ class CommandFactory:
             case 'done':
                 return Done(params, self._app_data)
             case _:
-                raise ValueError(f"Unknown command: '{command}'")
+                raise ValueError(Fore.RED + f"Unknown command: '{command}'")

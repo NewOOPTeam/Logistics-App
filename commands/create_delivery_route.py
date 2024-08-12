@@ -7,7 +7,7 @@ from date_time.date_time_functionalities import DateTime
 from datetime import timedelta
 from csv_file.distance_calculator import DistanceCalculator
 from models.delivery_route import DeliveryRoute
-
+from colorama import Fore
 
 
 class CreateDeliveryRoute(BaseCommand):
@@ -30,13 +30,13 @@ class CreateDeliveryRoute(BaseCommand):
         # if package == OPERATION_CANCELLED:
         #     return OPERATION_CANCELLED
 
-        route = CreateRoute(self._app_data).loop(' Input delivery route stops: ')
+        route = CreateRoute(self._app_data).loop(Fore.LIGHTCYAN_EX + ' Input delivery route stops: ')
         if route == CANCEL:
             return OPERATION_CANCELLED
         
         delivery_route = self._app_data.calculate_route_times(route)
         
-        return f'Delivery route created: \n{str(delivery_route)}'
+        return Fore.GREEN + f'Delivery route created: \n{str(delivery_route)}'
 
 
         # def get_arrival_time:

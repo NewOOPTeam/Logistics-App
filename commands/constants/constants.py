@@ -1,8 +1,11 @@
-CANCEL = 'cancel'
-OPERATION_CANCELLED = 'Operation cancelled, returning to main menu'
-INITIAL_LOGIN_CANCELLED = 'Login cancelled, exiting program...'
+from colorama import Fore, Back, Style
 
-WELCOMING_MESSAGE = """
+
+CANCEL = 'cancel'
+OPERATION_CANCELLED = Fore.YELLOW + 'Operation cancelled, returning to main menu'
+INITIAL_LOGIN_CANCELLED = Fore.RED + 'Login cancelled, exiting program...'
+
+WELCOMING_MESSAGE = Fore.LIGHTBLUE_EX + """
 ╔══════════════════════════════════╗
 ║     WELCOME TO ROUTE MASTER      ║
 ║                                  ║
@@ -10,7 +13,7 @@ WELCOMING_MESSAGE = """
 ╚══════════════════════════════════╝
 """
 
-DESCRIPTION_MESSAGE = """
+DESCRIPTION_MESSAGE = Fore.LIGHTCYAN_EX + """
 ====================================================================
                        SYSTEM ACCESS GUIDE
 ====================================================================
@@ -45,5 +48,10 @@ As a Manager, you can:
 
 """
 
-LOGIN_MESSAGE = 'Please login in order to use the system'
-EXIT_MESSAGE = 'Shutting program down...'
+LOGIN_MESSAGE = Fore.YELLOW + 'Please login in order to use the system'
+EXIT_MESSAGE = Fore.RED + 'Shutting program down...'
+
+print(WELCOMING_MESSAGE)
+print(DESCRIPTION_MESSAGE)
+print(LOGIN_MESSAGE)
+print(EXIT_MESSAGE)

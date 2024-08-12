@@ -1,3 +1,4 @@
+from colorama import Fore
 from core.application_data import AppData
 from commands.constants.constants import CANCEL, WELCOMING_MESSAGE, DESCRIPTION_MESSAGE
 from commands.helper_methods import AcceptInput
@@ -24,15 +25,15 @@ class BaseLoop:
             return param
         except ValueError as err:
             print(err)
-            input_message = "Do you want to retry or cancel? (input 'cancel' to abort): "
+            input_message = Fore.YELLOW + "Do you want to retry or cancel? (input 'cancel' to abort): "
             return AcceptInput.retry_or_cancel(input_message)
         
     def helper(self, param):
         pass
     
     def enter_system(self, username):
-        print(f'Employee {username} successfully logged in')
-        print('Loading system...')
+        print(Fore.GREEN + f'Employee {username} successfully logged in')
+        print(Fore.YELLOW + 'Loading system...')
         time.sleep(1)
         print(WELCOMING_MESSAGE)
         print(DESCRIPTION_MESSAGE)

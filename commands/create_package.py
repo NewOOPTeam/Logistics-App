@@ -5,7 +5,7 @@ from commands.interaction_loops.get_weight import GetWeight
 from commands.interaction_loops.get_start_end_location import GetStartEndLocation
 from commands.interaction_loops.find_customer_by_email import GetCustomerInfo
 from commands.constants.constants import CANCEL, OPERATION_CANCELLED
-
+from colorama import Fore
 
 class CreatePackage(BaseCommand):
     def __init__(self, params: list[str], app_data: AppData) -> None:
@@ -17,24 +17,24 @@ class CreatePackage(BaseCommand):
     def execute(self):
         
         get_weight = GetWeight(self._app_data)
-        weight = get_weight.loop(' Input package weight: ')
+        weight = get_weight.loop(Fore.LIGHTCYAN_EX + ' Input package weight: ')
         
         if weight == CANCEL:
             return OPERATION_CANCELLED
         
         get_start_end_location = GetStartEndLocation(self._app_data)
-        route = get_start_end_location.loop(' Input start and end destination: ')
+        route = get_start_end_location.loop(Fore.LIGHTCYAN_EX + ' Input start and end destination: ')
       
         if route == CANCEL:
             return OPERATION_CANCELLED
       
         get_customer_info = GetCustomerInfo(self._app_data)
-        customer = get_customer_info.loop(' Input customer email address: ')
+        customer = get_customer_info.loop(Fore.LIGHTCYAN_EX + ' Input customer email address: ')
 
         if customer == CANCEL:
             return OPERATION_CANCELLED
         
         package = self._app_data.create_delivery_package(weight, route, customer)
         
-        return f'Package with ID #{package.id} was created'
+        return Fore.GREEN + f'Package with ID #{package.id} was created'
     

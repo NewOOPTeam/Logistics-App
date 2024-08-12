@@ -2,6 +2,8 @@ from core.application_data import AppData
 from commands.base_command import BaseCommand
 from commands.helper_methods import Validate
 from models.employee_roles import EmployeeRoles
+from colorama import Fore
+
 
 class ViewAllPackages(BaseCommand):
     def __init__(self, params: list[str], app_data: AppData) -> None:
@@ -11,6 +13,6 @@ class ViewAllPackages(BaseCommand):
 
     def execute(self):
         if self._app_data.logged_in_employee.role != EmployeeRoles.SUPERVISOR:
-            raise ValueError('Only supervisors can view all packages!')
+            raise ValueError(Fore.RED + 'Only supervisors can view all packages!')
         return self._app_data.view_packages()
    

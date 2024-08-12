@@ -1,3 +1,6 @@
+from colorama import Fore
+
+
 class User:
     def __init__(self, firstname, lastname, phone_number, email):
         self.firstname = firstname
@@ -48,8 +51,6 @@ class User:
         self._email = value
 
     def __str__(self):
-        return (f'Name: {self.firstname} {self.lastname}\n'
+        return (Fore.RED + f'Name: {self.firstname} {self.lastname}\n'
                 f'Phone: {self.phone_number}\n'
                 f'E-mail: {self.email}')
-
-

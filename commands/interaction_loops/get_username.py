@@ -1,6 +1,6 @@
 from commands.interaction_loops.base_loop import BaseLoop
 from commands.constants.constants import CANCEL
-
+from colorama import Fore
 
 class GetUsername(BaseLoop):
     def __init__(self, app_data) -> None:
@@ -19,7 +19,7 @@ class GetUsername(BaseLoop):
                 return CANCEL
             
             if not self._app_data.user_exists(username):
-                raise ValueError('Wrong username, retry or enter "cancel"')
+                raise ValueError(Fore.RED + 'Wrong username, retry or enter "cancel"')
             return username  
         except ValueError as err:
             print(err)

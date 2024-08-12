@@ -3,6 +3,8 @@ from core.application_data import AppData
 from commands.helper_methods import Validate, Parse
 from commands.interaction_loops.get_id import GetId
 from commands.constants.constants import CANCEL, OPERATION_CANCELLED
+from colorama import Fore
+
 
 
 class ViewPackage(BaseCommand):
@@ -13,7 +15,7 @@ class ViewPackage(BaseCommand):
     def execute(self):
         
         get_id = GetId(self._app_data)
-        id = get_id.loop(' Input package ID: ')
+        id = get_id.loop(Fore.LIGHTCYAN_EX + ' Input package ID: ')
 
         if id == CANCEL:
             return OPERATION_CANCELLED

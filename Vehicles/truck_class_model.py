@@ -6,6 +6,9 @@ Scania has a capacity of 42_000KG and a max range of 8_000km. We have 10 of thes
 Man has a capacity of 37_000KG and a max range of 10_000km. We have 15 of these trucks with IDs from 1011 to 1025.
 Actros has a capacity of 26_000KG and a max range of 13_000km. We have 15 of these trucks with IDs from 1026 to 1040.
 """
+from colorama import Fore
+
+
 class TruckConstants:
 
     SCANIA_CAPACITY = 42000
@@ -25,6 +28,7 @@ class TruckConstants:
     ACTROS_TRUCKS = 15
     ACTROS_MIN_ID = 1026
     ACTROS_MAX_ID = 1040
+
 
 class TruckModel:
     vehicles_id = set()
@@ -63,7 +67,7 @@ class TruckModel:
         if value in ['Available', 'Unavailable']:
             self._status = value
         else:
-            raise ValueError("Status must be 'Available' or 'Unavailable'")
+            raise ValueError(Fore.RED + "Status must be 'Available' or 'Unavailable'")
     
     @property
     def name(self):
@@ -79,6 +83,6 @@ class TruckModel:
         return False
 
     def __str__(self):
-        return (f'Truck #{self.truck_id} - {self.name}\n'
+        return (Fore.LIGHTCYAN_EX + f'Truck #{self.truck_id} - {self.name}\n'
                 f'Status: {self.status}\n')
 

@@ -1,17 +1,18 @@
 from models.locations import Locations
 from models.user import User
+from colorama import Fore
 
 UNASSIGNED = 'Unassigned'
 ASSIGNED = "Assigned"
 IN_PROGRESS = 'In progress'
 COMPLETED = 'Completed'
 
+
 class DeliveryPackage:
     id_implementer = 1
-    
 
     def __init__(self, weight: float, start_location: Locations, end_location: Locations, contact_info: User):
-        self.weight = weight
+        self._weight = weight
         self._start_location = start_location
         self._end_location = end_location
         self._contact_info = contact_info
@@ -43,17 +44,17 @@ class DeliveryPackage:
     @status.setter
     def status(self, value):
         if value not in (UNASSIGNED, ASSIGNED, IN_PROGRESS, COMPLETED):
-            raise ValueError('Invalid status!')
+            raise ValueError(Fore.RED + 'Invalid status!')
         self._status = value
 
     @weight.setter
     def weight(self, value):
         if value <= 0:
-            raise ValueError('Weight must be positive.')
+            raise ValueError(Fore.RED + 'Weight must be positive.')
         self._weight = value
 
     def __str__(self):
-        return (f'#{self.id} Package ({self.weight}kg)\n'
+        return (Fore.LIGHTCYAN_EX + f'#{self.id} Package ({self.weight}kg)\n'
                 f'From: {self.start_location}\n'
                 f'To: {self.end_location}\n'
                 f'-----Client-----\n'

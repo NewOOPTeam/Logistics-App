@@ -18,7 +18,6 @@ class AppDataTests(unittest.TestCase):
         self.date_time = DateTime()
         self.app_data.initialize_employees()
 
-
     def test_initialize_employees(self):
         self.app_data.initialize_employees()
         self.assertEqual(len(self.app_data.employees), 4)
@@ -27,7 +26,6 @@ class AppDataTests(unittest.TestCase):
         employee = self.app_data.find_employee_by_username("employee_user")
         self.app_data.login(employee)
         self.assertEqual(self.app_data.logged_in_employee, employee)
-
 
     def test_login_invalid_employee(self):
         employee = Employee("Invalid", "Employee", EmployeeRoles.EMPLOYEE, "invalid_user", "password123!")
@@ -58,7 +56,6 @@ class AppDataTests(unittest.TestCase):
         self.assertEqual(route.arrival_time, arrival_time)
         self.assertEqual(route.starting_location, Locations.SYD.value)
         self.assertEqual(route.final_location, Locations.MEL.value)
-
 
     def test_find_delivery_route(self):
         route1 = self.app_data.create_delivery_route("10:00", "12:00", Locations.SYD.value, Locations.MEL.value)

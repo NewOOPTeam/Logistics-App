@@ -1,10 +1,12 @@
 from models.delivery_package import DeliveryPackage
 from Vehicles.truck_class_model import TruckModel
 from models.route_stop import RouteStop
+from colorama import Fore
 
 AWAITING = "Awaiting"
 IN_PROGRESS = 'In progress'
 COMPLETED = 'Completed'
+
 
 class DeliveryRoute:
     ID = 1
@@ -23,7 +25,7 @@ class DeliveryRoute:
         
         
     def __str__(self) -> str:
-        return (f'Delivery route #{self.id}\n'
+        return (Fore.LIGHTCYAN_EX + f'Delivery route #{self.id}\n'
                 f'{self.destinations}'
                 f'{self.starting_location} - {self.final_location}\n'
                 f'Departing: {self.departure_time}'
@@ -97,7 +99,7 @@ class DeliveryRoute:
                 self.assign_truck(truck)
                 truck.mark_unavailable()
                 return truck
-        raise ValueError("No suitable truck available.")
+        raise ValueError(Fore.RED + "No suitable truck available.")
 
     # def calculate_total_weight(self):
     #     total_weight = 0

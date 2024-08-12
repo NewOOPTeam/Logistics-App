@@ -3,7 +3,7 @@ from commands.interaction_loops.get_username import GetUsername
 from commands.interaction_loops.get_password import GetPassword
 from core.application_data import AppData
 from commands.constants.constants import INITIAL_LOGIN_CANCELLED, LOGIN_MESSAGE, CANCEL
-
+from colorama import Fore
 
 
 class Login(BaseLoop):
@@ -14,7 +14,7 @@ class Login(BaseLoop):
         print(LOGIN_MESSAGE)
         
         get_username = GetUsername(self._app_data)
-        username = get_username.loop(' Enter username: ')
+        username = get_username.loop(Fore.LIGHTCYAN_EX + ' Enter username: ')
         
         if username == CANCEL:
             self.exit_system(INITIAL_LOGIN_CANCELLED)
@@ -22,7 +22,7 @@ class Login(BaseLoop):
         user = self._app_data.find_employee_by_username(username)
 
         get_password = GetPassword(self._app_data)
-        password = get_password.loop(' Enter password: ', user)
+        password = get_password.loop(Fore.LIGHTCYAN_EX + ' Enter password: ', user)
         
         if password == CANCEL:
             self.exit_system(INITIAL_LOGIN_CANCELLED)

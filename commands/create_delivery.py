@@ -5,7 +5,7 @@ from commands.interaction_loops.get_id import GetId
 from commands.interaction_loops.get_start_end_location import GetStartEndLocation
 from commands.interaction_loops.find_customer_by_email import GetCustomerInfo
 from commands.constants.constants import CANCEL, OPERATION_CANCELLED
-
+from colorama import Fore
 
 class CreateDelivery(BaseCommand):
     def __init__(self, params: list[str], app_data: AppData) -> None:
@@ -14,7 +14,7 @@ class CreateDelivery(BaseCommand):
 
     def execute(self):
         get_id = GetId(self._app_data)
-        id = get_id.loop(' Input package ID: ')
+        id = get_id.loop(Fore.LIGHTCYAN_EX + ' Input package ID: ')
         if id == CANCEL:
             return OPERATION_CANCELLED
         

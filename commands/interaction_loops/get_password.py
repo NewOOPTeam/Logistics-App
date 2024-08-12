@@ -1,7 +1,7 @@
 from commands.interaction_loops.base_loop import BaseLoop
 from models.employee import Employee
 from commands.constants.constants import CANCEL
-
+from colorama import Fore
 
 class GetPassword(BaseLoop):
     def __init__(self, app_data) -> None:
@@ -20,7 +20,7 @@ class GetPassword(BaseLoop):
                 return CANCEL
             
             if password != employee.password:
-                raise ValueError('Invalid password, retry or enter "cancel"')
+                raise ValueError(Fore.RED + 'Invalid password, retry or enter "cancel"')
             return password
         except ValueError as err:
             print(err)

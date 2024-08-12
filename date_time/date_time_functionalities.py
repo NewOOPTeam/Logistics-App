@@ -11,7 +11,7 @@ class DateTime:
     def create_time_stamp_for_today() -> str:
         """
         Creates stamp for the date and time right now
-        """ #
+        """
         return datetime.now().strftime('%b %d %Y %H:%Mh')
     
     @staticmethod

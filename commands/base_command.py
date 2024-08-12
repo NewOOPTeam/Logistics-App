@@ -1,5 +1,5 @@
 from core.application_data import AppData
-
+from colorama import Fore
 
 
 class BaseCommand:
@@ -9,7 +9,7 @@ class BaseCommand:
 
     def execute(self):
         if self._requires_login() and not self._app_data.has_logged_in_employee:
-            raise ValueError('You are not logged in! Please login first!')
+            raise ValueError(Fore.RED + 'You are not logged in! Please login first!')
         
     def _requires_login(self) -> bool:
         return True
@@ -18,7 +18,7 @@ class BaseCommand:
         if self._app_data.has_logged_in_employee:
             logged_employee = self._app_data.logged_in_employee
             raise ValueError(
-                f'Employee {logged_employee.username} is logged in! Please log out first!')
+                Fore.RED + f'Employee {logged_employee.username} is logged in! Please log out first!')
 
     @property
     def params(self):

@@ -2,6 +2,7 @@ from core.command_factory import CommandFactory
 from commands.constants.constants import WELCOMING_MESSAGE
 from commands.interaction_loops.login import Login
 from core.application_data import AppData
+from colorama import Fore
 
 
 class Engine:
@@ -18,7 +19,7 @@ class Engine:
             print(error)
             output.append(error.args[0])
 
-        while (input_line := input(' Enter application command: \n').strip()):
+        while (input_line := input(Fore.LIGHTCYAN_EX + ' Enter application command: \n').strip()):
             try:
                 command = self._factory.create(input_line)
                 user_output = command.execute()

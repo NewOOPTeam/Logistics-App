@@ -1,6 +1,7 @@
 from commands.helper_methods import Parse, AcceptInput
 from commands.constants.constants import CANCEL, OPERATION_CANCELLED
 from commands.interaction_loops.base_loop import BaseLoop
+from colorama import Fore
 
 
 class FindPackage(BaseLoop):
@@ -25,13 +26,13 @@ class FindPackage(BaseLoop):
                 id = Parse.to_int(id)
                 return id
             except ValueError:
-                print('Invalid ID') 
+                print(Fore.RED + 'Invalid ID')
                 
     def find_package(self, id):
         try:
             package = self.app_data.find_package_by_id(id)
             return package             
         except ValueError:
-            print(f'Package with ID {id} not found')
-            input_message = "Do you want to try another ID? (input 'cancel' to abort): "
+            print(Fore.RED + f'Package with ID {id} not found')
+            input_message = Fore.YELLOW + "Do you want to try another ID? (input 'cancel' to abort): "
             return AcceptInput.retry_or_cancel(input_message)
