@@ -1,5 +1,5 @@
 from core.command_factory import CommandFactory
-from commands.constants.constants import WELCOMING_MESSAGE
+from commands.constants.constants import LOGIN_MESSAGE
 from commands.interaction_loops.login import Login
 from core.application_data import AppData
 from colorama import Fore
@@ -13,8 +13,10 @@ class Engine:
     def start(self):
         output = []
         try:
+            print(LOGIN_MESSAGE)
             login = Login(self._app_data)
-            login.loop()
+            user = login.loop()
+            login.enter_system(user.username)
         except ValueError as error:
             print(error)
             output.append(error.args[0])

@@ -2,7 +2,7 @@ from commands.interaction_loops.base_loop import BaseLoop
 from commands.interaction_loops.get_username import GetUsername
 from commands.interaction_loops.get_password import GetPassword
 from core.application_data import AppData
-from commands.constants.constants import INITIAL_LOGIN_CANCELLED, LOGIN_MESSAGE, CANCEL
+from commands.constants.constants import INITIAL_LOGIN_CANCELLED, CANCEL
 from colorama import Fore
 
 
@@ -11,7 +11,6 @@ class Login(BaseLoop):
         super().__init__(app_data)
         
     def loop(self):       
-        print(LOGIN_MESSAGE)
         
         get_username = GetUsername(self._app_data)
         username = get_username.loop(Fore.LIGHTCYAN_EX +' Enter username: ')
@@ -28,4 +27,4 @@ class Login(BaseLoop):
             self.exit_system(INITIAL_LOGIN_CANCELLED)
         
         self._app_data.login(user)
-        self.enter_system(username)
+        return user

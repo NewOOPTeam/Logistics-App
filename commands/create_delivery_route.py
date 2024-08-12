@@ -3,10 +3,6 @@ from core.application_data import AppData
 from commands.helper_methods import Validate
 from commands.interaction_loops.create_route import CreateRoute
 from commands.constants.constants import OPERATION_CANCELLED, CANCEL
-from date_time.date_time_functionalities import DateTime
-from datetime import timedelta
-from csv_file.distance_calculator import DistanceCalculator
-from models.delivery_route import DeliveryRoute
 from colorama import Fore
 
 

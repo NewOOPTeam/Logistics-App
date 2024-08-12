@@ -25,11 +25,16 @@ class DeliveryRoute:
         
         
     def __str__(self) -> str:
+        locations_info = [
+            f"{stop.location} ({stop.arrival_time})"
+            for stop in self._destinations
+        ]
+        joined_locations = '->'.join(locations_info)
+        
         return (Fore.LIGHTCYAN_EX + f'Delivery route #{self.id}\n'
-                f'{self.destinations}'
-                f'{self.starting_location} - {self.final_location}\n'
-                f'Departing: {self.departure_time}'
-                f'Arriving: {self.arrival_time}'
+                f'{joined_locations}\n'
+                # f'Departing: {self.departure_time}'
+                # f'Arriving: {self.arrival_time}'
                 f'Total distance: {self.total_distance}'
                 )
         
@@ -48,11 +53,7 @@ class DeliveryRoute:
     @property
     def starting_location(self):
         return self._destinations[0]
-    
-    # @property
-    # def cities(self):
-    #     return tuple([city.location for city in self._destinations])
-    
+
     @property
     def final_location(self):
         return self._destinations[-1]
@@ -99,7 +100,7 @@ class DeliveryRoute:
                 self.assign_truck(truck)
                 truck.mark_unavailable()
                 return truck
-        raise ValueError(Fore.RED + "No suitable truck available.")
+        raise ValueError(Fore.RED + "No suitable truck available.") # this for create delivery
 
     # def calculate_total_weight(self):
     #     total_weight = 0

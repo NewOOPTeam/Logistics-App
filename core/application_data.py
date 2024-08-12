@@ -143,9 +143,12 @@ class AppData:
         package = self.find_package_by_id(package_id)
         return package.start_location, package.end_location
 
-    def create_delivery_route(self, deprature_time, arrival_time, route_stops, total_distance) -> DeliveryRoute:
+    def create_delivery_route(self, deprature_time, arrival_time, route_stops: list[RouteStop]) -> DeliveryRoute:
+        dc = DC()
+        locations = [loc.location for loc in route_stops]
+        total_distance = dc.calculate_total_distance(locations)
+        
         route_id = DeliveryRoute.generate_id()
-        total_distance = DC.calculate_total_distance(route_stops)
         delivery_route = DeliveryRoute(route_id, deprature_time, arrival_time, route_stops, total_distance)
         self._delivery_routes.append(delivery_route)
         return delivery_route
@@ -176,7 +179,7 @@ class AppData:
         
         for location in locations:
             pointA_pointB = [previous_location, location]
-            distance = distance_calculator.calculate_total_distance(route=pointA_pointB)
+            distance = distance_calculator.calculate_total_distance(pointA_pointB)
             arrival_time = DateTime.get_arrival_time_str(previous_time, distance)
         
             route_stops.append(RouteStop(location, departure_time, arrival_time))
@@ -184,10 +187,10 @@ class AppData:
             previous_location = location
             previous_time = arrival_time
 
-        route = list(route)
+        # route = list(route)
             
-        total_distance = distance_calculator.get_route_distance(route)
-        delivery_route = self.create_delivery_route(departure_time, arrival_time, route_stops, total_distance)
+        # total_distance = distance_calculator.get_route_distance(route)
+        delivery_route = self.create_delivery_route(departure_time, arrival_time, route_stops)
 
         return delivery_route
     

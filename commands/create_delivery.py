@@ -18,6 +18,6 @@ class CreateDelivery(BaseCommand):
         if id == CANCEL:
             return OPERATION_CANCELLED
         
-        valid_routes = self._app_data.find_valid_routes_for_package(id)
+        valid_routes = self._app_data.find_valid_routes_for_package(id) 
         
         return '\n'.join(valid_routes)
