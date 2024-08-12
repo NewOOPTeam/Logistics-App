@@ -14,8 +14,8 @@ class Login(BaseLoop):
         print(LOGIN_MESSAGE)
         
         get_username = GetUsername(self._app_data)
-        username = get_username.loop(Fore.LIGHTCYAN_EX + ' Enter username: ')
-        
+        username = get_username.loop(Fore.LIGHTCYAN_EX +' Enter username: ')
+    
         if username == CANCEL:
             self.exit_system(INITIAL_LOGIN_CANCELLED)
         

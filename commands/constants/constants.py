@@ -50,8 +50,3 @@ As a Manager, you can:
 
 LOGIN_MESSAGE = Fore.YELLOW + 'Please login in order to use the system'
 EXIT_MESSAGE = Fore.RED + 'Shutting program down...'
-
-print(WELCOMING_MESSAGE)
-print(DESCRIPTION_MESSAGE)
-print(LOGIN_MESSAGE)
-print(EXIT_MESSAGE)
