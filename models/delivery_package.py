@@ -48,8 +48,8 @@ class DeliveryPackage:
 
     @weight.setter
     def weight(self, value):
-        if not value > 0:
-            raise ValueError()
+        if value <= 0:
+            raise ValueError('Weight must be positive.')
         self._weight = value
 
     def __str__(self):

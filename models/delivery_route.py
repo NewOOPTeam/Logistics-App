@@ -17,7 +17,7 @@ class DeliveryRoute:
         self._destinations: list[RouteStop] = destinations
         self._packages: list[DeliveryPackage] = list()
         self._assigned_trucks: list[TruckModel] = list()
-        self._total_distance = total_distance
+        self._total_distance = total_distance 
         self._status = AWAITING
         
         
@@ -89,6 +89,7 @@ class DeliveryRoute:
         for truck in self._assigned_trucks:
             truck.mark_available()
         self._assigned_trucks.clear()
+
     def select_truck(self, available_trucks: list[TruckModel]):
         total_weight = self.calculate_weight_at_start()
         for truck in available_trucks:

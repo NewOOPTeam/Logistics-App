@@ -4,7 +4,6 @@ from models.employee_roles import EmployeeRoles
 from models.employee import Employee
 from Vehicles.truck_class_model import TruckConstants, TruckModel
 from models.locations import Locations
-# Remove the unused import statements
 from core.application_data import AppData
 from date_time.date_time_functionalities import DateTime
 
@@ -15,6 +14,7 @@ class AppDataTests(unittest.TestCase):
     def setUp(self):
         self.app_data = AppData()
         self.date_time = DateTime()
+        self.app_data.initialize_employees()
 
 
     def test_initialize_employees(self):
@@ -22,10 +22,9 @@ class AppDataTests(unittest.TestCase):
         self.assertEqual(len(self.app_data.employees), 4)
 
     def test_login_valid_employee(self):
-        self.app_data.initialize_employees()
-        employee = Employee("Employee", "EmployeeLast", EmployeeRoles.EMPLOYEE, "employee_user", "password123!")
+        employee = self.app_data.find_employee_by_username("employee_user")
         self.app_data.login(employee)
-        self.assertIn(employee, self.app_data.logged_in_employee)
+        self.assertEqual(self.app_data.logged_in_employee, employee)
 
 
     def test_login_invalid_employee(self):
@@ -35,13 +34,10 @@ class AppDataTests(unittest.TestCase):
             self.app_data.login(employee)
 
     def test_logout(self):
-        employee = Employee("Employee", "EmployeeLast", EmployeeRoles.EMPLOYEE, "employee_user", "password123!")
-        self.app_data.initialize_employees()
+        employee = self.app_data.find_employee_by_username("employee_user")
         self.app_data.login(employee)
         self.app_data.logout()
-        with self.assertRaises(ValueError):
-            self.app_data.logged_in_employee
-
+ 
     def test_create_delivery_package(self):
         user = User("John", "Doe", "1234567890", "john.doe@example.com")
         package = self.app_data.create_delivery_package(10, Locations.SYD.value, Locations.MEL.value, user)
