@@ -250,7 +250,7 @@ class AppData:
                 return truck
         raise ValueError(f'Truck ID {truck_id} does not exist.')
  
-    def find_suitable_truck(self, weight: DeliveryPackage, km: int):
+    def find_suitable_truck(self, weight: DeliveryPackage, km: int): # imame select truck v devr
         for truck in self._trucks:
             if weight <= truck._truck_capacity and km <= truck.max_range:
                 return truck
