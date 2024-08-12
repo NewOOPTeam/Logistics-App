@@ -1,7 +1,7 @@
 from commands.base_command import BaseCommand
 from core.application_data import AppData
 from commands.helper_methods import Validate
-
+from colorama import Fore
 
 class AddEmployee(BaseCommand):
     def __init__(self, params: list[str], app_data: AppData) -> None:
@@ -13,4 +13,4 @@ class AddEmployee(BaseCommand):
         
         employee = self._app_data.add_employee(firstname, lastname, role)
         
-        return f'Employee {employee.firstname} {employee.lastname} added as {employee.role}'
+        return Fore.GREEN + f'Employee {employee.firstname} {employee.lastname} added as {employee.role}'

@@ -1,10 +1,12 @@
 from models.delivery_package import DeliveryPackage
 from Vehicles.truck_class_model import TruckModel
 from models.route_stop import RouteStop
+from colorama import Fore
 
 AWAITING = "Awaiting"
 IN_PROGRESS = 'In progress'
 COMPLETED = 'Completed'
+
 
 class DeliveryRoute:
     ID = 1
@@ -23,11 +25,16 @@ class DeliveryRoute:
         
         
     def __str__(self) -> str:
-        return (f'Delivery route #{self.id}\n'
-                f'{self.destinations}'
-                f'{self.starting_location} - {self.final_location}\n'
-                f'Departing: {self.departure_time}'
-                f'Arriving: {self.arrival_time}'
+        locations_info = [
+            f"{stop.location} ({stop.arrival_time})"
+            for stop in self._destinations
+        ]
+        joined_locations = '->'.join(locations_info)
+        
+        return (Fore.LIGHTCYAN_EX + f'Delivery route #{self.id}\n'
+                f'{joined_locations}\n'
+                # f'Departing: {self.departure_time}'
+                # f'Arriving: {self.arrival_time}'
                 f'Total distance: {self.total_distance}'
                 )
         
@@ -46,11 +53,7 @@ class DeliveryRoute:
     @property
     def starting_location(self):
         return self._destinations[0]
-    
-    # @property
-    # def cities(self):
-    #     return tuple([city.location for city in self._destinations])
-    
+
     @property
     def final_location(self):
         return self._destinations[-1]
@@ -97,7 +100,7 @@ class DeliveryRoute:
                 self.assign_truck(truck)
                 truck.mark_unavailable()
                 return truck
-        raise ValueError("No suitable truck available.")
+        raise ValueError(Fore.RED + "No suitable truck available.") # this for create delivery
 
     # def calculate_total_weight(self):
     #     total_weight = 0

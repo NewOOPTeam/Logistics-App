@@ -1,4 +1,6 @@
 from models.locations import Locations
+from colorama import Fore
+
 
 class RouteStop:
     def __init__(self, location: Locations, arrival_time: str, departure_time: str):
@@ -7,7 +9,7 @@ class RouteStop:
         self._arrival_time = arrival_time
 
     def __str__(self) -> str:
-        return (f'Location: {self._location}\n'
+        return (Fore.LIGHTCYAN_EX + f'Location: {self._location}\n'
                 f'Arrival Time: {self._arrival_time}\n'
                 f'Departure Time: {self._departure_time}')
 

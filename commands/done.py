@@ -1,6 +1,6 @@
 from commands.base_command import BaseCommand
 from core.application_data import AppData
-from commands.interaction_loops.base_interaction_class import BaseLoop
+from commands.interaction_loops.base_loop import BaseLoop
 from commands.constants.constants import EXIT_MESSAGE
 
 

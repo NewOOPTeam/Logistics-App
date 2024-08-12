@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class Locations(Enum):
     SYD = 'Sydney'
     MEL = 'Melbourne'

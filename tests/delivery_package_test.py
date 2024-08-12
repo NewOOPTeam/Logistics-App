@@ -2,6 +2,11 @@ import unittest
 from models.locations import Locations
 from models.user import User
 from models.delivery_package import DeliveryPackage, UNASSIGNED, ASSIGNED, IN_PROGRESS, COMPLETED
+<<<<<<< HEAD
+=======
+from colorama import Fore
+
+>>>>>>> origin/main
 
 class TestDeliveryPackage(unittest.TestCase):
 
@@ -41,6 +46,7 @@ class TestDeliveryPackage(unittest.TestCase):
             self.package.weight = -5.0
 
     def test_str(self):
+<<<<<<< HEAD
         expected_output = (
             f'#{self.package.id} Package ({self.package.weight}kg)\n'
             f'From: {self.package.start_location}\n'
@@ -54,3 +60,19 @@ class TestDeliveryPackage(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+=======
+        expected_output = (Fore.LIGHTCYAN_EX +
+                           f'#{self.package.id} Package ({self.package.weight}kg)\n'
+                           f'From: {self.package.start_location}\n'
+                           f'To: {self.package.end_location}\n'
+                           f'-----Client-----\n'
+                           f'{self.package._contact_info}\n'
+                           f'----------------\n'
+                           f'STATUS: {self.package.status}'
+        )
+        self.assertEqual(str(self.package), expected_output)
+
+
+if __name__ == '__main__':
+    unittest.main()
+>>>>>>> origin/main

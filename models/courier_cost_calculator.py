@@ -1,5 +1,7 @@
 from csv_file.distance_calculator import DistanceCalculator
 from models.delivery_package import DeliveryPackage
+from colorama import Fore
+
 
 class CourierCostCalculator:
     BASE_RATE = 10.0
@@ -16,12 +18,12 @@ class CourierCostCalculator:
 
     def calculate_cost(self, package: DeliveryPackage):
         if package.weight <= 0:
-            raise ValueError("Weight must be positive.")
+            raise ValueError(Fore.RED + "Weight must be positive.")
         
         distance = self._distance_calculator.get_distance(package._start_location, package._end_location)
         
         if distance < 0:
-            raise ValueError("Distance cannot be negative.")
+            raise ValueError(Fore.RED + "Distance cannot be negative.")
 
         initial_cost = (self._base_rate +
                         (self._weight_cost_per_kg * package.weight) +
@@ -32,7 +34,7 @@ class CourierCostCalculator:
         return total_cost
 
     def __str__(self):
-        return (f"Courier Cost Calculator\n"
+        return (Fore.LIGHTCYAN_EX + f"Courier Cost Calculator\n"
                 f"Base Rate: ${self._base_rate:.2f}\n"
                 f"Weight Cost per KG: ${self._weight_cost_per_kg:.2f}\n"
                 f"Distance Cost per KM: ${self._distance_cost_per_km:.2f}\n"

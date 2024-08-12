@@ -2,6 +2,10 @@ import unittest
 from models.employee import Employee
 from models.employee_roles import EmployeeRoles
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/main
 class TestEmployee(unittest.TestCase):
     def test_valid_employee(self):
         emp = Employee("John", "Doe", EmployeeRoles.ADMIN, "johndoe", "password123")
@@ -35,5 +39,11 @@ class TestEmployee(unittest.TestCase):
         with self.assertRaises(ValueError):
             Employee("John", "Doe", EmployeeRoles.ADMIN, "johndoe", "password123*")
 
+<<<<<<< HEAD
 if __name__ == '__main__':
     unittest.main()
+=======
+
+if __name__ == '__main__':
+    unittest.main()
+>>>>>>> origin/main

@@ -1,13 +1,9 @@
 from commands.base_command import BaseCommand
 from core.application_data import AppData
 from commands.helper_methods import Validate
-from commands.interaction_loops.find_route import InputRoute
-from commands.constants.constants import OPERATION_CANCELLED
-from date_time.date_time_functionalities import DateTime
-from datetime import timedelta
-from csv_file.distance_calculator import DistanceCalculator
-from models.delivery_route import DeliveryRoute
-
+from commands.interaction_loops.create_route import CreateRoute
+from commands.constants.constants import OPERATION_CANCELLED, CANCEL
+from colorama import Fore
 
 
 class CreateDeliveryRoute(BaseCommand):
@@ -15,7 +11,7 @@ class CreateDeliveryRoute(BaseCommand):
         Validate.params_count(params, 0, self.__class__.__name__)
         super().__init__(params, app_data)
         
-    def execute(self):
+    def execute(self): 
         ################### UNFINISHED #####################
 
         # Creating a delivery route – should have a unique id, and a list of locations (at least two).
@@ -30,13 +26,13 @@ class CreateDeliveryRoute(BaseCommand):
         # if package == OPERATION_CANCELLED:
         #     return OPERATION_CANCELLED
 
-        route = InputRoute(self._app_data).loop(' Input delivery route stops: ')
-        if route == OPERATION_CANCELLED:
+        route = CreateRoute(self._app_data).loop(Fore.LIGHTCYAN_EX + ' Input delivery route stops: ')
+        if route == CANCEL:
             return OPERATION_CANCELLED
         
         delivery_route = self._app_data.calculate_route_times(route)
         
-        return f'Delivery route created: \n{str(delivery_route)}'
+        return Fore.GREEN + f'Delivery route created: \n{str(delivery_route)}'
 
 
         # def get_arrival_time:

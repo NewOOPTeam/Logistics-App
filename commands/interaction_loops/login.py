@@ -1,8 +1,9 @@
-from commands.interaction_loops.base_interaction_class import BaseLoop
+from commands.interaction_loops.base_loop import BaseLoop
+from commands.interaction_loops.get_username import GetUsername
+from commands.interaction_loops.get_password import GetPassword
 from core.application_data import AppData
-from models.employee import Employee
-from commands.constants.constants import CANCEL, LOGIN_MESSAGE
-
+from commands.constants.constants import INITIAL_LOGIN_CANCELLED, CANCEL
+from colorama import Fore
 
 
 class Login(BaseLoop):
@@ -10,49 +11,20 @@ class Login(BaseLoop):
         super().__init__(app_data)
         
     def loop(self):       
-        print(LOGIN_MESSAGE)
         
-        while True:
-            username = self.get_username()
-            if username:
-                break
-        if username == CANCEL:
-            self.exit_system('Command cancelled, exiting program.')            
-            
-        user = self._app_data.find_employee_by_username(username)
-        
-        while True:
-            password = self.get_password(user)
-            if password:
-                break
-        if password == CANCEL:
-            self.exit_system('Command cancelled, exiting program.')
-
-        self._app_data.login(user)
-        self.enter_system(username)      
-        
-            
-    def get_username(self):
-        try:
-            username = input(' Enter username: ')
-            if username.lower() == CANCEL:
-                return CANCEL
-            
-            if not self._app_data.user_exists(username):
-                raise ValueError('Wrong username, retry or enter "cancel"')
-            return username  
-        except ValueError as err:
-            print(err)
-            
+        get_username = GetUsername(self._app_data)
+        username = get_username.loop(Fore.LIGHTCYAN_EX +' Enter username: ')
     
-    def get_password(self, employee: Employee):
-        try:
-            password = input(' Enter password: ')
-            if password.lower() == CANCEL:
-                return CANCEL
-            
-            if password != employee.password:
-                raise ValueError('Invalid password, retry or enter "cancel"')
-            return password
-        except ValueError as err:
-            print(err)
+        if username == CANCEL:
+            self.exit_system(INITIAL_LOGIN_CANCELLED)
+        
+        user = self._app_data.find_employee_by_username(username)
+
+        get_password = GetPassword(self._app_data)
+        password = get_password.loop(Fore.LIGHTCYAN_EX + ' Enter password: ', user)
+        
+        if password == CANCEL:
+            self.exit_system(INITIAL_LOGIN_CANCELLED)
+        
+        self._app_data.login(user)
+        return user

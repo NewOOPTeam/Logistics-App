@@ -1,5 +1,7 @@
 from commands.base_command import BaseCommand
 from core.application_data import AppData
+from colorama import Fore
+
 
 class LogoutCommand(BaseCommand):
     def __init__(self, app_data: AppData):
@@ -8,7 +10,7 @@ class LogoutCommand(BaseCommand):
     def execute(self):
         super().execute()
         self._app_data.logout()
-        return 'You logged out!'
+        return Fore.YELLOW + 'You logged out!'
 
     def _requires_login(self) -> bool:
         return True

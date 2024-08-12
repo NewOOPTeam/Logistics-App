@@ -11,7 +11,7 @@ class DateTime:
     def create_time_stamp_for_today() -> str:
         """
         Creates stamp for the date and time right now
-        """ #
+        """
         return datetime.now().strftime('%b %d %Y %H:%Mh')
     
     @staticmethod
@@ -46,7 +46,7 @@ class DateTime:
         Returns <str> object for printing
         """
         start_date = DateTime.date_from_string(start_date)
-        delivery_date = start_date + timedelta(hours= distance // 87 + 4) 
+        delivery_date = start_date + timedelta(hours= (distance // 87) + 4, minutes= distance % 87) 
         return delivery_date.strftime('%b %d %Y %H:%Mh')
 
 # start_date = '12/07/24 06:00'

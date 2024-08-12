@@ -9,6 +9,7 @@ from models.locations import Locations
 from models.delivery_route import DeliveryRoute
 from date_time.date_time_functionalities import DateTime
 from csv_file.distance_calculator import DistanceCalculator as DC
+from colorama import Fore
 
 
 class AppData:
@@ -75,10 +76,10 @@ class AppData:
         for employee in self._employees:
             if employee.username == username:
                 return employee
-        raise ValueError('Employee not found!')
+        raise ValueError(Fore.RED + 'Employee not found!')
    
     def view_employees(self):
-        employees = [
+        employees = [Fore.LIGHTCYAN_EX +
             f"{employee.firstname} {employee.lastname}, Role: {employee.role}, Username: {employee.username}"
             for employee in self._employees
         ]
@@ -86,15 +87,22 @@ class AppData:
    
     def login(self, employee):
         if employee not in self._employees:
-            raise ValueError('Employee is not recognized.')
+            raise ValueError(Fore.RED + 'Employee is not recognized.')
         if self.logged_in_employee is not None:
-            raise ValueError('There is already a user logged in.')
+            raise ValueError(Fore.RED + 'There is already a user logged in.')
         self.logged_in_employee = employee
 
     def logout(self):
         if self.logged_in_employee is None:
-            raise ValueError('No user is currently logged in.')
+            raise ValueError(Fore.RED + 'No user is currently logged in.')
         self.logged_in_employee = None
+        
+    def user_exists(self, username) -> bool:
+        for employee in self._employees:
+            if username == employee.username:
+                return True
+        return False
+            
 
     def add_customer(self, firstname, lastname, phone_number, email) -> User:
         customer = User(firstname, lastname, phone_number, email)
@@ -105,9 +113,16 @@ class AppData:
         for user in self.users:
             if user.email == email:
                 return user
-        raise ValueError(f'User with e-mail {email} not found')
+        raise ValueError(Fore.RED + f'User with e-mail {email} not found')
+    
+    def customer_exists(self, email) -> bool:
+        for user in self.users:
+            if user.email == email:
+                return True
+        return False
 
-    def create_delivery_package(self, weight, starting_location, target_location, contact_info: User) -> DeliveryPackage:
+    def create_delivery_package(self, weight, route, contact_info: User) -> DeliveryPackage:
+        starting_location, target_location = route
         package = DeliveryPackage(weight, starting_location, target_location, contact_info)
         self._delivery_packages.append(package)
         return package
@@ -116,18 +131,24 @@ class AppData:
         for package in self._delivery_packages:
             if package.id == package_id:
                 return package
-        raise ValueError(f'Package with ID {id} not found')
-   
+        raise ValueError(Fore.RED + f'Package with ID {package_id} not found')
+    
     def view_packages(self):
         packages = [str(package) for package in self._delivery_packages]
-        
-        return '\n'.join(packages)
-   
+        output = '\n'.join(packages)
+        if not packages:
+            output = Fore.YELLOW + 'No packages to show'
+        return output
+    
     def get_package_locations(self, package_id: int):
         package = self.find_package_by_id(package_id)
         return package.start_location, package.end_location
 
-    def create_delivery_route(self, deprature_time, arrival_time, route_stops, total_distance) -> DeliveryRoute:
+    def create_delivery_route(self, deprature_time, arrival_time, route_stops: list[RouteStop]) -> DeliveryRoute:
+        dc = DC()
+        locations = [loc.location for loc in route_stops]
+        total_distance = dc.calculate_total_distance(locations)
+        
         route_id = DeliveryRoute.generate_id()
         total_distance = DC.calculate_total_distance(route_stops)
         delivery_route = DeliveryRoute(route_id, deprature_time, arrival_time, route_stops, total_distance)
@@ -139,15 +160,16 @@ class AppData:
         for route in self._delivery_routes:
             if route.id == id:
                 return route
-        raise ValueError(f'Route with ID {id} not found.')
+        raise ValueError(Fore.RED + f'Route with ID {id} not found.')
     
     def view_all_delivery_routes(self):
         routes = [str(route) for route in self._delivery_routes]
         return '\n'.join(routes)
     
     def calculate_route_times(self, route): #could take departure_time as argument depending on user input????
-        starting_location = route[0]
-        departure_time = DateTime.create_time_stamp_for_today() 
+        starting_location = route[0] #ADL
+        # departure_time = DateTime.create_time_stamp_for_today() 
+        departure_time = 'Oct 10 2024 06:00h'
         start_location = RouteStop(starting_location, departure_time, departure_time)
         
         locations = route[1:]
@@ -160,29 +182,51 @@ class AppData:
         
         for location in locations:
             pointA_pointB = [previous_location, location]
-            distance = distance_calculator.calculate_total_distance(route=pointA_pointB)
+            distance = distance_calculator.calculate_total_distance(pointA_pointB)
             arrival_time = DateTime.get_arrival_time_str(previous_time, distance)
         
-            route_stops.append(RouteStop(location, departure_time, arrival_time))
-            # print(f"Arrival at {location}: {arrival_time}")
             previous_location = location
             previous_time = arrival_time
+            route_stops.append(RouteStop(location, previous_time, arrival_time))
+            # print(f"Arrival at {location}: {arrival_time}")
 
-        route = list(route)
+        # route = list(route)
             
-        total_distance = distance_calculator.get_route_distance(route)
-        delivery_route = self.create_delivery_route(departure_time, arrival_time, route_stops, total_distance)
+        # total_distance = distance_calculator.get_route_distance(route)
+        delivery_route = self.create_delivery_route(departure_time, arrival_time, route_stops)
 
         return delivery_route
     
 
+    # def find_valid_routes_for_package(self, package_id: int):
+        
+        # start_location, end_location = self.get_package_locations(package_id)
+        
+        # valid_routes = []
+        
+        # for route in self._delivery_routes:
+        #     destinations = [stop.location for stop in route.destinations]
+        #     if start_location in route.destinations and end_location in route.destinations:
+        #         start_index = route.destinations.index(start_location)
+        #         end_index = route.destinations.index(end_location)
+        #         if start_index < end_index:
+        #             valid_routes.append(route)
+        
+        # return valid_routes
+    
     def find_valid_routes_for_package(self, package_id: int):
         start_location, end_location = self.get_package_locations(package_id)
+        
+        # Convert start_location and end_location to Locations enum if not already
+        if not isinstance(start_location, Locations):
+            start_location = Locations[start_location]
+        if not isinstance(end_location, Locations):
+            end_location = Locations[end_location]
         
         valid_routes = []
         
         for route in self._delivery_routes:
-            destinations = route._destinations
+            destinations = [stop.location for stop in route.destinations]
             if start_location in destinations and end_location in destinations:
                 start_index = destinations.index(start_location)
                 end_index = destinations.index(end_location)
@@ -195,7 +239,7 @@ class AppData:
         valid_routes = self.find_valid_routes_for_package(package_id)
         
         if not valid_routes:
-            return f'No valid routes available for package ID {package_id}.'
+            return Fore.RED + f'No valid routes available for package ID {package_id}.'
     
         route_ids = [route.id for route in valid_routes]
         
@@ -209,10 +253,10 @@ class AppData:
         route = next((r for r in valid_routes if r.id == route_id), None)
         
         if route is None:
-            raise ValueError(f'Route ID {route_id} is not a valid route for package ID {package_id}.')
+            raise ValueError(Fore.RED + f'Route ID {route_id} is not a valid route for package ID {package_id}.')
         
         if package.status == ASSIGNED:
-            raise ValueError(f'Package ID {package_id} is already assigned to a route.')
+            raise ValueError(Fore.RED + f'Package ID {package_id} is already assigned to a route.')
         
         package.status = ASSIGNED
         package._assigned_route = route
@@ -248,13 +292,13 @@ class AppData:
         for truck in self.trucks:
             if truck.truck_id == truck_id:
                 return truck
-        raise ValueError(f'Truck ID {truck_id} does not exist.')
+        raise ValueError(Fore.RED + f'Truck ID {truck_id} does not exist.')
  
     def find_suitable_truck(self, weight: DeliveryPackage, km: int): # imame select truck v devr
         for truck in self._trucks:
             if weight <= truck._truck_capacity and km <= truck.max_range:
                 return truck
-        raise ValueError("No suitable truck found")
+        raise ValueError(Fore.RED + "No suitable truck found")
     
                 
     # def assign_package_to_delivery_route(self, package_id: int, route_id: int): #- Shte go ostavq tuk za momenta.

@@ -1,5 +1,7 @@
 import csv
 from pathlib import Path
+from colorama import Fore
+
 
 class DistanceCalculator:
     def __init__(self, file_path=None):
@@ -29,7 +31,7 @@ class DistanceCalculator:
 
     def get_distance(self, starting_point, end_point):
         if starting_point not in self.distance_dict or end_point not in self.distance_dict:
-            raise ValueError(f"City '{starting_point}' or '{end_point}' not found in the distance dictionary.")
+            raise ValueError(Fore.RED + f"City '{starting_point}' or '{end_point}' not found in the distance dictionary.")
         return self.distance_dict[starting_point][end_point]
 
     def calculate_total_distance(self, route):
@@ -42,15 +44,15 @@ class DistanceCalculator:
 
     def validate_route(self, route):
         if len(route) < 2:
-            raise ValueError("Route must have at least two cities.")
+            raise ValueError(Fore.RED + "Route must have at least two cities.")
         
         for city in route:
             if city not in self.distance_dict:
-                raise ValueError(f"City '{city}' not found in the distance dictionary.")
+                raise ValueError(Fore.RED + f"City '{city}' not found in the distance dictionary.")
 
         for i in range(len(route) - 1):
             if route[i] == route[i + 1]:
-                raise ValueError("Route can't have the same city twice in a row.")
+                raise ValueError(Fore.RED + "Route can't have the same city twice in a row.")
 
     def get_route_distance(self, route):
         # route = route_input.strip().split()
@@ -60,8 +62,8 @@ class DistanceCalculator:
 
     def __str__(self):
         if self.total_distance is not None:
-            return f"Total distance calculated: {self.total_distance} km."
-        return "No distance calculated yet."
+            return Fore.LIGHTCYAN_EX + f"Total distance calculated: {self.total_distance} km."
+        return Fore.YELLOW + "No distance calculated yet."
 
 #Example usage (can be removed in actual production code)
 # if __name__ == "__main__":
