@@ -26,7 +26,7 @@ class DeliveryRoute:
         
     def __str__(self) -> str:
         locations_info = [
-            f"{stop.location} ({stop.arrival_time})"
+            f"{stop.location.value} ({stop.arrival_time})"
             for stop in self._destinations
         ]
         joined_locations = '->'.join(locations_info)
