@@ -4,7 +4,7 @@ from commands.helper_methods import AcceptInput
 import sys
 import time
 
-
+ 
 class BaseLoop:
     def __init__(self, app_data: AppData) -> None:
         self._app_data = app_data
