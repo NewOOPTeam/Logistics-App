@@ -21,8 +21,8 @@ class AppData:
         self._delivery_routes: list[DeliveryRoute] = list()
         self._delivery_packages: list[DeliveryPackage] = list()
 
-        self.initialize_employees()  # Initialize employees pod vapros
-        self._create_trucks()  # Initialize trucks pod vapros
+        # self.initialize_employees()  # Initialize employees pod vapros
+        # self._create_trucks()  # Initialize trucks pod vapros
         
 
     @property        
@@ -57,6 +57,7 @@ class AppData:
     def logged_in_employee(self, employee):
         self._logged_employee = employee
 
+
     def initialize_employees(self):
         self._employees.extend([
             Employee("Employee", "EmployeeLast", EmployeeRoles.EMPLOYEE, "employee_user", "password123!"),
@@ -69,20 +70,20 @@ class AppData:
         employee = Employee(firstname, lastname, role, username, pw)
         self._employees.append(employee)
         return employee
- 
+
     def find_employee_by_username(self, username: str):
         for employee in self._employees:
             if employee.username == username:
                 return employee
         raise ValueError('Employee not found!')
-    
+   
     def view_employees(self):
         employees = [
             f"{employee.firstname} {employee.lastname}, Role: {employee.role}, Username: {employee.username}"
             for employee in self._employees
         ]
         return '\n'.join(employees)
-    
+   
     def login(self, employee):
         if employee not in self._employees:
             raise ValueError('Employee is not recognized.')
@@ -124,11 +125,12 @@ class AppData:
         package = DeliveryPackage(weight, starting_location, target_location, contact_info)
         self._delivery_packages.append(package)
         return package
-      
+     
     def find_package_by_id(self, package_id) -> DeliveryPackage:
         for package in self._delivery_packages:
             if package.id == package_id:
                 return package
+<<<<<<< HEAD
         raise ValueError(f'Package with ID {package_id} not found')
     
     def view_packages(self):
@@ -138,17 +140,32 @@ class AppData:
             output = 'No packages to show'
         return output
     
+=======
+        raise ValueError(f'Package with ID {id} not found')
+   
+    def view_packages(self):
+        packages = [str(package) for package in self._delivery_packages]
+        
+        return '\n'.join(packages)
+   
+>>>>>>> origin
     def get_package_locations(self, package_id: int):
         package = self.find_package_by_id(package_id)
         return package.start_location, package.end_location
 
     def create_delivery_route(self, deprature_time, arrival_time, route_stops, total_distance) -> DeliveryRoute:
         route_id = DeliveryRoute.generate_id()
+        total_distance = DC.calculate_total_distance(route_stops)
         delivery_route = DeliveryRoute(route_id, deprature_time, arrival_time, route_stops, total_distance)
         self._delivery_routes.append(delivery_route)
         return delivery_route
     
+<<<<<<< HEAD
     def find_delivery_route(self, id: int) -> DeliveryRoute:
+=======
+    
+    def get_route_by_id(self, id: int) -> DeliveryRoute:
+>>>>>>> origin
         for route in self._delivery_routes:
             if route.id == id:
                 return route
@@ -244,9 +261,18 @@ class AppData:
         man_trucks = [TruckModel(truck_id, tc.MAN_CAPACITY, tc.MAN_MAX_RANGE, "Man")
         for truck_id in range(tc.MAN_MIN_ID, tc.MAN_MAX_ID + 1)]
         self._trucks.extend(man_trucks)
+
         actros_trucks = [TruckModel(truck_id, tc.ACTROS_CAPACITY, tc.ACTROS_MAX_RANGE, "Actros")
         for truck_id in range(tc.ACTROS_MIN_ID, tc.ACTROS_MAX_ID + 1)]
         self._trucks.extend(actros_trucks)
+
+    def mark_unavailable(self, truck_id: int):
+        truck = self.get_truck_by_id(truck_id)
+        truck.status = 'Unavailable'
+
+    def mark_available(self, truck_id: int):
+        truck = self.get_truck_by_id(truck_id)
+        truck.status = 'Available'
 
     def get_truck_by_id(self, truck_id: int) -> TruckModel:
         for truck in self.trucks:
