@@ -55,6 +55,10 @@ class TruckModel:
     def truck_capacity(self):
         return self._truck_capacity
     
+    @truck_capacity.setter
+    def truck_capacity(self, value):
+        self._truck_capacity = value
+    
     @property
     def max_range(self):
         return self._max_range

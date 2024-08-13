@@ -295,17 +295,18 @@ class AppData:
         
         return suitable_trucks           
     
-    def find_suitable_truck_by_weight(self,suitable_trucks, weight: int):
+    def find_suitable_truck_by_weight(self, suitable_trucks, weight: int):
         for truck in suitable_trucks:
             if truck.truck_capacity >= weight:
                 return truck
     
     def assign_package_to_truck(self, truck, package_id: int):
-            package = self.find_package_by_id(package_id)
-            truck._packages.append(package)
-            package.status = ASSIGNED_TO_TRUCK
-            truck.truck_capacity -= package.weight
-            # vrushta li se:D
+        package = self.find_package_by_id(package_id)
+        truck._packages.append(package)
+        package.status = ASSIGNED_TO_TRUCK
+        truck.truck_capacity -= package.weight
+        # vrushta li se:D
+        return package
 
     def get_truck_by_id(self, truck_id: int) -> TruckModel:
         for truck in self.trucks:
