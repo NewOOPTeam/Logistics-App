@@ -135,7 +135,7 @@ class AppData:
     
     def view_packages(self):
         packages = [str(package) for package in self._delivery_packages]
-        output = '\n'.join(packages)
+        output = '\n\n'.join(packages)
         if not packages:
             output = Fore.YELLOW + 'No packages to show'
         return output

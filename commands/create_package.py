@@ -36,6 +36,8 @@ class CreatePackage(BaseCommand):
         
         if suitable_trucks:
             truck = self._app_data.find_suitable_truck_by_weight(suitable_trucks, package.weight)
+            
+        if truck:
             package = self._app_data.assign_package_to_truck(truck, package.id)
             return f'Delivery created for Package #{package.id}, expected arrival: ' + f'\nPackage info:\n{package}\n' # tuk moje bi da ima arrival time? i mai za da stane, tr w delivery    packages wmesto locations da ima route_stops
         return f'Delivery created for Package #{package.id}, awaiting assignment.'
@@ -97,7 +99,7 @@ class CreatePackage(BaseCommand):
     
     def create_route(self, route):
         get_route = CreateRoute(self._app_data)
-        msg = Fore.LIGHTCYAN_EX + ' No available delivery routes at the time, please create a new one!\n Input delivery route stops: '
+        msg = Fore.LIGHTCYAN_EX + 'No available delivery routes at the time, please create a new one!\n Input delivery route stops: '
         
         new_route = get_route.loop(msg)
         validated_route = self.validate_route(route, new_route)
