@@ -22,8 +22,8 @@ class AppData:
         self._delivery_routes: list[DeliveryRoute] = list()
         self._delivery_packages: list[DeliveryPackage] = list()
 
-        self.initialize_employees()  # Initialize employees pod vapros
-        self._create_trucks()  # Initialize trucks pod vapros
+        # self.initialize_employees()  # Initialize employees pod vapros
+        # self._create_trucks()  # Initialize trucks pod vapros
         
 
     @property        
@@ -150,6 +150,7 @@ class AppData:
         total_distance = dc.calculate_total_distance(locations)
         
         route_id = DeliveryRoute.generate_id()
+        total_distance = DC.calculate_total_distance(route_stops)
         delivery_route = DeliveryRoute(route_id, deprature_time, arrival_time, route_stops, total_distance)
         self._delivery_routes.append(delivery_route)
         return delivery_route
@@ -293,7 +294,7 @@ class AppData:
                 return truck
         raise ValueError(Fore.RED + f'Truck ID {truck_id} does not exist.')
  
-    def find_suitable_truck(self, weight: DeliveryPackage, km: int):
+    def find_suitable_truck(self, weight: DeliveryPackage, km: int): # imame select truck v devr
         for truck in self._trucks:
             if weight <= truck._truck_capacity and km <= truck.max_range:
                 return truck
