@@ -3,10 +3,6 @@ from core.application_data import AppData
 from commands.helper_methods import Validate
 from commands.interaction_loops.create_route import CreateRoute
 from commands.constants.constants import OPERATION_CANCELLED, CANCEL
-from date_time.date_time_functionalities import DateTime
-from datetime import timedelta
-from csv_file.distance_calculator import DistanceCalculator
-from models.delivery_route import DeliveryRoute
 from colorama import Fore
 
 
@@ -35,10 +31,12 @@ class CreateDeliveryRoute(BaseCommand):
             return OPERATION_CANCELLED
         
         delivery_route = self._app_data.calculate_route_times(route)
-        
+        ## samo destinations
         return Fore.GREEN + f'Delivery route created: \n{str(delivery_route)}'
 
-
+        ### add departure time as input
+        
+        
         # def get_arrival_time:
             # choice 1 - asap
             # choice 2 - input

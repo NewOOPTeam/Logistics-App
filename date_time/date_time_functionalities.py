@@ -46,7 +46,7 @@ class DateTime:
         Returns <str> object for printing
         """
         start_date = DateTime.date_from_string(start_date)
-        delivery_date = start_date + timedelta(hours= distance // 87 + 4) 
+        delivery_date = start_date + timedelta(hours= (distance // 87) + 4, minutes= distance % 87) 
         return delivery_date.strftime('%b %d %Y %H:%Mh')
 
 # start_date = '12/07/24 06:00'

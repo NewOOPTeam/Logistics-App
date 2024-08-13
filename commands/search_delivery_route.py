@@ -9,7 +9,7 @@ from colorama import Fore
 
 class SearchRoute(BaseCommand):
     def __init__(self, params: list[str], app_data: AppData) -> None:
-        Validate.params_count(params, 2, self.__class__.__name__)
+        Validate.params_count(params, 0, self.__class__.__name__)
         super().__init__(params, app_data)
     
     def execute(self):

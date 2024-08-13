@@ -2,7 +2,6 @@ import unittest
 from core.application_data import AppData
 from commands.add_customer import AddCustomer
 
-
 class TestAddCustomer(unittest.TestCase):
     def setUp(self):
         self.app_data = AppData()

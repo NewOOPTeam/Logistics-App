@@ -1,3 +1,4 @@
+from commands.assign_package_to_route import AssignPackageToRoute
 from commands.create_package import CreatePackage
 from commands.create_delivery_route import CreateDeliveryRoute
 from commands.search_delivery_route import SearchRoute
@@ -40,10 +41,12 @@ class CommandFactory:
                 return CreateDeliveryRoute(params, self._app_data)
             case 'createdelivery':
                 return CreateDelivery(params, self._app_data)
+            case 'assignpackagetoroute':
+                return AssignPackageToRoute(params, self._app_data)
             case 'viewunassignedpackages':
                 pass
             case 'searchroute':
-                pass
+                return SearchRoute(params, self._app_data)
             case 'viewdeliveryroute':
                 pass
             case 'viewactiveroutes':

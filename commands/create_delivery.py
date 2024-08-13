@@ -18,6 +18,13 @@ class CreateDelivery(BaseCommand):
         if id == CANCEL:
             return OPERATION_CANCELLED
         
-        valid_routes = self._app_data.find_valid_routes_for_package(id)
+        valid_routes = self._app_data.list_valid_routes(id) 
         
-        return '\n'.join(valid_routes)
+        ## assign truck automatically
+        ## assignpackage to truck method
+        ## automatically  when the date/time is correct
+        
+        return valid_routes
+    
+    def _requires_login(self) -> bool:
+        return False
