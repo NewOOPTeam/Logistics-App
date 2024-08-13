@@ -3,9 +3,11 @@ from models.user import User
 from colorama import Fore
 
 UNASSIGNED = Fore.RED + 'Unassigned' + Fore.LIGHTCYAN_EX
-ASSIGNED = Fore.LIGHTYELLOW_EX + "Assigned" + Fore.LIGHTCYAN_EX
+ASSIGNED_TO_TRUCK = Fore.YELLOW + "Assigned to truck" + Fore.LIGHTCYAN_EX
+ASSIGNED_TO_ROUTE = Fore.YELLOW + "Assigned to route" + Fore.LIGHTCYAN_EX
 IN_PROGRESS = Fore.YELLOW + 'In progress' + Fore.LIGHTCYAN_EX
 COMPLETED = Fore.GREEN + 'Completed' + Fore.LIGHTCYAN_EX
+
 
 
 class DeliveryPackage:
@@ -43,7 +45,7 @@ class DeliveryPackage:
     
     @status.setter
     def status(self, value):
-        if value not in (UNASSIGNED, ASSIGNED, IN_PROGRESS, COMPLETED):
+        if value not in (UNASSIGNED, ASSIGNED_TO_TRUCK, ASSIGNED_TO_ROUTE, IN_PROGRESS, COMPLETED):
             raise ValueError(Fore.RED + 'Invalid status!')
         self._status = value
 
