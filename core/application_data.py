@@ -150,7 +150,7 @@ class AppData:
         total_distance = dc.calculate_total_distance(locations)
         
         route_id = DeliveryRoute.generate_id()
-        total_distance = DC.calculate_total_distance(route_stops)
+        total_distance = dc.calculate_total_distance(route_stops)
         delivery_route = DeliveryRoute(route_id, deprature_time, arrival_time, route_stops, total_distance)
         self._delivery_routes.append(delivery_route)
         return delivery_route
