@@ -1,4 +1,4 @@
-from models.delivery_package import ASSIGNED, DeliveryPackage
+from models.delivery_package import ASSIGNED_TO_ROUTE, ASSIGNED_TO_TRUCK, DeliveryPackage
 from models.user import User
 from models.employee_roles import EmployeeRoles
 from models.employee import Employee
@@ -147,10 +147,9 @@ class AppData:
     def create_delivery_route(self, deprature_time, arrival_time, route_stops) -> DeliveryRoute:
         dc = DC()
         locations = [loc.location.name for loc in route_stops]
-        total_distance = dc.calculate_total_distance(locations)
         
         route_id = DeliveryRoute.generate_id()
-        total_distance = DC.calculate_total_distance(route_stops)
+        total_distance = dc.calculate_total_distance(locations)
         delivery_route = DeliveryRoute(route_id, deprature_time, arrival_time, route_stops, total_distance)
         self._delivery_routes.append(delivery_route)
         return delivery_route
@@ -166,10 +165,9 @@ class AppData:
         routes = [str(route) for route in self._delivery_routes]
         return '\n'.join(routes)
     
-    def calculate_route_times(self, route): #could take departure_time as argument depending on user input????
+    def calculate_route_times(self, departure_time, route): #could take departure_time as argument depending on user input????
         starting_location = route[0] #ADL
         # departure_time = DateTime.create_time_stamp_for_today() 
-        departure_time = 'Oct 10 2024 06:00h'
         _starting_location = Locations[starting_location]
         start_location = RouteStop(_starting_location, departure_time, departure_time)
         
@@ -234,18 +232,17 @@ class AppData:
                 end_index = destinations.index(end_location)
                 if start_index < end_index:
                     valid_routes.append(route)
-        
         return valid_routes
     
-    def list_valid_routes(self, package_id: int):
-        valid_routes = self.find_valid_routes_for_package(package_id)
+    # def list_valid_routes(self, package_id: int):
+    #     valid_routes = self.find_valid_routes_for_package(package_id)
         
-        if not valid_routes:
-            return Fore.RED + f'No valid routes available for package ID {package_id}.'
+    #     if not valid_routes:
+    #         return Fore.RED + f'No valid routes available for package ID {package_id}.'
     
-        route_ids = [route.id for route in valid_routes]
+    #     route_ids = [route.id for route in valid_routes]
         
-        return route_ids
+    #     return route_ids
 
     def assign_package_to_route(self, package_id: int, route_id: int):
         package = self.find_package_by_id(package_id)
@@ -257,10 +254,10 @@ class AppData:
         if route is None:
             raise ValueError(Fore.RED + f'Route ID {route_id} is not a valid route for package ID {package_id}.')
         
-        if package.status == ASSIGNED:
+        if package.status == ASSIGNED_TO_ROUTE:
             raise ValueError(Fore.RED + f'Package ID {package_id} is already assigned to a route.')
         
-        package.status = ASSIGNED
+        package.status = ASSIGNED_TO_ROUTE
         package._assigned_route = route
 
         return package
@@ -290,18 +287,32 @@ class AppData:
         truck = self.get_truck_by_id(truck_id)
         truck.status = 'Available'
 
+    def find_suitable_truck(self, km: int):
+        suitable_trucks = []
+        for truck in self.trucks:  
+            if truck.status == 'Available' and truck.truck_capacity >= km:
+                suitable_trucks.append(truck)
+        
+        return suitable_trucks           
+    
+    def find_suitable_truck_by_weight(self,suitable_trucks, weight: int):
+        for truck in suitable_trucks:
+            if truck.truck_capacity >= weight:
+                return truck
+    
+    def assign_package_to_truck(self, truck, package_id: int):
+            package = self.find_package_by_id(package_id)
+            truck._packages.append(package)
+            package.status = ASSIGNED_TO_TRUCK
+            truck.truck_capacity -= package.weight
+            # vrushta li se:D
+
     def get_truck_by_id(self, truck_id: int) -> TruckModel:
         for truck in self.trucks:
             if truck.truck_id == truck_id:
                 return truck
         raise ValueError(Fore.RED + f'Truck ID {truck_id} does not exist.')
  
-    def find_suitable_truck(self, weight: DeliveryPackage, km: int): # imame select truck v devr
-        for truck in self._trucks:
-            if weight <= truck._truck_capacity and km <= truck.max_range:
-                return truck
-        raise ValueError(Fore.RED + "No suitable truck found")
-    
                 
     # def assign_package_to_delivery_route(self, package_id: int, route_id: int): #- Shte go ostavq tuk za momenta.
     #     if route_id >= len(self._delivery_routes) or route_id < 0:

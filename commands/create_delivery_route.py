@@ -30,7 +30,8 @@ class CreateDeliveryRoute(BaseCommand):
         if route == CANCEL:
             return OPERATION_CANCELLED
         
-        delivery_route = self._app_data.calculate_route_times(route)
+        departure_time = input(Fore.LIGHTCYAN_EX + ' Input departure time: ') # promqnaS
+        delivery_route = self._app_data.calculate_route_times(departure_time, route)
         ## samo destinations
         return Fore.GREEN + f'Delivery route created: \n{str(delivery_route)}'
 

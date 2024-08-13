@@ -18,7 +18,21 @@ class CreateDelivery(BaseCommand):
         if id == CANCEL:
             return OPERATION_CANCELLED
         
-        valid_routes = self._app_data.list_valid_routes(id) 
+        valid_routes = self._app_data.find_valid_routes_for_package(id) 
+        if not valid_routes:
+            return Fore.RED + 'No valid routes available for package ID.'
+        # # 10500km - ACtros
+        # distances = [r.total_distance for r in valid_routes]
+        # suitable_truck = []
+        # for distance in distances:
+        #     suitable_truck.extend(self.app_data.find_suitable_truck(distance))
+        # if not suitable_truck:
+        #     raise ValueError(Fore.RED + 'No suitable trucks available.') 
+        
+
+
+
+
         
         ## assign truck automatically
         ## assignpackage to truck method
