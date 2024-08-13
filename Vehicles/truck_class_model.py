@@ -44,6 +44,7 @@ class TruckModel:
         self._max_range = max_range
         self._status = status
         self._name = name
+        self._packages = []
         TruckModel.vehicles_id.add(truck_id)
 
     @property
