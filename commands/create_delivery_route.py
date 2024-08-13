@@ -31,10 +31,12 @@ class CreateDeliveryRoute(BaseCommand):
             return OPERATION_CANCELLED
         
         delivery_route = self._app_data.calculate_route_times(route)
-        
+        ## samo destinations
         return Fore.GREEN + f'Delivery route created: \n{str(delivery_route)}'
 
-
+        ### add departure time as input
+        
+        
         # def get_arrival_time:
             # choice 1 - asap
             # choice 2 - input

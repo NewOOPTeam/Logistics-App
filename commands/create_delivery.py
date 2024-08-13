@@ -20,6 +20,10 @@ class CreateDelivery(BaseCommand):
         
         valid_routes = self._app_data.list_valid_routes(id) 
         
+        ## assign truck automatically
+        ## assignpackage to truck method
+        ## automatically  when the date/time is correct
+        
         return valid_routes
     
     def _requires_login(self) -> bool:
