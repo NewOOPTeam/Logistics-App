@@ -144,9 +144,9 @@ class AppData:
         package = self.find_package_by_id(package_id)
         return package.start_location, package.end_location
 
-    def create_delivery_route(self, deprature_time, arrival_time, route_stops: list[RouteStop]) -> DeliveryRoute:
+    def create_delivery_route(self, deprature_time, arrival_time, route_stops) -> DeliveryRoute:
         dc = DC()
-        locations = [loc.location for loc in route_stops]
+        locations = [loc.location.name for loc in route_stops]
         total_distance = dc.calculate_total_distance(locations)
         
         route_id = DeliveryRoute.generate_id()
@@ -170,7 +170,8 @@ class AppData:
         starting_location = route[0] #ADL
         # departure_time = DateTime.create_time_stamp_for_today() 
         departure_time = 'Oct 10 2024 06:00h'
-        start_location = RouteStop(starting_location, departure_time, departure_time)
+        _starting_location = Locations[starting_location]
+        start_location = RouteStop(_starting_location, departure_time, departure_time)
         
         locations = route[1:]
         route_stops = [start_location]
@@ -187,7 +188,8 @@ class AppData:
         
             previous_location = location
             previous_time = arrival_time
-            route_stops.append(RouteStop(location, previous_time, arrival_time))
+            _location = Locations[location]
+            route_stops.append(RouteStop(_location, previous_time, arrival_time))
             # print(f"Arrival at {location}: {arrival_time}")
 
         # route = list(route)
