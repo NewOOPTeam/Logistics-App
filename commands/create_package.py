@@ -37,7 +37,7 @@ class CreatePackage(BaseCommand):
         if suitable_trucks:
             truck = self._app_data.find_suitable_truck_by_weight(suitable_trucks, package.weight)
             package = self._app_data.assign_package_to_truck(truck, package.id)
-            return f'Delivery created for Package #{package.id}, expected arrival: ' # tuk moje bi da ima arrival time? i mai za da stane, tr w delivery    packages wmesto locations da ima route_stops
+            return f'Delivery created for Package #{package.id}, expected arrival: ' + f'\nPackage info:\n{package}\n' # tuk moje bi da ima arrival time? i mai za da stane, tr w delivery    packages wmesto locations da ima route_stops
         return f'Delivery created for Package #{package.id}, awaiting assignment.'
 
         
