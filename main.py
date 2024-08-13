@@ -20,3 +20,6 @@ engine.start()
 # login employee_user password123!
 # Dec 12 2024 16:30h
 # login supervisor_user password456! 
+
+
+### validate customer number for weird characters too!!

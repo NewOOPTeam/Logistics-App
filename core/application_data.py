@@ -22,8 +22,8 @@ class AppData:
         self._delivery_routes: list[DeliveryRoute] = list()
         self._delivery_packages: list[DeliveryPackage] = list()
 
-        # self.initialize_employees()  # Initialize employees pod vapros
-        # self._create_trucks()  # Initialize trucks pod vapros
+        self.initialize_employees()  # Initialize employees pod vapros
+        self._create_trucks()  # Initialize trucks pod vapros
         
 
     @property        
