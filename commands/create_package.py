@@ -18,8 +18,9 @@ class CreatePackage(BaseCommand):
     ### add start date!!!!!
 
     def execute(self):
-        package, route = self.create_package()
-        if package == CANCEL or route == CANCEL:
+        weight, route, customer, package = self.create_package()
+        if any(weight, route, customer) == CANCEL:
+            ### need to remove package from the lists and this is for other similar operations!!
             return OPERATION_CANCELLED
         
         valid_routes = self._app_data.find_valid_routes_for_package(package.id)
@@ -53,7 +54,7 @@ class CreatePackage(BaseCommand):
 
         weight = get_weight.loop(Fore.LIGHTCYAN_EX + ' Input package weight: ')
         if weight == CANCEL:
-            return OPERATION_CANCELLED
+            return CANCEL
         
         route = get_start_end_location.loop(Fore.LIGHTCYAN_EX + ' Input start and end destination: ')
         if route == CANCEL:
@@ -65,7 +66,7 @@ class CreatePackage(BaseCommand):
         
         package = self._app_data.create_delivery_package(weight, route, customer)
         
-        return package, route
+        return weight, route, customer, package
         
         
     def validate_route(self, route, new_route):
