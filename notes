@@ -33,6 +33,7 @@
 
         # check if any truck is available for a given time period
 
+<<<<<<< HEAD
         #create roles -   ADMIN = "Admin"
     SUPERVISOR = "Supervisor"
     EMPLOYEE = "Employee" - Log/in/out
@@ -60,3 +61,39 @@ for pack in packages;
 
 
 kato suzdavame nov dev route - napr assign package ili create ako nqma takuv. 
+=======
+    #     #create roles -   ADMIN = "Admin"
+    # SUPERVISOR = "Supervisor"
+    # EMPLOYEE = "Employee" - Log/in/out
+
+    # Assign truck - proverqva na route-a distance-a i sum of packages na tozi route. 
+    # While true - add package. if package.weight <=  truck_cap - end
+    # return list of unassigned ? 
+
+
+# route distance per -dar 10152 - actros 
+# if len.pack > 0:
+#     while available truck = true
+#         while truck cap>=pack.weight
+#             route - package.kg -> while add actros.1 weigh cap >= sum of packages.
+#             package assign to truck
+#             truck_cap-=pack.weight
+#             package.status = assigned
+
+# #na suotvetniq route     
+# for pack in packages;
+#     truck = find_suitable_truck(truck_)
+#         if truck
+#             package.status = assigned_to_truck
+#             truck.packages.assign(pacK)
+
+
+# kato suzdavame nov dev route - napr assign package ili create ako nqma takuv. 
+
+
+"""
+takes in: kwo priema kato argumenti
+kwo prawi
+kwo wryshta
+"""
+>>>>>>> origin/main

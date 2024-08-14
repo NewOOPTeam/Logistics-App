@@ -19,4 +19,12 @@ engine.start()
 
 # login employee_user password123!
 # Dec 12 2024 16:30h
+<<<<<<< HEAD
 # login supervisor_user password456! 
+=======
+# login supervisor_user password456! 
+
+
+### validate customer number for weird characters too!!
+#create delivery to check if status of paxkage is UNASSIGNED!!!
+>>>>>>> origin/main

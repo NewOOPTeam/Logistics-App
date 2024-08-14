@@ -22,8 +22,8 @@ class AppData:
         self._delivery_routes: list[DeliveryRoute] = list()
         self._delivery_packages: list[DeliveryPackage] = list()
 
-        # self.initialize_employees()  # Initialize employees pod vapros
-        # self._create_trucks()  # Initialize trucks pod vapros
+        self.initialize_employees()  # Initialize employees pod vapros
+        self._create_trucks()  # Initialize trucks pod vapros
         
 
     @property        
@@ -135,7 +135,7 @@ class AppData:
     
     def view_packages(self):
         packages = [str(package) for package in self._delivery_packages]
-        output = '\n'.join(packages)
+        output = '\n\n'.join(packages)
         if not packages:
             output = Fore.YELLOW + 'No packages to show'
         return output
@@ -295,17 +295,30 @@ class AppData:
         
         return suitable_trucks           
     
+<<<<<<< HEAD
     def find_suitable_truck_by_weight(self,suitable_trucks, weight: int):
+=======
+    def find_suitable_truck_by_weight(self, suitable_trucks, weight: int):
+>>>>>>> origin/main
         for truck in suitable_trucks:
             if truck.truck_capacity >= weight:
                 return truck
     
     def assign_package_to_truck(self, truck, package_id: int):
+<<<<<<< HEAD
             package = self.find_package_by_id(package_id)
             truck._packages.append(package)
             package.status = ASSIGNED_TO_TRUCK
             truck.truck_capacity -= package.weight
             # vrushta li se:D
+=======
+        package = self.find_package_by_id(package_id)
+        truck._packages.append(package)
+        package.status = ASSIGNED_TO_TRUCK
+        truck.truck_capacity -= package.weight
+        # vrushta li se:D
+        return package
+>>>>>>> origin/main
 
     def get_truck_by_id(self, truck_id: int) -> TruckModel:
         for truck in self.trucks:
