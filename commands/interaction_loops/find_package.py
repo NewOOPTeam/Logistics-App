@@ -30,7 +30,7 @@ class FindPackage(BaseLoop):
                 
     def find_package(self, id):
         try:
-            package = self.app_data.find_package_by_id(id)
+            package = self._app_data.find_package_by_id(id)
             return package             
         except ValueError:
             print(Fore.RED + f'Package with ID {id} not found')
