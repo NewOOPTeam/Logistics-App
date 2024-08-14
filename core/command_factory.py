@@ -46,7 +46,7 @@ class CommandFactory:
             case 'viewunassignedpackages': # da se razpishe
                 pass
             case 'viewdeliveryroute': #?? Davam ID i listva pratkite.kg i destinaciite
-                pass # da se razpishe
+                return SearchRoute(params, self._app_data)
             case 'viewroutesinprogress':
                 pass # da se razpishe
             case 'timeforward': #da razpishem neshto - daytime + 12041 dni :D?
