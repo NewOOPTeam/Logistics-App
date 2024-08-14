@@ -7,10 +7,12 @@ from commands.interaction_loops.get_start_end_location import GetStartEndLocatio
 from colorama import Fore
 
 
-class SearchRoute(BaseCommand):
+class ViewAllDevRoutes(BaseCommand):
     def __init__(self, params: list[str], app_data: AppData) -> None:
         Validate.params_count(params, 0, self.__class__.__name__)
         super().__init__(params, app_data)
     
     def execute(self):
-        pass
+        route = self._app_data.view_all_delivery_routes() #promqna 16;55
+        return route
+
