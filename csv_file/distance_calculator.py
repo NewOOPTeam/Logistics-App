@@ -1,6 +1,7 @@
 import csv
 from pathlib import Path
 from colorama import Fore
+from Vehicles.truck_class_model import TruckConstants
 
 
 class DistanceCalculator:
@@ -53,6 +54,10 @@ class DistanceCalculator:
         for i in range(len(route) - 1):
             if route[i] == route[i + 1]:
                 raise ValueError(Fore.RED + "Route can't have the same city twice in a row.")
+            
+        total_distance = self.calculate_total_distance(route)
+        if total_distance > TruckConstants.ACTROS_MAX_RANGE:
+            raise ValueError(Fore.RED + 'Total distance out of any truck max range')
 
     def get_route_distance(self, route):
         # route = route_input.strip().split()

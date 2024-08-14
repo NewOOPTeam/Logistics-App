@@ -19,7 +19,8 @@ class CreatePackage(BaseCommand):
 
     def execute(self):
         weight, route, customer, package = self.create_package()
-        if any(weight, route, customer) == CANCEL:
+        
+        if any((weight, route, customer)) == CANCEL:
             ### need to remove package from the lists and this is for other similar operations!!
             return OPERATION_CANCELLED
         
@@ -33,15 +34,18 @@ class CreatePackage(BaseCommand):
             if new_route == CANCEL:
                 return OPERATION_CANCELLED
             
-        suitable_trucks = self._app_data.find_suitable_truck(new_route.total_distance)
-        
-        if suitable_trucks:
-            truck = self._app_data.find_suitable_truck_by_weight(suitable_trucks, package.weight)
+        package = self._app_data.assign_package_to_route(package.id, new_route.id)
             
-        if truck:
-            package = self._app_data.assign_package_to_truck(truck, package.id)
-            return f'Delivery created for Package #{package.id}, expected arrival: ' + f'\nPackage info:\n{package}\n' # tuk moje bi da ima arrival time? i mai za da stane, tr w delivery    packages wmesto locations da ima route_stops
-        return f'Delivery created for Package #{package.id}, awaiting assignment.'
+            
+        # suitable_trucks = self._app_data.find_suitable_truck(new_route.total_distance)
+        
+        # if suitable_trucks:
+        #     truck = self._app_data.find_suitable_truck_by_weight(suitable_trucks, package.weight)
+            
+        # if truck:
+        #     package = self._app_data.assign_package_to_truck(truck, package.id)
+        #     return f'Delivery created for Package #{package.id}, expected arrival: ' + f'\nPackage info:\n{package}\n' + f'{truck.truck_capacity}' # tuk moje bi da ima arrival time? i mai za da stane, tr w delivery    packages wmesto locations da ima route_stops
+        return f'Delivery created for Package #{package.id}, assigned to route {new_route.id}:\n{new_route}\n\nAwaiting assignment to available truck.'
 
         
     def _requires_login(self) -> bool:
@@ -85,9 +89,10 @@ class CreatePackage(BaseCommand):
             except ValueError as err:
                 print(err)
                 new_route = input(Fore.LIGHTCYAN_EX + ' Input route stops: ')
+                new_route = tuple(new_route.split(' '))
                 if new_route == CANCEL:
                     return CANCEL
-                self.validate_route(route, new_route)
+                return self.validate_route(route, new_route)
         
         
     def display_delivery_routes(self, valid_routes):

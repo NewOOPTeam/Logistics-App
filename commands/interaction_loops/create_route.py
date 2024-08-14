@@ -1,6 +1,5 @@
 from commands.interaction_loops.base_loop import BaseLoop
 from csv_file.distance_calculator import DistanceCalculator
-from commands.helper_methods import Validate
 
 
 class CreateRoute(BaseLoop):

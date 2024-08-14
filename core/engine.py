@@ -12,14 +12,14 @@ class Engine:
         
     def start(self):
         output = []
-        try:
-            print(LOGIN_MESSAGE)
-            login = Login(self._app_data)
-            user = login.loop()
-            login.enter_system(user.username)
-        except ValueError as error:
-            print(error)
-            output.append(error.args[0])
+        # try:
+        #     print(LOGIN_MESSAGE)
+        #     login = Login(self._app_data)
+        #     user = login.loop()
+        #     login.enter_system(user.username)
+        # except ValueError as error:
+        #     print(error)
+        #     output.append(error.args[0])
 
         while (input_line := input(Fore.LIGHTCYAN_EX + ' Enter application command: \n').strip()):
             try:
