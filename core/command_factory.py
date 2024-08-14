@@ -1,6 +1,7 @@
 from commands.assign_package_to_route import AssignPackageToRoute
 from commands.create_package import CreatePackage
 from commands.create_delivery_route import CreateDeliveryRoute
+from commands.move_time_forward import MoveTimeForward
 from commands.search_delivery_route import SearchRoute
 from commands.add_customer import AddCustomer
 from commands.create_delivery import CreateDelivery
@@ -11,6 +12,8 @@ from commands.login_command import LoginCommand
 from commands.logout_command import LogoutCommand
 from commands.done import Done
 from colorama import Fore
+
+from date_time.date_time_functionalities import DateTime
 
 
 class CommandFactory:
@@ -45,12 +48,12 @@ class CommandFactory:
                 return AssignPackageToRoute(params, self._app_data)
             case 'viewunassignedpackages': # da se razpishe
                 pass
-            case 'viewdeliveryroute': #?? Davam ID i listva pratkite.kg i destinaciite
-                return SearchRoute(params, self._app_data)
+            case 'viewalldeliveryroutes': #?? Davam ID i listva pratkite.kg i destinaciite
+                return SearchRoute(params, self._app_data)#promqna 16;55
             case 'viewroutesinprogress':
                 pass # da se razpishe
-            case 'timeforward': #da razpishem neshto - daytime + 12041 dni :D?
-                pass
+            case 'timeforward':
+                return MoveTimeForward(DateTime)
             case 'done':
                 return Done(params, self._app_data)
             case _:
