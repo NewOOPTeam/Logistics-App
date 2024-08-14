@@ -31,29 +31,25 @@ class CommandFactory:
                 return Help(params, self._app_data)
             case 'addcustomer':
                 return AddCustomer(params, self._app_data)
-            case 'createpackage':
+            case 'createpackage': #av dev route, if not - new one moje da proverim dali ima svobodni kamioni, ako nqma - unnasigned 
                 return CreatePackage(params, self._app_data)
             case 'viewpackage':
                 return ViewPackage(params, self._app_data)
             case 'viewallpackages':
                 return ViewAllPackages(params, self._app_data)
-            case 'createdeliveryroute':
+            case 'createdeliveryroute': # moje da go obedinim s createdelivery 
                 return CreateDeliveryRoute(params, self._app_data)
-            case 'createdelivery':
+            case 'createdelivery': # maikata - tuk vliza assign truck - vij notes
                 return CreateDelivery(params, self._app_data)
-            case 'assignpackagetoroute':
+            case 'assignpackagetoroute':# moje da go obedinim s createdelivery 
                 return AssignPackageToRoute(params, self._app_data)
-            case 'viewunassignedpackages':
+            case 'viewunassignedpackages': # da se razpishe
                 pass
-            case 'searchroute':
-                return SearchRoute(params, self._app_data)
-            case 'viewdeliveryroute':
-                pass
-            case 'viewactiveroutes':
-                pass
-            case 'viewavailabletrucks':
-                pass
-            case 'assigntruck':
+            case 'viewdeliveryroute': #?? Davam ID i listva pratkite.kg i destinaciite
+                pass # da se razpishe
+            case 'viewroutesinprogress':
+                pass # da se razpishe
+            case 'timeforward': #da razpishem neshto - daytime + 12041 dni :D?
                 pass
             case 'done':
                 return Done(params, self._app_data)

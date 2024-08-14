@@ -1,5 +1,7 @@
 from commands.interaction_loops.base_loop import BaseLoop
 from commands.helper_methods import Parse
+from Vehicles.truck_class_model import TruckConstants
+from commands.constants.constants import CANCEL
 
 
 
@@ -8,4 +10,7 @@ class GetWeight(BaseLoop):
         super().__init__(app_data)
     
     def helper(self, param):
-        return Parse.to_float(param)
+        param = Parse.to_float(param)
+        if param > TruckConstants.SCANIA_CAPACITY:
+            raise ValueError('Cannot assign package to any truck')
+        return param

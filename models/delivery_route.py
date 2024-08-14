@@ -84,6 +84,7 @@ class DeliveryRoute:
         cls.ID += 1
         return delivery_route_id
     
+    
     def assign_truck(self, truck: TruckModel):
         self._assigned_trucks.append(truck)
         truck.mark_unavailable()
@@ -98,9 +99,8 @@ class DeliveryRoute:
         for truck in available_trucks:
             if truck.status == "Available" and truck.truck_capacity >= total_weight:
                 self.assign_truck(truck)
-                truck.mark_unavailable()
                 return truck
-        raise ValueError(Fore.RED + "No suitable truck available.") # this for create delivery
+        return ValueError(Fore.RED + "No suitable truck available.") # this for create delivery
 
     # def calculate_total_weight(self):
     #     total_weight = 0

@@ -44,6 +44,7 @@ class TruckModel:
         self._max_range = max_range
         self._status = status
         self._name = name
+        self._packages = []
         TruckModel.vehicles_id.add(truck_id)
 
     @property
@@ -53,6 +54,10 @@ class TruckModel:
     @property
     def truck_capacity(self):
         return self._truck_capacity
+    
+    @truck_capacity.setter
+    def truck_capacity(self, value):
+        self._truck_capacity = value
     
     @property
     def max_range(self):
