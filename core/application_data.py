@@ -322,6 +322,15 @@ class AppData:
                 return truck
         raise ValueError(Fore.RED + f'Truck ID {truck_id} does not exist.')
  
+    def view_packages_of_route(self, route_id):
+        route = self.find_route_by_id(route_id)
+        print('\n'.join(route.packages))
+        print(len(route.packages))
+        weights = [package.weight for package in route.packages]
+        print('Weights:\n')
+        print('\n'.join(weights))
+        
+            
                 
     # def assign_package_to_delivery_route(self, package_id: int, route_id: int): #- Shte go ostavq tuk za momenta.
     #     if route_id >= len(self._delivery_routes) or route_id < 0:
