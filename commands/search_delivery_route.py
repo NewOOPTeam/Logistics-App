@@ -9,13 +9,15 @@ from colorama import Fore
 
 class SearchRoute(BaseCommand):
     def __init__(self, params: list[str], app_data: AppData) -> None:
-        Validate.params_count(params, 0, self.__class__.__name__)
+        Validate.params_count(params, 1, self.__class__.__name__)
         super().__init__(params, app_data)
     
     def execute(self):
-        start_location, end_location = GetStartEndLocation(self._app_data).loop(Fore.LIGHTCYAN_EX + ' Input start and end point: ')
+        # start_location, end_location = GetStartEndLocation(self._app_data).loop(Fore.LIGHTCYAN_EX + ' Input start and end point: ')
+        id = self._params[0]
         
-        route = self._app_data.find_delivery_route(start_location, end_location)
+        route = self._app_data.view_packages_of_route(id)
+        return route
         # check if truck on the route has capacity -> bool (from app data)
         # DATES
         # prefer to assign smallest capacity truck

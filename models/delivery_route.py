@@ -146,7 +146,10 @@ class DeliveryRoute:
                         self._assigned_trucks.remove(truck)
         return self._assigned_trucks
 
-    
+
+        
+        
+        
 # dict with locations in the route
 
 # total distance
