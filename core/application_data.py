@@ -243,13 +243,20 @@ class AppData:
     #     route_ids = [route.id for route in valid_routes]
         
     #     return route_ids
+    
+    def find_route_by_id(self, route_id):
+        for route in self._delivery_routes:
+            if route.id == route_id:
+                return route
+        raise ValueError('No such route exists!')
 
     def assign_package_to_route(self, package_id: int, route_id: int):
         package = self.find_package_by_id(package_id)
+        route = self.find_route_by_id(route_id)
                 
-        valid_routes = self.find_valid_routes_for_package(package_id)
+        # valid_routes = self.find_valid_routes_for_package(package_id)
         
-        route = next((r for r in valid_routes if r.id == route_id), None)
+        # route = next((r for r in valid_routes if r.id == route_id), None)
         
         if route is None:
             raise ValueError(Fore.RED + f'Route ID {route_id} is not a valid route for package ID {package_id}.')
@@ -258,6 +265,7 @@ class AppData:
             raise ValueError(Fore.RED + f'Package ID {package_id} is already assigned to a route.')
         
         package.status = ASSIGNED_TO_ROUTE
+        route._packages.append(package)
         package._assigned_route = route
 
         return package
@@ -314,6 +322,15 @@ class AppData:
                 return truck
         raise ValueError(Fore.RED + f'Truck ID {truck_id} does not exist.')
  
+    def view_packages_of_route(self, route_id):
+        route = self.find_route_by_id(route_id)
+        print('\n'.join(route.packages))
+        print(len(route.packages))
+        weights = [package.weight for package in route.packages]
+        print('Weights:\n')
+        print('\n'.join(weights))
+        
+            
                 
     # def assign_package_to_delivery_route(self, package_id: int, route_id: int): #- Shte go ostavq tuk za momenta.
     #     if route_id >= len(self._delivery_routes) or route_id < 0:
