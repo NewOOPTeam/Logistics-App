@@ -19,16 +19,15 @@ engine.start()
 
 # login employee_user password123!
 # Dec 12 2024 16:30h
-<<<<<<< HEAD
-# login supervisor_user password456! 
-=======
-# login supervisor_user password456! 
+# login supervisor_user password456!
+
 
 
 ### validate customer number for weird characters too!!
 #create delivery to check if status of paxkage is UNASSIGNED!!!
 
-#nput delivery route stops: ADL SYD MEL PER ASP SYD
+#  createdeliveryroute   nput delivery route stops:() ADL SYD MEL PER ASP SYD ,,,() ADL BRI DAR ,,() BRI SYD MEL
+
 #  Input departure time: Dec 12 2024 16:30h
 # Delivery route created: 
 # Delivery route #1
