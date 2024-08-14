@@ -16,20 +16,6 @@ class CreatePackage(BaseCommand):
     def __init__(self, params: list[str], app_data: AppData) -> None:
         Validate.params_count(params, 0, self.__class__.__name__)
         super().__init__(params, app_data)
-<<<<<<< HEAD
-
-    def execute(self):
-        package_info = self.create_package()
-    
-        if package_info is None:
-            return self.cancel_operation(None)
-        
-        weight, route, customer, package = package_info
-        
-        if any((weight, route, customer)) == CANCEL:
-            return self.cancel_operation(package)
-        
-=======
  
     def execute(self):
         package_info = self.create_package()
@@ -42,7 +28,6 @@ class CreatePackage(BaseCommand):
         if any((weight, route, customer)) == CANCEL:
             return self.cancel_operation(package)
        
->>>>>>> hristiyan
         valid_routes = self._app_data.find_valid_routes_for_package(package.id)
         if valid_routes:
             routes = self.display_delivery_routes(valid_routes)
@@ -55,11 +40,7 @@ class CreatePackage(BaseCommand):
             new_route = self.create_route(route)
             if new_route == CANCEL:
                 return self.cancel_operation(package)
-<<<<<<< HEAD
-            
-=======
            
->>>>>>> hristiyan
         package = self._app_data.assign_package_to_route(package.id, new_route.id)
            
            
@@ -85,17 +66,6 @@ class CreatePackage(BaseCommand):
         weight = get_weight.loop(Fore.LIGHTCYAN_EX + ' Input package weight: ')
         if weight == CANCEL:
             return None
-<<<<<<< HEAD
-        
-        route = get_start_end_location.loop(Fore.LIGHTCYAN_EX + ' Input start and end destination: ')
-        if route == CANCEL:
-            return None
-      
-        customer = get_customer_info.loop(Fore.LIGHTCYAN_EX + ' Input customer email address: ')
-        if customer == CANCEL:
-            return None
-        
-=======
        
         route = get_start_end_location.loop(Fore.LIGHTCYAN_EX + ' Input start and end destination: ')
         if route == CANCEL:
@@ -105,7 +75,6 @@ class CreatePackage(BaseCommand):
         if customer == CANCEL:
             return None
        
->>>>>>> hristiyan
         package = self._app_data.create_delivery_package(weight, route, customer)
        
         return weight, route, customer, package
@@ -157,20 +126,12 @@ class CreatePackage(BaseCommand):
    
     def select_route(self, valid_routes):
         get_id = GetId(self._app_data)        
-<<<<<<< HEAD
-
-=======
  
->>>>>>> hristiyan
         selected_route_id = get_id.loop(Fore.LIGHTCYAN_EX + ' Select route (input route ID): ')
         route_ids = [route.id for route in valid_routes]
         if selected_route_id == CANCEL:
             return CANCEL
-<<<<<<< HEAD
-        
-=======
        
->>>>>>> hristiyan
         try:
             if selected_route_id not in route_ids:
                 raise ValueError(Fore.RED + 'Please select one of the displayed routes!')
@@ -178,13 +139,8 @@ class CreatePackage(BaseCommand):
         except ValueError as err:
             print(err)
             return self.select_route(valid_routes)    
-<<<<<<< HEAD
-        
-        
-=======
        
        
->>>>>>> hristiyan
     def cancel_operation(self, package):
         if package:
             self._app_data._delivery_packages.remove(package)

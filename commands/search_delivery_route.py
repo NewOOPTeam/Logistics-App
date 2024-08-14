@@ -14,14 +14,10 @@ class SearchRoute(BaseCommand):
     
     def execute(self):
         # start_location, end_location = GetStartEndLocation(self._app_data).loop(Fore.LIGHTCYAN_EX + ' Input start and end point: ')
-<<<<<<< HEAD
-        id = self._params[0]
-        route = self._app_data.find_route_by_id(id)
-        
-=======
+        # id = self._params[0]
+        # route = self._app_data.find_route_by_id(id)
         
         route = self._app_data.view_all_delivery_routes() #promqna 16;55
->>>>>>> hristiyan
         return route
         # check if truck on the route has capacity -> bool (from app data)
         # DATES
