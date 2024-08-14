@@ -13,6 +13,14 @@ class DateTime:
         Creates stamp for the date and time right now
         """
         return datetime.now().strftime('%b %d %Y %H:%Mh')
+
+    @staticmethod
+    def mock_now(date_str: str):
+        format_str = '%b %d %Y %H:%Mh'
+        try:
+            return datetime.strptime(date_str, format_str)
+        except ValueError as err:
+            print(err)
     
     @staticmethod
     def date_from_string(date_str: str) -> datetime:

@@ -5,7 +5,7 @@ from colorama import Fore
 
 class LogoutCommand(BaseCommand):
     def __init__(self, app_data: AppData):
-        super().__init__(params=[], app_data=app_data) 
+        super().__init__(params=[], app_data=app_data)
 
     def execute(self):
         super().execute()
