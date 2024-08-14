@@ -6,8 +6,6 @@ from commands.interaction_loops.get_start_end_location import GetStartEndLocatio
 from commands.interaction_loops.find_customer_by_email import GetCustomerInfo
 from commands.interaction_loops.get_id import GetId
 from commands.interaction_loops.create_route import CreateRoute
-from commands.interaction_loops.get_id import GetId
-from commands.interaction_loops.create_route import CreateRoute
 from commands.constants.constants import CANCEL, OPERATION_CANCELLED
 from colorama import Fore
 

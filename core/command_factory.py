@@ -4,6 +4,7 @@ from commands.create_delivery_route import CreateDeliveryRoute
 from commands.search_delivery_route import SearchRoute
 from commands.add_customer import AddCustomer
 from commands.create_delivery import CreateDelivery
+from commands.view_unassigned_packages import ViewUnassignedPackages
 from commands.help import Help
 from commands.view_package import ViewPackage
 from commands.view_all_packages import ViewAllPackages
@@ -44,7 +45,7 @@ class CommandFactory:
             case 'assignpackagetoroute':# moje da go obedinim s createdelivery 
                 return AssignPackageToRoute(params, self._app_data)
             case 'viewunassignedpackages': # da se razpishe
-                pass
+                return ViewUnassignedPackages(params, self._app_data)
             case 'viewdeliveryroute': #?? Davam ID i listva pratkite.kg i destinaciite
                 return SearchRoute(params, self._app_data)
             case 'viewroutesinprogress':

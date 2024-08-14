@@ -2,12 +2,7 @@
 
         #### APPLICATION FUNCTIONALITIES ####
 
-        # Creating a delivery route – should have a unique id, and a list of locations (at least two).
-        # The first location is the starting location – it has a departure time.
-
         # The other locations have expected arrival time.
-
-        # Search for a route based on package’s start and end locations.
 
         # Updating a delivery route – assign a free truck to it.
 

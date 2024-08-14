@@ -243,12 +243,7 @@ class AppData:
     #     route_ids = [route.id for route in valid_routes]
         
     #     return route_ids
-    
-    def find_route_by_id(self, route_id):
-        for route in self._delivery_routes:
-            if route.id == route_id:
-                return route
-        raise ValueError('No such route exists!')
+
 
     def assign_package_to_route(self, package_id: int, route_id: int):
         package = self.find_package_by_id(package_id)
