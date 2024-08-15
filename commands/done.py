@@ -9,5 +9,9 @@ class Done(BaseCommand):
         super().__init__(params, app_data)
 
     def execute(self):
+        self._throw_if_user_logged_in()
         exit = BaseLoop(self._app_data)
         exit.exit_system(EXIT_MESSAGE)
+        
+    def _requires_login(self) -> bool:
+        return False

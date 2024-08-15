@@ -238,7 +238,7 @@ class AppData:
 
     def assign_package_to_route(self, package_id: int, route_id: int):
         package = self.find_package_by_id(package_id)
-        route = self.find_route_by_id(route_id)
+        route = self.get_route_by_id(route_id)
                 
         # valid_routes = self.find_valid_routes_for_package(package_id)
         

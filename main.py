@@ -16,6 +16,8 @@ engine.start()
 
 # "employee_user", "password123!",
 # "supervisor_user", "password456!"
+# "manager_user", "password789!"
+# "admin_user", "password000!"
 
 # login employee_user password123!
 # Dec 12 2024 16:30h

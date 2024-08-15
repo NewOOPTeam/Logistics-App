@@ -2,10 +2,9 @@ from core.application_data import AppData
 from commands.base_command import BaseCommand
 from commands.helper_methods import Validate
 from commands.interaction_loops.get_id import GetId
-from commands.interaction_loops.get_start_end_location import GetStartEndLocation
-from commands.interaction_loops.find_customer_by_email import GetCustomerInfo
 from commands.constants.constants import CANCEL, OPERATION_CANCELLED
 from colorama import Fore
+
 
 class CreateDelivery(BaseCommand):
     def __init__(self, params: list[str], app_data: AppData) -> None:
@@ -13,6 +12,8 @@ class CreateDelivery(BaseCommand):
         super().__init__(params, app_data)
 
     def execute(self):
+        super().execute()
+        
         get_id = GetId(self._app_data)
         id = get_id.loop(Fore.LIGHTCYAN_EX + ' Input package ID: ')
         if id == CANCEL:
@@ -41,4 +42,4 @@ class CreateDelivery(BaseCommand):
         return valid_routes
     
     def _requires_login(self) -> bool:
-        return False
+        return True

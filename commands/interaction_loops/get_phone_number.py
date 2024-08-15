@@ -1,6 +1,8 @@
 from commands.interaction_loops.base_loop import BaseLoop
 from commands.helper_methods import Validate
 from colorama import Fore
+
+
 class GetCustomerPhone(BaseLoop):
     def __init__(self, app_data) -> None:
         super().__init__(app_data)

@@ -3,6 +3,7 @@ from Vehicles.truck_class_model import TruckModel
 from models.route_stop import RouteStop
 from colorama import Fore
 
+
 AWAITING = "Awaiting"
 IN_PROGRESS = 'In progress'
 COMPLETED = 'Completed'

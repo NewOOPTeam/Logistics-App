@@ -1,6 +1,6 @@
 from commands.base_command import BaseCommand
 from core.application_data import AppData
-from commands.helper_methods import Validate, Parse
+from commands.helper_methods import Validate
 from commands.interaction_loops.get_id import GetId
 from commands.constants.constants import CANCEL, OPERATION_CANCELLED
 from colorama import Fore
@@ -13,6 +13,7 @@ class ViewPackage(BaseCommand):
         super().__init__(params, app_data)
         
     def execute(self):
+        super().execute()
         
         get_id = GetId(self._app_data)
         id = get_id.loop(Fore.LIGHTCYAN_EX + ' Input package ID: ')
@@ -25,4 +26,7 @@ class ViewPackage(BaseCommand):
         except ValueError as err:
             return err
             
-        return str(package) 
+        return str(package)
+    
+    def _requires_login(self) -> bool:
+        return True

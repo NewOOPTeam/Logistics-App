@@ -14,7 +14,6 @@ from commands.login_command import LoginCommand
 from commands.logout_command import LogoutCommand
 from commands.done import Done
 from colorama import Fore
-
 from date_time.date_time_functionalities import DateTime
 
 
@@ -24,6 +23,7 @@ class CommandFactory:
 
     def create(self, input_line: str):
         command, *params = input_line.split()
+        ## since we dont use params anywhere, we could remove them so that the commands can be input as normal words like "add delivery route"
                 
         match command.lower().replace(' ', ''):
             # case 'addemployee':
@@ -36,7 +36,7 @@ class CommandFactory:
                 return Help(params, self._app_data)
             case 'addcustomer':
                 return AddCustomer(params, self._app_data)
-            case 'createpackage': #av dev route, if not - new one moje da proverim dali ima svobodni kamioni, ako nqma - unnasigned 
+            case 'createpackage':
                 return CreatePackage(params, self._app_data)
             case 'viewpackage':
                 return ViewPackage(params, self._app_data)

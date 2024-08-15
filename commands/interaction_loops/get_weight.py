@@ -1,8 +1,6 @@
 from commands.interaction_loops.base_loop import BaseLoop
 from commands.helper_methods import Parse
 from Vehicles.truck_class_model import TruckConstants
-from commands.constants.constants import CANCEL
-
 
 
 class GetWeight(BaseLoop):

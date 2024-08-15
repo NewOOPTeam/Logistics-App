@@ -11,12 +11,13 @@ class SearchRoute(BaseCommand):
         super().__init__(params, app_data)
     
     def execute(self):
-        # start_location, end_location = GetStartEndLocation(self._app_data).loop(Fore.LIGHTCYAN_EX + ' Input start and end point: ')
+        super().execute()
+        
         get_id = GetId(self._app_data)        
         id = get_id.loop(Fore.LIGHTCYAN_EX + ' Select route to view (input route ID): ')
         route = self._app_data.get_route_by_id(id)        
         
         return route
-        # check if truck on the route has capacity -> bool (from app data)
-        # DATES
-        # prefer to assign smallest capacity truck
+
+    def _requires_login(self) -> bool:
+        return True
