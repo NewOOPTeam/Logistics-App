@@ -14,9 +14,10 @@ class CreateDelivery(BaseCommand):
 
     def execute(self):
         get_id = GetId(self._app_data)
-        id = get_id.loop(Fore.LIGHTCYAN_EX + ' Input package ID: ')
+        id = get_id.loop(Fore.LIGHTCYAN_EX + ' Input route ID: ')
         if id == CANCEL:
             return OPERATION_CANCELLED
+        #namirame truck koito da se suitable za tozi route - vzimame combined weight na paketite i distance+ assignvame 
         
         valid_routes = self._app_data.find_valid_routes_for_package(id) 
         if not valid_routes:
