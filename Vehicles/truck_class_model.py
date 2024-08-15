@@ -90,4 +90,3 @@ class TruckModel:
     def __str__(self):
         return (Fore.LIGHTCYAN_EX + f'Truck #{self.truck_id} - {self.name}\n'
                 f'Status: {self.status}\n')
-

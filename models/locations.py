@@ -9,5 +9,3 @@ class Locations(Enum):
     BRI = 'Brisbane'
     DAR = 'Darwin'
     PER = 'Perth'
-
-

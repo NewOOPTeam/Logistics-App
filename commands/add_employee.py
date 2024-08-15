@@ -4,6 +4,7 @@ from commands.helper_methods import Validate
 from models.employee_roles import EmployeeRoles
 from colorama import Fore
 
+
 class AddEmployee(BaseCommand):
     def __init__(self, params: list[str], app_data: AppData) -> None:
         Validate.params_count(params, 3, self.__class__.__name__)
