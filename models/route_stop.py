@@ -14,7 +14,7 @@ class RouteStop:
                 f'Departure Time: {self._departure_time}')
 
     @property
-    def location(self):
+    def location(self) -> Locations:
         return self._location
 
     @property
