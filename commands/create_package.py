@@ -16,15 +16,14 @@ class CreatePackage(BaseCommand):
         super().__init__(params, app_data)
  
     def execute(self):
+        super().execute()
+        
         package_info = self.create_package()
    
         if package_info is None:
             return self.cancel_operation(None)
        
         weight, route, customer, package = package_info
-       
-        if any((weight, route, customer)) == CANCEL:
-            return self.cancel_operation(package)
        
         valid_routes = self._app_data.find_valid_routes_for_package(package.id)
         if valid_routes:
@@ -115,7 +114,7 @@ class CreatePackage(BaseCommand):
         new_route = get_route.loop(msg)
         validated_route = self.validate_route(route, new_route)
         if validated_route == CANCEL:
-            return OPERATION_CANCELLED
+            return CANCEL
        
         new_route = self._app_data.create_delivery_route(validated_route)
         return new_route

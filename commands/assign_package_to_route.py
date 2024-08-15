@@ -10,6 +10,11 @@ class AssignPackageToRoute(BaseCommand):
         super().__init__(params, app_data)
 
     def execute(self):
+        super().execute()
+        
         package_id = int(self._params[0])
         route_id = int(self._params[1])
         return self._app_data.assign_package_to_route(package_id, route_id)
+    
+    def _requires_login(self) -> bool:
+        return True

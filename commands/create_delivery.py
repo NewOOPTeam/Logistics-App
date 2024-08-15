@@ -13,6 +13,8 @@ class CreateDelivery(BaseCommand):
         super().__init__(params, app_data)
 
     def execute(self):
+        super().execute()
+        
         get_id = GetId(self._app_data)
         id = get_id.loop(Fore.LIGHTCYAN_EX + ' Input package ID: ')
         if id == CANCEL:
@@ -41,4 +43,4 @@ class CreateDelivery(BaseCommand):
         return valid_routes
     
     def _requires_login(self) -> bool:
-        return False
+        return True

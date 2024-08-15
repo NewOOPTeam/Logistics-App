@@ -11,3 +11,6 @@ class Done(BaseCommand):
     def execute(self):
         exit = BaseLoop(self._app_data)
         exit.exit_system(EXIT_MESSAGE)
+        
+    def _requires_login(self) -> bool:
+        return False

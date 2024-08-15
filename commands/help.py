@@ -12,5 +12,7 @@ class Help(BaseCommand):
 
 
     def execute(self):
-        
         return DESCRIPTION_MESSAGE
+    
+    def _requires_login(self) -> bool:
+        return False
