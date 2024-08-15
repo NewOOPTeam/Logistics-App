@@ -117,8 +117,7 @@ class CreatePackage(BaseCommand):
         if validated_route == CANCEL:
             return OPERATION_CANCELLED
        
-        departure_time = 'Jul 12 2024 18:30h'
-        new_route = self._app_data.calculate_route_times(departure_time, validated_route)
+        new_route = self._app_data.create_delivery_route(validated_route)
         return new_route
        
    

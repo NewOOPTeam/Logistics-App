@@ -11,10 +11,10 @@ COMPLETED = 'Completed'
 class DeliveryRoute:
     ID = 1
     
-    def __init__(self, route_id: int, departure_time: str, arrival_time: str, destinations: tuple, total_distance: int) -> None:
+    def __init__(self, route_id: int, destinations: tuple, total_distance: int) -> None:
         self._id = route_id
-        self._departure_time = departure_time
-        self._arrival_time = arrival_time
+        # self._departure_time = departure_time
+        # self._arrival_time = arrival_time
         
         self._destinations: list[RouteStop] = destinations
         self._packages: list[DeliveryPackage] = list()
@@ -60,11 +60,15 @@ class DeliveryRoute:
         
     @property
     def departure_time(self): 
-        return self._destinations[0].departure_time
+        if self._status == IN_PROGRESS:
+            departure_time = self.destinations[0].departure_time
+        return departure_time
     
     @property
     def arrival_time(self):
-        return self._destinations[-1].arrival_time
+        if self._status == IN_PROGRESS:
+            arrival_time = self.destinations[-1].arrival_time
+        return arrival_time
     
     @property
     def packages(self):
@@ -83,7 +87,6 @@ class DeliveryRoute:
         delivery_route_id = cls.ID
         cls.ID += 1
         return delivery_route_id
-    
     
     def assign_truck(self, truck: TruckModel):
         self._assigned_trucks.append(truck)

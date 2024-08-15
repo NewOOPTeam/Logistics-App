@@ -35,6 +35,9 @@
     # Assign truck - proverqva na route-a distance-a i sum of packages na tozi route. 
     # While true - add package. if package.weight <=  truck_cap - end
     # return list of unassigned ? 
+    
+     ### assigning truck to route is what triggers the departure time
+
 
 
 # route distance per -dar 10152 - actros 
