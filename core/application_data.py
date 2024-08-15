@@ -144,13 +144,14 @@ class AppData:
         package = self.find_package_by_id(package_id)
         return package.start_location, package.end_location
 
-    def create_delivery_route(self, deprature_time, arrival_time, route_stops) -> DeliveryRoute:
+    def create_delivery_route(self, route) -> DeliveryRoute:
         dc = DC()
+        route_stops = self.calculate_route_times(route)
         locations = [loc.location.name for loc in route_stops]
         
         route_id = DeliveryRoute.generate_id()
         total_distance = dc.calculate_total_distance(locations)
-        delivery_route = DeliveryRoute(route_id, deprature_time, arrival_time, route_stops, total_distance)
+        delivery_route = DeliveryRoute(route_id, route_stops, total_distance)
         self._delivery_routes.append(delivery_route)
         return delivery_route
     
@@ -178,9 +179,9 @@ class AppData:
         # routes = [str(route) for route in self._delivery_routes]
         # return '\n'.join(routes)
     
-    def calculate_route_times(self, departure_time, route): #could take departure_time as argument depending on user input????
-        starting_location = route[0] #ADL
-        # departure_time = DateTime.create_time_stamp_for_today() 
+    def calculate_route_times(self, route):
+        starting_location = route[0]
+        departure_time = DateTime.create_time_stamp_for_today() 
         _starting_location = Locations[starting_location]
         start_location = RouteStop(_starting_location, departure_time, departure_time)
         
@@ -201,14 +202,8 @@ class AppData:
             previous_time = arrival_time
             _location = Locations[location]
             route_stops.append(RouteStop(_location, previous_time, arrival_time))
-            # print(f"Arrival at {location}: {arrival_time}")
 
-        # route = list(route)
-            
-        # total_distance = distance_calculator.get_route_distance(route)
-        delivery_route = self.create_delivery_route(departure_time, arrival_time, route_stops)
-
-        return delivery_route
+        return route_stops
     
     
     def find_valid_routes_for_package(self, package_id: int):
