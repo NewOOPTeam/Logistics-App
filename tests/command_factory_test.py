@@ -18,6 +18,7 @@ from commands.login_command import LoginCommand
 from commands.logout_command import LogoutCommand
 from commands.done import Done
 
+
 class CommandShould(TestCase):
     def setUp(self) -> None:
         self.cmd_factory = CommandFactory(AppData)
