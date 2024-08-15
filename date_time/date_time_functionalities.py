@@ -56,6 +56,14 @@ class DateTime:
         start_date = DateTime.date_from_string(start_date)
         delivery_date = start_date + timedelta(hours= (distance // 87) + 4, minutes= distance % 87) 
         return delivery_date.strftime('%b %d %Y %H:%Mh')
+    
+    @staticmethod
+    def future_date():
+        now = datetime.now()
+        future_date = now + timedelta(days=5)
+
+        return future_date.strftime('%b %d %Y %H:%Mh')
+
 
 # start_date = '12/07/24 06:00'
 # distance = 909

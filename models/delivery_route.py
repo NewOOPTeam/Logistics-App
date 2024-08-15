@@ -145,6 +145,8 @@ class DeliveryRoute:
                         truck.mark_available()
                         self._assigned_trucks.remove(truck)
         return self._assigned_trucks
+    
+                
 
 
         

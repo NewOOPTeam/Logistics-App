@@ -161,9 +161,22 @@ class AppData:
                 return route
         raise ValueError(Fore.RED + f'Route with ID {id} not found.')
     
-    def view_all_delivery_routes(self):
-        routes = [str(route) for route in self._delivery_routes]
-        return '\n'.join(routes)
+    def get_packages_for_route(self, route_id: int):
+        route = self.get_route_by_id(route_id)
+        return route.packages
+
+    # i want this method to retrun the route + the packages assigned to it
+    def view_all_delivery_routes(self):# promqna 16;55
+        routes_with_packages = []
+        for route in self._delivery_routes:
+            packages = self.get_packages_for_route(route.id)
+            sum_of_weights = sum([package.weight for package in packages])
+            route_info = f"Route: {route}\nAssigned packages: {len(packages)}, total weight: {sum_of_weights}\n" 
+            routes_with_packages.append(route_info)
+        return '\n\n'.join(routes_with_packages)
+
+        # routes = [str(route) for route in self._delivery_routes]
+        # return '\n'.join(routes)
     
     def calculate_route_times(self, departure_time, route): #could take departure_time as argument depending on user input????
         starting_location = route[0] #ADL
@@ -197,27 +210,10 @@ class AppData:
 
         return delivery_route
     
-
-    # def find_valid_routes_for_package(self, package_id: int):
-        
-        # start_location, end_location = self.get_package_locations(package_id)
-        
-        # valid_routes = []
-        
-        # for route in self._delivery_routes:
-        #     destinations = [stop.location for stop in route.destinations]
-        #     if start_location in route.destinations and end_location in route.destinations:
-        #         start_index = route.destinations.index(start_location)
-        #         end_index = route.destinations.index(end_location)
-        #         if start_index < end_index:
-        #             valid_routes.append(route)
-        
-        # return valid_routes
     
     def find_valid_routes_for_package(self, package_id: int):
         start_location, end_location = self.get_package_locations(package_id)
         
-        # Convert start_location and end_location to Locations enum if not already
         if not isinstance(start_location, Locations):
             start_location = Locations[start_location]
         if not isinstance(end_location, Locations):
@@ -243,12 +239,7 @@ class AppData:
     #     route_ids = [route.id for route in valid_routes]
         
     #     return route_ids
-    
-    def find_route_by_id(self, route_id):
-        for route in self._delivery_routes:
-            if route.id == route_id:
-                return route
-        raise ValueError('No such route exists!')
+
 
     def assign_package_to_route(self, package_id: int, route_id: int):
         package = self.find_package_by_id(package_id)
@@ -322,33 +313,11 @@ class AppData:
                 return truck
         raise ValueError(Fore.RED + f'Truck ID {truck_id} does not exist.')
  
-    def view_packages_of_route(self, route_id):
-        route = self.find_route_by_id(route_id)
-        print('\n'.join(route.packages))
-        print(len(route.packages))
-        weights = [package.weight for package in route.packages]
-        print('Weights:\n')
-        print('\n'.join(weights))
+    # def view_packages_of_route(self, route_id):
+    #     route = self.find_route_by_id(route_id)
+    #     print('\n'.join(route.packages))
+    #     print(len(route.packages))
+    #     weights = [package.weight for package in route.packages]
+    #     print('Weights:\n')
+    #     print('\n'.join(weights))
         
-            
-                
-    # def assign_package_to_delivery_route(self, package_id: int, route_id: int): #- Shte go ostavq tuk za momenta.
-    #     if route_id >= len(self._delivery_routes) or route_id < 0:
-    #         raise ValueError('Invalid route ID')
-
-    #     route = self._delivery_routes[route_id]
-        
-    #     package = self.find_package_by_id(package_id)
-        
-    #     if package._start_location not in route._destinations or package._end_location not in route._destinations:
-    #         raise ValueError('Package start or end location is not in the route destinations')
-        
-    #     start_index = route._destinations.index(package._start_location)
-    #     end_index = route._destinations.index(package._end_location)
-        
-    #     if start_index >= end_index:
-    #         raise ValueError('Start location must be before end location in the route')
-
-    #     package.status = ASSIGNED
-    #     package._assigned_route = route
-    #     return package
