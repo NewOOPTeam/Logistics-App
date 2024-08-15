@@ -23,14 +23,12 @@ class DeliveryRoute:
         self._total_distance = total_distance 
         self._status = AWAITING
         
-        
-        
     def __str__(self) -> str:
         locations_info = [
             f"{stop.location.value} ({stop.arrival_time})"
             for stop in self._destinations
         ]
-        joined_locations = '->'.join(locations_info)
+        joined_locations = ' -> '.join(locations_info)
         
         return (Fore.LIGHTCYAN_EX + f'Delivery route #{self.id}\n'
                 f'{joined_locations}\n'

@@ -325,6 +325,15 @@ class AppData:
 
 
     def assign_package_to_route(self, package_id: int, route_id: int) -> DeliveryPackage:
+        """assigns given package to the given route
+
+        Args:
+            package_id (int)
+            route_id (int)
+
+        Returns:
+            (DeliveryPackage)
+        """
         package = self.find_package_by_id(package_id)
         route = self.get_route_by_id(route_id)
                 
@@ -345,10 +354,17 @@ class AppData:
         return package
     
     def find_unassigned_packages(self) -> str:
+        """returns information about all packages with status UNASSIGNED
+
+        Returns:
+            (str)
+        """
         unassigned_packages = [package for package in self._delivery_packages if package.status == DeliveryPackage.UNASSIGNED]
         return '\n\n'.join(unassigned_packages)
 
     def _create_trucks(self) -> None:
+        """initializes all trucks at the start of the program
+        """
         scania_trucks = [TruckModel(truck_id, tc.SCANIA_CAPACITY, tc.SCANIA_MAX_RANGE, "Scania")
         for truck_id in range(tc.SCANIA_MIN_ID, tc.SCANIA_MAX_ID + 1)]
         self._trucks.extend(scania_trucks)
@@ -362,14 +378,32 @@ class AppData:
         self._trucks.extend(actros_trucks)
 
     def mark_unavailable(self, truck_id: int) -> None:
+        """marks a truck unavailable
+
+        Args:
+            truck_id (int)
+        """
         truck = self.get_truck_by_id(truck_id)
         truck.status = 'Unavailable'
 
     def mark_available(self, truck_id: int):
+        """marks a truck available
+
+        Args:
+            truck_id (int)
+        """
         truck = self.get_truck_by_id(truck_id)
         truck.status = 'Available'
 
     def find_suitable_truck(self, km: int) -> list[TruckModel]:
+        """finds all available trucks with a suitable range for the given route distance
+
+        Args:
+            km (int): total distance of the delivery route
+
+        Returns:
+            list[TruckModel]
+        """
         suitable_trucks = []
         for truck in self.trucks:  
             if truck.status == 'Available' and truck.truck_capacity >= km:
@@ -378,11 +412,31 @@ class AppData:
         return suitable_trucks           
     
     def find_suitable_truck_by_weight(self, suitable_trucks, weight: int) -> TruckModel:
+        """iterates through a list of trucks suitable for the total distance of the route
+        and returns the first with a mathing capacity for the total weight
+        of the assigned packages
+
+        Args:
+            suitable_trucks (list)
+            weight (int)
+
+        Returns:
+            (TruckModel)
+        """
         for truck in suitable_trucks:
             if truck.truck_capacity >= weight:
                 return truck
     
     def assign_package_to_truck(self, truck, package_id: int) -> DeliveryPackage:
+        """assignes the given package to the given truck
+
+        Args:
+            truck (TruckModel)
+            package_id (int)
+
+        Returns:
+            (DeliveryPackage)
+        """
         package = self.find_package_by_id(package_id)
         truck._packages.append(package)
         package.status = ASSIGNED_TO_TRUCK

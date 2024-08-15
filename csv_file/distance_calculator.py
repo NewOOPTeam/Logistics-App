@@ -2,6 +2,7 @@ import csv
 from pathlib import Path
 from colorama import Fore
 from Vehicles.truck_class_model import TruckConstants
+from models.locations import Locations
 
 
 class DistanceCalculator:
@@ -35,12 +36,29 @@ class DistanceCalculator:
 
         return distance_dict
 
-    def get_distance(self, starting_point, end_point) -> int:
+    def get_distance(self, starting_point: Locations.name, end_point: Locations.name) -> int:
+        """calculates distance between two cities
+
+        Args:
+            starting_point (Locations.name)
+            end_point (Locations.name)
+
+        Returns:
+            (int)
+        """
         if starting_point not in self.distance_dict or end_point not in self.distance_dict:
             raise ValueError(Fore.RED + f"City '{starting_point}' or '{end_point}' not found in the distance dictionary.")
         return self.distance_dict[starting_point][end_point]
 
-    def calculate_total_distance(self, route) -> int:
+    def calculate_total_distance(self, route: list[Locations.name]) -> int:
+        """calculates the total distance of the given route
+
+        Args:
+            route (list[Locations.name])
+
+        Returns:
+            (int)
+        """
         total_distance = 0
         for i in range(len(route) - 1):
             starting_point = route[i]
@@ -48,7 +66,7 @@ class DistanceCalculator:
             total_distance += self.get_distance(starting_point, end_point)
         return total_distance
 
-    def validate_route(self, route) -> None:
+    def validate_route(self, route: list[Locations.name]) -> None:
         if len(route) < 2:
             raise ValueError(Fore.RED + "Route must have at least two cities.")
         
@@ -64,8 +82,16 @@ class DistanceCalculator:
         if total_distance > TruckConstants.ACTROS_MAX_RANGE:
             raise ValueError(Fore.RED + 'Total distance out of any truck max range')
 
-    def get_route_distance(self, route) -> int:
-        # route = route_input.strip().split()
+    def get_route_distance(self, route_input: str) -> int:
+        """takes in the entire route given as a sgtring and calculates the total distance
+
+        Args:
+            route_input (str)
+
+        Returns:
+            (int)
+        """
+        route = route_input.strip().split()
         self.validate_route(route)
         self.total_distance = self.calculate_total_distance(route)
         return self.total_distance
