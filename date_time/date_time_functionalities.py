@@ -48,6 +48,9 @@ class DateTime:
     
     @staticmethod
     def future_date():
+        """
+        Sets the date to five days in the future
+        """
         now = datetime.now()
         future_date = now + timedelta(days=5)
 

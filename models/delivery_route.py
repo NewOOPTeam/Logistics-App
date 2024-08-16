@@ -21,8 +21,6 @@ class DeliveryRoute:
         self._total_distance = total_distance 
         self._status = AWAITING
         
-        
-        
     def __str__(self) -> str:
         locations_info = [
             f"{stop.location.value} ({stop.arrival_time})"
@@ -38,11 +36,11 @@ class DeliveryRoute:
                 )
         
     @property
-    def id(self):
+    def id(self) -> int:
         return self._id
 
     @property
-    def destinations(self): # this is route stops
+    def destinations(self) -> tuple[RouteStop, ...]: 
         return tuple(self._destinations)
     
     @destinations.setter
@@ -50,11 +48,11 @@ class DeliveryRoute:
         self._destinations = list(destinations)
         
     @property
-    def starting_location(self):
+    def starting_location(self) -> RouteStop:
         return self._destinations[0]
 
     @property
-    def final_location(self):
+    def final_location(self) -> RouteStop:
         return self._destinations[-1]
         
     @property
@@ -66,33 +64,33 @@ class DeliveryRoute:
         return self.destinations[-1].arrival_time
     
     @property
-    def packages(self):
+    def packages(self) -> tuple[DeliveryPackage, ...]:
         return tuple(self._packages)
     
     @property
-    def assigned_trucks(self):
+    def assigned_trucks(self) -> tuple[TruckModel, ...]:
         return tuple(self._assigned_trucks)
 
     @property
-    def total_distance(self):
+    def total_distance(self) -> int:
         return self._total_distance
 
     @classmethod
-    def generate_id(cls):
+    def generate_id(cls) -> int:
         delivery_route_id = cls.ID
         cls.ID += 1
         return delivery_route_id
     
-    def assign_truck(self, truck: TruckModel):
+    def assign_truck(self, truck: TruckModel) -> None:
         self._assigned_trucks.append(truck)
         truck.status = "Unavailable"
 
-    def complete_route(self):
+    def complete_route(self) -> None:
         for truck in self._assigned_trucks:
             truck.mark_available()
         self._assigned_trucks.clear()
 
-    def select_truck(self, available_trucks: list[TruckModel]):
+    def select_truck(self, available_trucks: list[TruckModel]) -> TruckModel:
         total_weight = self.calculate_weight_at_start()
         for truck in available_trucks:
             if truck.status == "Available" and truck.truck_capacity >= total_weight:
@@ -110,7 +108,7 @@ class DeliveryRoute:
     #                 total_weight -= package.weight
     #     return total_weight
     
-    def calculate_weight_at_each_stop(self):
+    def calculate_weight_at_each_stop(self) -> dict:
         weight_at_stops = {}
         current_weight = 0
         
@@ -124,17 +122,23 @@ class DeliveryRoute:
         
         return weight_at_stops
         
+<<<<<<< HEAD
     def calculate_weight_at_start(self):
         total_weight = sum(package.weight for package in self._packages)
+=======
+    def calculate_weight_at_start(self) -> float:
+        start_location = self.starting_location.location
+        total_weight = sum(package.weight for package in self._packages if package.start_location == start_location)
+>>>>>>> origin/main
         return total_weight
 
-    def delivered_package(self):
+    def delivered_package(self) -> None:
         for stop in self._destinations:
             for package in self._packages:
                 if package.end_location == stop.location:
                     package.status = "Completed"
 
-    def completed_route(self,truck_id):
+    def completed_route(self,truck_id) -> list[TruckModel]:
         for stop in self._destinations:
             if stop.location == self.final_location:
                 for truck in self._assigned_trucks:
