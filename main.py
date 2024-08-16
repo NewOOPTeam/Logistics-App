@@ -18,7 +18,7 @@ engine.start()
 # "supervisor_user", "password456!"
 # "manager_user", "password789!"
 # "admin_user", "password000!"
-# assigntrucktoroute 1 1 # 1 - truck id, 1 - route id
+# assigntrucktoroute 1 
 # listalltrucks
 
 # login employee_user password123!
