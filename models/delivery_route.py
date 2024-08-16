@@ -12,11 +12,9 @@ COMPLETED = 'Completed'
 class DeliveryRoute:
     ID = 1
     
-    def __init__(self, route_id: int, destinations: tuple, total_distance: int) -> None:
+    def __init__(self, route_id: int, departure_time, destinations: tuple, total_distance: int) -> None:
         self._id = route_id
-        # self._departure_time = departure_time
-        # self._arrival_time = arrival_time
-        
+        self._departure_time = departure_time
         self._destinations: list[RouteStop] = destinations
         self._packages: list[DeliveryPackage] = list()
         self._assigned_trucks: list[TruckModel] = list()
@@ -30,13 +28,13 @@ class DeliveryRoute:
             f"{stop.location.value} ({stop.arrival_time})"
             for stop in self._destinations
         ]
-        joined_locations = '->'.join(locations_info)
+        joined_locations = ' -> '.join(locations_info)
         
         return (Fore.LIGHTCYAN_EX + f'Delivery route #{self.id}\n'
                 f'{joined_locations}\n'
                 # f'Departing: {self.departure_time}'
                 # f'Arriving: {self.arrival_time}'
-                f'Total distance: {self.total_distance}'
+                f'Total distance: {self.total_distance}km'
                 )
         
     @property
@@ -61,15 +59,11 @@ class DeliveryRoute:
         
     @property
     def departure_time(self): 
-        if self._status == IN_PROGRESS:
-            departure_time = self.destinations[0].departure_time
-        return departure_time
+        return self.destinations[0].departure_time
     
     @property
     def arrival_time(self):
-        if self._status == IN_PROGRESS:
-            arrival_time = self.destinations[-1].arrival_time
-        return arrival_time
+        return self.destinations[-1].arrival_time
     
     @property
     def packages(self):
@@ -91,7 +85,7 @@ class DeliveryRoute:
     
     def assign_truck(self, truck: TruckModel):
         self._assigned_trucks.append(truck)
-        truck.mark_unavailable()
+        truck.status = "Unavailable"
 
     def complete_route(self):
         for truck in self._assigned_trucks:
@@ -131,8 +125,7 @@ class DeliveryRoute:
         return weight_at_stops
         
     def calculate_weight_at_start(self):
-        start_location = self.starting_location.location
-        total_weight = sum(package.weight for package in self._packages if package.start_location == start_location)
+        total_weight = sum(package.weight for package in self._packages)
         return total_weight
 
     def delivered_package(self):

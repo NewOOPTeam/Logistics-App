@@ -1,4 +1,5 @@
 from commands.assign_package_to_route import AssignPackageToRoute
+from commands.assign_truck_to_route import AssignTruckToRoute
 from commands.create_package import CreatePackage
 from commands.create_delivery_route import CreateDeliveryRoute
 from commands.move_time_forward import MoveTimeForward
@@ -15,6 +16,8 @@ from commands.logout_command import LogoutCommand
 from commands.done import Done
 from colorama import Fore
 from date_time.date_time_functionalities import DateTime
+from commands.list_all_trucks import ListAllTrucks
+
 
 
 class CommandFactory:
@@ -56,8 +59,12 @@ class CommandFactory:
                 return ViewAllDevRoutes(params, self._app_data)#promqna 16;55
             case 'viewroutesinprogress':
                 pass # da se razpishe
+            case 'assigntrucktoroute':
+                return AssignTruckToRoute(params, self._app_data)
             case 'timeforward':
                 return MoveTimeForward(DateTime)
+            case 'listalltrucks':
+                return ListAllTrucks(params, self._app_data)
             case 'done':
                 return Done(params, self._app_data)
             case _:

@@ -31,7 +31,7 @@ class CreateDelivery(BaseCommand):
         # if not suitable_truck:
         #     raise ValueError(Fore.RED + 'No suitable trucks available.') 
         
-
+    
 
 
 
