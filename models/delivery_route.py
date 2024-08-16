@@ -122,14 +122,9 @@ class DeliveryRoute:
         
         return weight_at_stops
         
-<<<<<<< HEAD
-    def calculate_weight_at_start(self):
-        total_weight = sum(package.weight for package in self._packages)
-=======
     def calculate_weight_at_start(self) -> float:
         start_location = self.starting_location.location
         total_weight = sum(package.weight for package in self._packages if package.start_location == start_location)
->>>>>>> origin/main
         return total_weight
 
     def delivered_package(self) -> None:

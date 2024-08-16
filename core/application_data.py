@@ -252,7 +252,7 @@ class AppData:
         # routes = [str(route) for route in self._delivery_routes]
         # return '\n'.join(routes)
     
-    def calculate_route_times(self, route, departure_time):
+    def calculate_route_times(self, route, departure_time) -> list[RouteStop]:
         """calculates arrival and departure time at each stop for the delivery route
 
         Args:
