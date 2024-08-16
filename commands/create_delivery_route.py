@@ -2,6 +2,7 @@ from commands.base_command import BaseCommand
 from core.application_data import AppData
 from commands.helper_methods import Validate
 from commands.interaction_loops.create_route import CreateRoute
+from commands.interaction_loops.validate_departure_time import ValidateDepartureTime
 from commands.constants.constants import OPERATION_CANCELLED, CANCEL
 from colorama import Fore
 
@@ -18,7 +19,9 @@ class CreateDeliveryRoute(BaseCommand):
         if route == CANCEL:
             return OPERATION_CANCELLED
 
-        departure_time = input(Fore.LIGHTCYAN_EX + ' Input departure time: ')
+        departure_time = ValidateDepartureTime(self._app_data).loop(Fore.LIGHTCYAN_EX + ' Input departure time: ')
+        if departure_time == CANCEL:
+            return OPERATION_CANCELLED
         delivery_route = self._app_data.create_delivery_route(route, departure_time)
         return Fore.GREEN + f'Delivery route created: \n{str(delivery_route)}'          
  

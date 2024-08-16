@@ -15,17 +15,15 @@ class DateTime:
     def date_from_string(date_str: str) -> datetime:
         """
         Converts a date <str> in the format d/m/y (passed as decimals) to a <datetime> object
-        """        
-        format_str = '%b %d %Y %H:%Mh'
+        """     
+        format_str = '%d/%m/%y %H:%M'
+        date = datetime.strptime(date_str, format_str)  
+        return date
 
-        try:
-            return datetime.strptime(date_str, format_str)
-        except ValueError as err:
-            print(err)
             
     @staticmethod    
     def string_from_date(date: datetime) -> str:    
-        return date.strftime('%b %d %Y %H:%Mh')
+        return date.strftime('%d/%m/%y %H:%M') 
     
     @staticmethod
     def get_arrival_time_datetime(start_date: str, days_till_delivery: int) -> datetime:
@@ -44,7 +42,7 @@ class DateTime:
         """
         start_date = DateTime.date_from_string(start_date)
         delivery_date = start_date + timedelta(hours= (distance // 87) + 4, minutes= distance % 87) 
-        return delivery_date.strftime('%b %d %Y %H:%Mh')
+        return delivery_date.strftime('%d/%m/%y %H:%M')
     
     @staticmethod
     def future_date():

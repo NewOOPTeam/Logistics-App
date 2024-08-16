@@ -16,7 +16,7 @@ class AssignTruckToRoute(BaseCommand):
         super().execute()
         get_id = GetId(self._app_data)
         
-        self.route_id = int(self.params[0])
+        self.route_id = int(self.params[0]) 
         route = self._app_data.get_route_by_id(self.route_id)
         suitable_trucks = self._app_data.find_suitable_truck(route.total_distance)
         combined_weight = route.calculate_weight_at_start()
