@@ -10,8 +10,8 @@ class RouteStop:
 
     def __str__(self) -> str:
         return (Fore.LIGHTCYAN_EX + f'Location: {self._location}\n'
-                f'Arrival Time: {self._arrival_time}\n'
-                f'Departure Time: {self._departure_time}')
+                f'Departure Time: {self._departure_time}'
+                f'Arrival Time: {self._arrival_time}\n')
 
     @property
     def location(self) -> Locations:

@@ -30,8 +30,6 @@ class DeliveryRoute:
         
         return (Fore.LIGHTCYAN_EX + f'Delivery route #{self.id}\n'
                 f'{joined_locations}\n'
-                # f'Departing: {self.departure_time}'
-                # f'Arriving: {self.arrival_time}'
                 f'Total distance: {self.total_distance}km'
                 )
         
@@ -96,17 +94,7 @@ class DeliveryRoute:
             if truck.status == "Available" and truck.truck_capacity >= total_weight:
                 self.assign_truck(truck)
                 return truck
-        return ValueError(Fore.RED + "No suitable truck available.") # this for create delivery
-
-    # def calculate_total_weight(self):
-    #     total_weight = 0
-    #     for stop in self._destinations:
-    #         for package in self._packages:
-    #             if package.start_location == stop.location:
-    #                 total_weight += package.weight
-    #             if package.end_location == stop.location:
-    #                 total_weight -= package.weight
-    #     return total_weight
+        return ValueError(Fore.RED + "No suitable truck available.")
     
     def calculate_weight_at_each_stop(self) -> dict:
         weight_at_stops = {}
@@ -141,14 +129,3 @@ class DeliveryRoute:
                         truck.mark_available()
                         self._assigned_trucks.remove(truck)
         return self._assigned_trucks
-    
-                
-
-
-        
-        
-        
-# dict with locations in the route
-
-# total distance
-# completed bool
