@@ -36,12 +36,8 @@ class DistanceCalculator:
 
         return distance_dict
 
-    def get_distance(self, starting_point: Locations.name, end_point: Locations.name) -> int:
+    def get_distance(self, starting_point, end_point) -> int:
         """calculates distance between two cities
-
-        Args:
-            starting_point (Locations.name)
-            end_point (Locations.name)
 
         Returns:
             (int)
@@ -50,11 +46,11 @@ class DistanceCalculator:
             raise ValueError(Fore.RED + f"City '{starting_point}' or '{end_point}' not found in the distance dictionary.")
         return self.distance_dict[starting_point][end_point]
 
-    def calculate_total_distance(self, route: list[Locations.name]) -> int:
+    def calculate_total_distance(self, route) -> int:
         """calculates the total distance of the given route
 
         Args:
-            route (list[Locations.name])
+            route (list)
 
         Returns:
             (int)
@@ -66,7 +62,7 @@ class DistanceCalculator:
             total_distance += self.get_distance(starting_point, end_point)
         return total_distance
 
-    def validate_route(self, route: list[Locations.name]) -> None:
+    def validate_route(self, route: list) -> None:
         if len(route) < 2:
             raise ValueError(Fore.RED + "Route must have at least two cities.")
         

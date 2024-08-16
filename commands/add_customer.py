@@ -36,13 +36,10 @@ class AddCustomer(BaseCommand):
         if phone == CANCEL:
             return OPERATION_CANCELLED
         
-        try:
-            customer = self._app_data.add_customer(first_name, last_name, phone, email)
-        except:
-            raise ValueError(Fore.RED + 'Unexpected error occurred')
+        customer = self._app_data.add_customer(first_name, last_name, phone, email)
         
         return Fore.GREEN + f'User {customer.firstname} {customer.lastname} added'
-    
-        def _requires_login(self) -> bool:
-            return True
+
+    def _requires_login(self) -> bool:
+        return True
             

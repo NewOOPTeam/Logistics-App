@@ -9,7 +9,6 @@ class LoginCommand(BaseCommand):
         super().__init__(params, app_data)
 
     def execute(self):
-        
         self._throw_if_user_logged_in()
 
         login = Login(self._app_data)

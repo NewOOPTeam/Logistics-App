@@ -1,4 +1,3 @@
-from commands.assign_package_to_route import AssignPackageToRoute
 from commands.assign_truck_to_route import AssignTruckToRoute
 from commands.create_package import CreatePackage
 from commands.create_delivery_route import CreateDeliveryRoute
@@ -29,8 +28,6 @@ class CommandFactory:
         ## since we dont use params anywhere, we could remove them so that the commands can be input as normal words like "add delivery route"
                 
         match command.lower().replace(' ', ''):
-            # case 'addemployee':
-            #     return AddEmployee(params, self._app_data)
             case 'login':
                 return LoginCommand(params, self._app_data)
             case 'logout':
@@ -45,18 +42,16 @@ class CommandFactory:
                 return ViewPackage(params, self._app_data)
             case 'viewallpackages':
                 return ViewAllPackages(params, self._app_data)
-            case 'createdeliveryroute': # moje da go obedinim s createdelivery 
+            case 'createdeliveryroute':
                 return CreateDeliveryRoute(params, self._app_data)
-            case 'createdelivery': # maikata - tuk vliza assign truck - vij notes
+            case 'createdelivery':
                 return CreateDelivery(params, self._app_data)
-            case 'assignpackagetoroute':# moje da go obedinim s createdelivery 
-                return AssignPackageToRoute(params, self._app_data)
-            case 'viewunassignedpackages': # da se razpishe
+            case 'viewunassignedpackages':
                 return ViewUnassignedPackages(params, self._app_data)
-            case 'viewdeliveryroute': #?? Davam ID i listva pratkite.kg i destinaciite
+            case 'viewdeliveryroute':
                 return SearchRoute(params, self._app_data)
-            case 'viewalldeliveryroutes': #?? Davam ID i listva pratkite.kg i destinaciite
-                return ViewAllDevRoutes(params, self._app_data)#promqna 16;55
+            case 'viewalldeliveryroutes':
+                return ViewAllDevRoutes(params, self._app_data)
             case 'viewroutesinprogress':
                 pass # da se razpishe
             case 'assigntrucktoroute':

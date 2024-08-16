@@ -19,12 +19,8 @@ class ViewPackage(BaseCommand):
 
         if id == CANCEL:
             return OPERATION_CANCELLED
-
-        try:
-            package = self._app_data.find_package_by_id(id)
-        except ValueError as err:
-            return err
-            
+        
+        package = self._app_data.find_package_by_id(id)            
         return str(package)
     
     def _requires_login(self) -> bool:
