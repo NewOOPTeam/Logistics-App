@@ -12,7 +12,7 @@ COMPLETED = 'Completed'
 class DeliveryRoute:
     ID = 1
     
-    def __init__(self, route_id: int, departure_time, destinations: tuple, total_distance: int) -> None:
+    def __init__(self, route_id: int, departure_time, destinations: list[RouteStop], total_distance: int) -> None:
         self._id = route_id
         self._departure_time = departure_time
         self._destinations: list[RouteStop] = destinations
@@ -28,7 +28,7 @@ class DeliveryRoute:
         ]
         joined_locations = ' -> '.join(locations_info)
         
-        return (Fore.LIGHTCYAN_EX + f'Delivery route #{self.id}\n'
+        return (Fore.CYAN + f'Delivery route #{self.id}\n'
                 f'{joined_locations}\n'
                 f'Total distance: {self.total_distance}km'
                 )

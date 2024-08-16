@@ -172,8 +172,10 @@ class AppData:
                 return True
         return False
 
-    def create_delivery_package(self, weight, route, contact_info: User) -> DeliveryPackage:
+    def create_delivery_package(self, weight: float, route: tuple, contact_info: User) -> DeliveryPackage:
         starting_location, target_location = route
+        starting_location = Locations[starting_location]
+        target_location = Locations[target_location]
         package = DeliveryPackage(weight, starting_location, target_location, contact_info)
         self._delivery_packages.append(package)
         return package

@@ -100,14 +100,16 @@ class CreatePackage(BaseCommand):
    
     def create_route(self, route):
         get_route = CreateRoute(self._app_data)
-        msg = Fore.LIGHTCYAN_EX + 'No available delivery routes at the time, please create a new one!\n Input delivery route stops: '
+        msg = Fore.RED + 'No available delivery routes at the time, please create a new one!\n' + Fore.LIGHTCYAN_EX + ' Input delivery route stops: '
        
         new_route = get_route.loop(msg)
         validated_route = self.validate_route(route, new_route)
         if validated_route == CANCEL:
             return CANCEL
-       
-        new_route = self._app_data.create_delivery_route(validated_route)
+        
+        departure_time = input(Fore.LIGHTCYAN_EX + ' Input departure time: ')
+        
+        new_route = self._app_data.create_delivery_route(validated_route, departure_time)
         return new_route
        
    

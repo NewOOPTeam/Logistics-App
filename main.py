@@ -25,6 +25,3 @@ engine.start()
 # Dec 12 2024 16:30h
 # login supervisor_user password456!
 # viewalldeliveryroutes
-
-#  Input departure time: Dec 12 2024 16:30h
-# na route 1 - package 1

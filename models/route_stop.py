@@ -3,7 +3,7 @@ from colorama import Fore
 
 
 class RouteStop:
-    def __init__(self, location: Locations, arrival_time: str, departure_time: str):
+    def __init__(self, location: Locations, departure_time: str, arrival_time: str):
         self._location = location
         self._departure_time = departure_time
         self._arrival_time = arrival_time
