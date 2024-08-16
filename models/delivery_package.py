@@ -24,38 +24,38 @@ class DeliveryPackage:
         self._assigned_route = None
 
     @property
-    def id(self):
+    def id(self) -> int:
         return self._id
 
     @property
-    def weight(self):
+    def weight(self) -> float:
         return self._weight
     
     @property
-    def start_location(self):
+    def start_location(self) -> Locations:
         return self._start_location
     
     @property
-    def end_location(self):
+    def end_location(self) -> Locations:
         return self._end_location
     
     @property
-    def status(self):
+    def status(self) -> str:
         return self._status
     
     @status.setter
-    def status(self, value):
+    def status(self, value) -> None:
         if value not in (UNASSIGNED, ASSIGNED_TO_TRUCK, ASSIGNED_TO_ROUTE, IN_PROGRESS, COMPLETED):
             raise ValueError(Fore.RED + 'Invalid status!')
         self._status = value
 
     @weight.setter
-    def weight(self, value):
+    def weight(self, value) -> None:
         if value <= 0:
             raise ValueError(Fore.RED + 'Weight must be positive.')
         self._weight = value
 
-    def __str__(self):
+    def __str__(self) -> str:
         return (Fore.LIGHTCYAN_EX + f'#{self.id} Package ({Fore.YELLOW + str(self.weight) + 'kg' + Fore.LIGHTCYAN_EX})\n'
                 f'From: {Fore.YELLOW + self.start_location + Fore.LIGHTCYAN_EX}\n'
                 f'To: {Fore.YELLOW + self.end_location + Fore.LIGHTCYAN_EX}\n'

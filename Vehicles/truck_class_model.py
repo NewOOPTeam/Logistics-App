@@ -48,34 +48,34 @@ class TruckModel:
         TruckModel.vehicles_id.add(truck_id)
 
     @property
-    def truck_id(self):
+    def truck_id(self) -> int:
         return self._truck_id
     
     @property
-    def truck_capacity(self):
+    def truck_capacity(self) -> int:
         return self._truck_capacity
     
     @truck_capacity.setter
-    def truck_capacity(self, value):
+    def truck_capacity(self, value) -> None:
         self._truck_capacity = value
     
     @property
-    def max_range(self):
+    def max_range(self) -> int:
         return self._max_range
     
     @property
-    def status(self):
+    def status(self) -> str:
         return self._status
     
     @status.setter
-    def status(self, value):
+    def status(self, value) -> None:
         if value in ['Available', 'Unavailable']:
             self._status = value
         else:
             raise ValueError(Fore.RED + "Status must be 'Available' or 'Unavailable'")
     
     @property
-    def name(self):
+    def name(self) -> str:
         return self._name
 
     def validate_id(self, truck_id: int) -> bool:
@@ -87,7 +87,6 @@ class TruckModel:
             return True
         return False
 
-    def __str__(self):
+    def __str__(self) -> str:
         return (Fore.LIGHTCYAN_EX + f'Truck #{self.truck_id} - {self.name}\n'
                 f'Status: {self.status}\n')
-

@@ -6,7 +6,6 @@ from commands.constants.constants import CANCEL, OPERATION_CANCELLED
 from colorama import Fore
 
 
-
 class ViewPackage(BaseCommand):
     def __init__(self, params: list[str], app_data: AppData) -> None:
         Validate.params_count(params, 0, self.__class__.__name__)

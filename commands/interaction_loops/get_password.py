@@ -3,6 +3,7 @@ from models.employee import Employee
 from commands.constants.constants import CANCEL
 from colorama import Fore
 
+
 class GetPassword(BaseLoop):
     def __init__(self, app_data) -> None:
         super().__init__(app_data)

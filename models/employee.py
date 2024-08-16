@@ -16,11 +16,11 @@ class Employee:
         Employee.id_implementer += 1
 
     @property
-    def firstname(self):
+    def firstname(self) -> str:
         return self._firstname
 
     @firstname.setter
-    def firstname(self, value):
+    def firstname(self, value) -> None:
         if len(value) < 3:
             raise ValueError(Fore.RED + 'First name should be at least 3 characters long')
         if any(char.isspace() for char in value):
@@ -28,11 +28,11 @@ class Employee:
         self._firstname = value
 
     @property
-    def lastname(self):
+    def lastname(self) -> str:
         return self._lastname
 
     @lastname.setter
-    def lastname(self, value):
+    def lastname(self, value) -> None:
         if len(value) < 3:
             raise ValueError(Fore.RED + 'Last name should be at least 3 characters long')
         if any(char.isspace() for char in value):
@@ -40,11 +40,11 @@ class Employee:
         self._lastname = value
 
     @property
-    def username(self):
+    def username(self) -> str:
         return self._username
     
     @username.setter
-    def username(self, name):
+    def username(self, name) -> None:
         if len(name) < 3 or len(name) > 20:
             raise ValueError(Fore.RED + 'Username should be between 3 and 20 characters long')
         if not re.match(r'^[a-zA-Z0-9!@#$_]*$', name):
@@ -54,11 +54,11 @@ class Employee:
         self._username = name
 
     @property
-    def password(self):
+    def password(self) -> str:
         return self._password
 
     @password.setter
-    def password(self, pw):
+    def password(self, pw) -> None:
         if len(pw) < 3 or len(pw) > 20:
             raise ValueError(Fore.RED + 'Password should be between 3 and 20 characters long')
         if not re.match(r'^[a-zA-Z0-9!@#$]*$', pw):

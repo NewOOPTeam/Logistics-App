@@ -12,4 +12,6 @@ class GetCustomerPhone(BaseLoop):
         if param[0] == '+':
             if not param[1:].isnumeric():
                 raise ValueError(Fore.RED + 'Invalid phone number')
+        if not param.isnumeric():
+            raise ValueError(Fore.RED + 'Invalid phone number')
         return param
