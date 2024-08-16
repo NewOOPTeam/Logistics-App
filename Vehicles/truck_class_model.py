@@ -45,6 +45,7 @@ class TruckModel:
         self._status = status
         self._name = name
         self._packages = []
+        self._departure_time = None
         TruckModel.vehicles_id.add(truck_id)
 
     @property
@@ -52,7 +53,15 @@ class TruckModel:
         return self._truck_id
     
     @property
-    def truck_capacity(self) -> int:
+    def departure_time(self):
+        return self._departure_time
+    
+    @departure_time.setter
+    def departure_time(self, value):
+        self._departure_time = value
+
+    @property
+    def truck_capacity(self):
         return self._truck_capacity
     
     @truck_capacity.setter

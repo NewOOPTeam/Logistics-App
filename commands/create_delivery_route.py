@@ -18,7 +18,8 @@ class CreateDeliveryRoute(BaseCommand):
         if route == CANCEL:
             return OPERATION_CANCELLED
 
-        delivery_route = self._app_data.create_delivery_route(route)
+        departure_time = input(Fore.LIGHTCYAN_EX + ' Input departure time: ')
+        delivery_route = self._app_data.create_delivery_route(route, departure_time)
         return Fore.GREEN + f'Delivery route created: \n{str(delivery_route)}'          
  
     def _requires_login(self) -> bool:

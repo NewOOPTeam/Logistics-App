@@ -1,3 +1,4 @@
+from datetime import datetime
 from models.delivery_package import ASSIGNED_TO_ROUTE, ASSIGNED_TO_TRUCK, DeliveryPackage
 from models.user import User
 from models.employee_roles import EmployeeRoles
@@ -208,14 +209,14 @@ class AppData:
         package = self.find_package_by_id(package_id)
         return package.start_location, package.end_location
 
-    def create_delivery_route(self, route) -> DeliveryRoute:
+    def create_delivery_route(self, route, departure_time) -> DeliveryRoute:
         dc = DC()
-        route_stops = self.calculate_route_times(route)
+        route_stops = self.calculate_route_times(route, departure_time)
         locations = [loc.location.name for loc in route_stops]
         
         route_id = DeliveryRoute.generate_id()
         total_distance = dc.calculate_total_distance(locations)
-        delivery_route = DeliveryRoute(route_id, route_stops, total_distance)
+        delivery_route = DeliveryRoute(route_id, departure_time, route_stops, total_distance)
         self._delivery_routes.append(delivery_route)
         return delivery_route
     
@@ -251,7 +252,7 @@ class AppData:
         # routes = [str(route) for route in self._delivery_routes]
         # return '\n'.join(routes)
     
-    def calculate_route_times(self, route) -> list[RouteStop]:
+    def calculate_route_times(self, route, departure_time):
         """calculates arrival and departure time at each stop for the delivery route
 
         Args:
@@ -261,7 +262,6 @@ class AppData:
             list[RouteStop]: list containing information about each stop along the delivery route - location, arrival time and departure time
         """
         starting_location = route[0]
-        departure_time = DateTime.create_time_stamp_for_today() 
         _starting_location = Locations[starting_location]
         start_location = RouteStop(_starting_location, departure_time, departure_time)
         
@@ -348,6 +348,7 @@ class AppData:
             raise ValueError(Fore.RED + f'Package ID {package_id} is already assigned to a route.')
         
         package.status = ASSIGNED_TO_ROUTE
+        route._status = 'In progress'
         route._packages.append(package)
         package._assigned_route = route
 
@@ -377,22 +378,20 @@ class AppData:
         for truck_id in range(tc.ACTROS_MIN_ID, tc.ACTROS_MAX_ID + 1)]
         self._trucks.extend(actros_trucks)
 
-    def mark_unavailable(self, truck_id: int) -> None:
+    def mark_unavailable(self, truck):
         """marks a truck unavailable
 
         Args:
             truck_id (int)
         """
-        truck = self.get_truck_by_id(truck_id)
         truck.status = 'Unavailable'
 
-    def mark_available(self, truck_id: int):
+    def mark_available(self, truck):
         """marks a truck available
 
         Args:
             truck_id (int)
-        """
-        truck = self.get_truck_by_id(truck_id)
+        """    
         truck.status = 'Available'
 
     def find_suitable_truck(self, km: int) -> list[TruckModel]:
@@ -406,12 +405,12 @@ class AppData:
         """
         suitable_trucks = []
         for truck in self.trucks:  
-            if truck.status == 'Available' and truck.truck_capacity >= km:
+            if truck.status == 'Available' and truck.max_range >= km:
                 suitable_trucks.append(truck)
         
         return suitable_trucks           
     
-    def find_suitable_truck_by_weight(self, suitable_trucks, weight: int) -> TruckModel:
+    def find_suitable_truck_by_weight(self, suitable_trucks, weight: float):
         """iterates through a list of trucks suitable for the total distance of the route
         and returns the first with a mathing capacity for the total weight
         of the assigned packages
@@ -423,9 +422,25 @@ class AppData:
         Returns:
             (TruckModel)
         """
+        suitable_trucks_by_weight = []
+
         for truck in suitable_trucks:
             if truck.truck_capacity >= weight:
-                return truck
+                suitable_trucks_by_weight.append(truck)
+        return suitable_trucks_by_weight
+
+    def find_suitable_truck_for_truck(self, route, suitable_trucks):
+        time_period = [tuple(route.destinations.deparute_time, route.destinations.arrival_time) for loc in route.destinations]
+        for truck in suitable_trucks:
+            time_conflict = False
+            for time_period in truck._assigned_time_periods:
+                if not (route.departure_time >= time_period[1] or route.arrival_time <= time_period[0]):
+                    time_conflict = True
+                    break
+                if not time_conflict:
+                    route.assign_truck(truck)
+                    return truck
+        raise ValueError("There is no suitable truck for this route.")
     
     def assign_package_to_truck(self, truck, package_id: int) -> DeliveryPackage:
         """assignes the given package to the given truck
@@ -442,12 +457,35 @@ class AppData:
         package.status = ASSIGNED_TO_TRUCK
         truck.truck_capacity -= package.weight
         return package
+    
+    def assign_truck_to_route(self, truck, route):
+
+        # if not truck or not route:
+        #     return "Truck or Route not found."
+
+        # total_weight = DeliveryRoute.calculate_weight_at_start(route)
+        # if truck.truck_capacity < total_weight:
+        #     return f"Truck {truck_id} cannot handle the weight of this route."
+ 
+        # if truck.max_range < route.total_distance: #:
+        #     return f"Truck {truck_id} cannot cover the distance of this route."
+
+        truck.departure_time = route.departure_time
+        route.assign_truck(truck)
+        return  f"Truck {truck.truck_id} successfully assigned to Route {route.id}.\nDeparture time: {truck.departure_time}"
 
     def get_truck_by_id(self, truck_id: int) -> TruckModel:
-        for truck in self.trucks:
+        for truck in self._trucks:
             if truck.truck_id == truck_id:
                 return truck
         raise ValueError(Fore.RED + f'Truck ID {truck_id} does not exist.')
+    
+    def list_all_trucks(self):
+        return [truck.truck_id for truck in self._trucks if truck.status == 'Available']
+    
+    def calculate_total_weight_for_route(self, route_id: int):
+        route = self.get_route_by_id(route_id)
+        return sum([package.weight for package in route.packages])
  
     # def view_packages_of_route(self, route_id):
     #     route = self.find_route_by_id(route_id)
