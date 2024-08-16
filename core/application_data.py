@@ -9,7 +9,7 @@ from models.locations import Locations
 from models.delivery_route import DeliveryRoute
 from date_time.date_time_functionalities import DateTime
 from csv_file.distance_calculator import DistanceCalculator as DC
-from colorama import Fore
+from colorama import Fore, Style
 
 
 class AppData:
@@ -444,7 +444,7 @@ class AppData:
     def assign_truck_to_route(self, truck: TruckModel, route: DeliveryRoute) -> str:
         truck.departure_time = route.departure_time
         route.assign_truck(truck)
-        return  f"Truck {truck.truck_id} successfully assigned to Route {route.id}.\nDeparture time: {truck.departure_time}"
+        return  f"Truck {truck.truck_id} successfully assigned to Route #{route.id}.\nDeparture time: {truck.departure_time}"
 
     def get_truck_by_id(self, truck_id: int) -> TruckModel:
         for truck in self._trucks:
@@ -454,3 +454,23 @@ class AppData:
     
     def list_all_trucks(self) -> list:
         return [truck.truck_id for truck in self._trucks if truck.status == 'Available']
+    
+    def show_available_trucks(self, suitable_trucks: list[TruckModel]):
+        man_trucks = [truck for truck in suitable_trucks if truck.name == 'Man']
+        scania_trucks = [truck for truck in suitable_trucks if truck.name == 'Scania']
+        actros_trucks = [truck for truck in suitable_trucks if truck.name == 'Actros']
+            
+        output = (
+            f'\n{Fore.CYAN}Available Man trucks: {Fore.WHITE}{len(man_trucks)}\n'
+            f'{Fore.CYAN}IDs: {Fore.GREEN}{", ".join(str(tr.truck_id) for tr in man_trucks)}\n\n'
+            
+            f'{Fore.CYAN}Available Scania trucks: {Fore.WHITE}{len(scania_trucks)}\n'
+            f'{Fore.CYAN}IDs: {Fore.GREEN}{", ".join(str(tr.truck_id) for tr in scania_trucks)}\n\n'
+            
+            f'{Fore.CYAN}Available Actros trucks: {Fore.WHITE}{len(actros_trucks)}\n'
+            f'{Fore.CYAN}IDs: {Fore.GREEN}{", ".join(str(tr.truck_id) for tr in actros_trucks)}\n'
+        )
+        
+        return output + Style.RESET_ALL
+            
+        return ''.join(output) + Style.RESET_ALL

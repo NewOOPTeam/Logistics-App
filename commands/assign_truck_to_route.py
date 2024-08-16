@@ -28,9 +28,9 @@ class AssignTruckToRoute(BaseCommand):
         if not suitable_trucks_by_weight:
             raise ValueError(Fore.RED + "No suitable truck available. BY WEIGHT")
         
-        suitable_trucks_by_weight_str = [str(truck) for truck in suitable_trucks_by_weight]
-        print("\n".join(suitable_trucks_by_weight_str))
-        selected_truck = get_id.loop(Fore.LIGHTCYAN_EX + ' Input truck ID: ')
+        final_trucks = self._app_data.show_available_trucks(suitable_trucks_by_weight)
+        print(final_trucks)
+        selected_truck = get_id.loop(Fore.LIGHTCYAN_EX + ' Select truck ID to assign to route: ')
         truck = self._app_data.get_truck_by_id(selected_truck)
         
         result = self._app_data.assign_truck_to_route(truck, route)
