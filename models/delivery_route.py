@@ -1,7 +1,7 @@
 from models.delivery_package import DeliveryPackage
 from Vehicles.truck_class_model import TruckModel
 from models.route_stop import RouteStop
-from colorama import Fore
+from colorama import Fore, Style
 
 
 AWAITING = "Awaiting"
@@ -23,14 +23,15 @@ class DeliveryRoute:
         
     def __str__(self) -> str:
         locations_info = [
-            f"{stop.location.value} ({stop.arrival_time})"
+            f"{Fore.LIGHTCYAN_EX}{stop.location.value} "
+            f"({Fore.YELLOW}{stop.arrival_time}{Fore.LIGHTCYAN_EX}){Fore.RESET}"
             for stop in self._destinations
         ]
-        joined_locations = ' -> '.join(locations_info)
+        joined_locations = f'{Fore.WHITE} -> {Fore.RESET}'.join(locations_info)
         
-        return (Fore.CYAN + f'Delivery route #{self.id}\n'
+        return (f'{Fore.CYAN}Delivery route #{self.id}\n'
                 f'{joined_locations}\n'
-                f'Total distance: {self.total_distance}km'
+                f'{Fore.CYAN}Total distance: {Fore.GREEN}{self.total_distance}km{Fore.RESET}'
                 )
         
     @property

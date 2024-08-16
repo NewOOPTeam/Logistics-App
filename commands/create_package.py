@@ -39,8 +39,15 @@ class CreatePackage(BaseCommand):
                 return self.cancel_operation(package)
            
         package = self._app_data.assign_package_to_route(package.id, new_route.id)
+        message = (
+                f'{Fore.GREEN}Delivery created for Package #{Fore.YELLOW}{package.id}{Fore.GREEN}, '
+                f'assigned to route #{Fore.YELLOW}{new_route.id}{Fore.GREEN}:\n{Fore.RESET}'
+                f'\n{new_route}\n\n'
+                f'{Fore.YELLOW}Awaiting assignment to available truck.{Fore.RESET}'
+            )
+            
+        return message
 
-        return f'Delivery created for Package #{package.id}, assigned to route {new_route.id}:\n{new_route}\n\nAwaiting assignment to available truck.'
  
        
     def _requires_login(self) -> bool:
