@@ -2,7 +2,6 @@ from models.delivery_package import DeliveryPackage, ASSIGNED_TO_TRUCK
 from Vehicles.truck_class_model import TruckModel
 from models.route_stop import RouteStop
 from colorama import Fore
-from date_time.date_time_functionalities import DateTime
 
 
 AWAITING = "Awaiting"
@@ -91,20 +90,6 @@ class DeliveryRoute:
             truck.mark_available()
         self._assigned_trucks.clear()
         self._status = COMPLETED
-                
-    def calculate_weight_at_each_stop(self) -> dict: ## ne se polzwa nikyde
-        weight_at_stops = {}
-        current_weight = 0
-        
-        for stop in self._destinations:
-            for package in self._packages:
-                if package.start_location == stop.location:
-                    current_weight += package.weight
-                if package.end_location == stop.location:
-                    current_weight -= package.weight
-            weight_at_stops[stop.location] = current_weight
-        
-        return weight_at_stops
         
     def calculate_weight_at_start(self) -> float:
         start_location = self.starting_location.location
@@ -116,15 +101,6 @@ class DeliveryRoute:
             for package in self._packages:
                 if package.end_location == stop.location and date >= package.arrival_time and package.status == ASSIGNED_TO_TRUCK:
                     package._status = COMPLETED
-                
-    # def completed_route(self,truck_id) -> list[TruckModel]:
-    #     for stop in self._destinations:
-    #         if stop.location == self.final_location:
-    #             for truck in self._assigned_trucks:
-    #                 if truck.truck_id == truck_id:
-    #                     truck.mark_available()
-    #                     self._assigned_trucks.remove(truck)
-    #     return self._assigned_trucks
     
     def all_packages_delivered(self, date) -> bool:
         self.delivered_package(date)

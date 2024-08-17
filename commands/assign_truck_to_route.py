@@ -32,7 +32,6 @@ class AssignTruckToRoute(BaseCommand):
         print(final_trucks)
         selected_truck = get_id.loop(Fore.LIGHTCYAN_EX + ' Select truck ID to assign to route: ')
         truck = self._app_data.get_truck_by_id(selected_truck)
-        # tuk predlagam da slojim edin while loop, za da moje ako combined weght at the start e twyrde golqm za edin tryck, prosto da assign-wa wtori, ako ima wyzmojnost
         result = self._app_data.assign_truck_to_route(truck, route)
         return Fore.GREEN + result if 'successfully' in result else Fore.RED + result
 

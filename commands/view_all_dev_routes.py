@@ -18,8 +18,8 @@ class ViewAllDevRoutes(BaseCommand):
         
         date = DateTime.create_time_stamp_for_today()
         self._app_data.update_all_routes_status(date)
-        routes = self._app_data.view_all_delivery_routes() # da priema active routes, za da wryshta routes s updated status
-            
+        routes = self._app_data.view_all_delivery_routes()
+ 
         return  routes
 
 

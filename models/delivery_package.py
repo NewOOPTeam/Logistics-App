@@ -3,7 +3,7 @@ from models.user import User
 from colorama import Fore
 
 
-UNASSIGNED = Fore.RED + 'Unassigned' + Fore.LIGHTCYAN_EX # tq nqma kak da byde unassigned, moje towa da e ako ne e assigned to truck
+UNASSIGNED = Fore.RED + 'Unassigned' + Fore.LIGHTCYAN_EX
 ASSIGNED_TO_TRUCK = Fore.YELLOW + "Assigned to truck" + Fore.LIGHTCYAN_EX
 ASSIGNED_TO_ROUTE = Fore.YELLOW + "Assigned to route" + Fore.LIGHTCYAN_EX
 IN_PROGRESS = Fore.YELLOW + 'In progress' + Fore.LIGHTCYAN_EX

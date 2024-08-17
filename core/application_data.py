@@ -6,7 +6,7 @@ from Vehicles.truck_class_model import TruckConstants as tc
 from Vehicles.truck_class_model import TruckModel
 from models.route_stop import RouteStop
 from models.locations import Locations
-from models.delivery_route import DeliveryRoute, IN_PROGRESS
+from models.delivery_route import DeliveryRoute
 from date_time.date_time_functionalities import DateTime
 from csv_file.distance_calculator import DistanceCalculator as DC
 from colorama import Fore, Style
@@ -22,8 +22,8 @@ class AppData:
         self._delivery_routes: list[DeliveryRoute] = list()
         self._delivery_packages: list[DeliveryPackage] = list()
 
-        self.initialize_employees()  # Initialize employees pod vapros
-        self._create_trucks()  # Initialize trucks pod vapros
+        self.initialize_employees() 
+        self._create_trucks() 
         
 
     @property        
@@ -239,14 +239,13 @@ class AppData:
         route = self.get_route_by_id(route_id)
         return route.packages
 
-    def view_all_delivery_routes(self) -> str: ### this could raise an Error if not packages
+    def view_all_delivery_routes(self) -> str:
         routes_with_packages = []
         for route in self._delivery_routes:
             packages = self.get_packages_for_route(route.id)
             sum_of_weights = sum([package.weight for package in packages])
             route_info = f"Route: {route}\nAssigned packages: {len(packages)}, total weight: {sum_of_weights}\n" 
             routes_with_packages.append(route_info)
-        # return '\n\n'.join(routes_with_packages)
         return '\n\n'.join(routes_with_packages)
 
     
@@ -299,9 +298,9 @@ class AppData:
         if not isinstance(end_location, Locations):
             end_location = Locations[end_location]
         
+        suitable_routes = [route for route in self._delivery_routes if route._status != COMPLETED]
         valid_routes = []
-        
-        for route in self._delivery_routes:
+        for route in suitable_routes:
             destinations = [stop.location for stop in route.destinations]
             if start_location in destinations and end_location in destinations:
                 start_index = destinations.index(start_location)
@@ -330,7 +329,6 @@ class AppData:
             raise ValueError(Fore.RED + f'Package ID {package_id} is already assigned to a route.')
         
         package.status = ASSIGNED_TO_ROUTE
-        # route._status = 'In progress' towa go maham, za da moje da se smenq tozi status samo ako weche ima assigned truck to it
         route._packages.append(package)
         package._assigned_route = route
 
@@ -411,7 +409,7 @@ class AppData:
         truck.truck_capacity -= package.weight
         return package
     
-    def assign_truck_to_route(self, truck: TruckModel, route: DeliveryRoute) -> str: # towa da se premesti w DeliveryRoute i da razkarame onzi tam
+    def assign_truck_to_route(self, truck: TruckModel, route: DeliveryRoute) -> str:
         truck.departure_time = route.departure_time
         route.assign_truck(truck)
         route._status = IN_PROGRESS
@@ -446,7 +444,7 @@ class AppData:
         
         return output + Style.RESET_ALL
     
-    def update_all_routes_status(self, date): # moje da se polzwa wyw view all dev routes
+    def update_all_routes_status(self, date):
         active_routes = [route for route in self._delivery_routes if route._status == IN_PROGRESS]
         if active_routes:     
             for route in active_routes:

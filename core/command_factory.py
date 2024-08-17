@@ -24,7 +24,6 @@ class CommandFactory:
 
     def create(self, input_line: str):
         command, *params = input_line.split()
-        ## since we dont use params anywhere, we could remove them so that the commands can be input as normal words like "add delivery route"
                 
         match command.lower().replace(' ', ''):
             case 'login':

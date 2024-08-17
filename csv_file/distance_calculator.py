@@ -2,7 +2,6 @@ import csv
 from pathlib import Path
 from colorama import Fore
 from Vehicles.truck_class_model import TruckConstants
-from models.locations import Locations
 
 
 class DistanceCalculator:
@@ -96,14 +95,3 @@ class DistanceCalculator:
         if self.total_distance is not None:
             return Fore.LIGHTCYAN_EX + f"Total distance calculated: {self.total_distance} km."
         return Fore.YELLOW + "No distance calculated yet."
-
-#Example usage (can be removed in actual production code)
-# if __name__ == "__main__":
-#      calc = DistanceCalculator()  # Will use the default path
-#      try:
-#         route_input = input("Enter your route (e.g., 'CityA CityB CityC'): ")
-#         distance = calc.get_route_distance(route_input)
-#         print(f"The total distance for the route '{route_input}' is: {distance}")
-#         print(calc)  # This will use the __str__ method to print total distance
-#      except Exception as e:
-#         print(f"An error occurred: {e}")

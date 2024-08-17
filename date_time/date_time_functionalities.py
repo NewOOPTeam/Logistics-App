@@ -1,6 +1,6 @@
 from datetime import timedelta, datetime
 
-        ######## .strftime('%b %d %Y') -> displays date in format Feb 12 2024
+
 class DateTime:
 
 
@@ -53,10 +53,3 @@ class DateTime:
         future_date = now + timedelta(days=5)
 
         return future_date.strftime('%b %d %Y %H:%Mh')
-
-
-# start_date = '12/07/24 06:00'
-# distance = 909
-# arrival = DateTime.get_arrival_time_str(start_date, distance)
-# print(arrival)
-# print(type(arrival))
