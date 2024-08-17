@@ -92,6 +92,7 @@ class DeliveryRoute:
             for truck in self._assigned_trucks:
                 truck.mark_available()
             self._assigned_trucks.clear()
+            
 
     # def select_truck(self, available_trucks: list[TruckModel]) -> TruckModel:
     #     total_weight = self.calculate_weight_at_start()

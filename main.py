@@ -22,6 +22,6 @@ engine.start()
 # listalltrucks
 
 # login employee_user password123!
-# Dec 12 2024 16:30h
+# Aug 17 2024 13:59h
 # login supervisor_user password456!
 # viewalldeliveryroutes

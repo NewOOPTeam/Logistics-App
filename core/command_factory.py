@@ -14,7 +14,6 @@ from commands.login_command import LoginCommand
 from commands.logout_command import LogoutCommand
 from commands.done import Done
 from colorama import Fore
-from date_time.date_time_functionalities import DateTime
 from commands.list_all_trucks import ListAllTrucks
 
 
@@ -57,7 +56,7 @@ class CommandFactory:
             case 'assigntrucktoroute':
                 return AssignTruckToRoute(params, self._app_data)
             case 'timeforward':
-                return MoveTimeForward(DateTime)
+                return MoveTimeForward(params, self._app_data)
             case 'listalltrucks':
                 return ListAllTrucks(params, self._app_data)
             case 'done':
