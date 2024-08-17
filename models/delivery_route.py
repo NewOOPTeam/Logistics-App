@@ -2,7 +2,8 @@ from models.delivery_package import DeliveryPackage
 from Vehicles.truck_class_model import TruckModel
 from models.route_stop import RouteStop
 from colorama import Fore, Style
-
+from Vehicles.truck_class_model import TruckModel, TruckConstants
+from date_time.date_time_functionalities import DateTime
 
 AWAITING = "Awaiting"
 IN_PROGRESS = 'In progress'
@@ -84,20 +85,23 @@ class DeliveryRoute:
         self._assigned_trucks.append(truck)
         truck.status = "Unavailable"
 
-    def complete_route(self) -> None:
-        for truck in self._assigned_trucks:
-            truck.mark_available()
-        self._assigned_trucks.clear()
+    def complete_route(self) -> bool:
+        self._status = COMPLETED
+        
+        if self._assigned_trucks:
+            for truck in self._assigned_trucks:
+                truck.mark_available()
+            self._assigned_trucks.clear()
 
-    def select_truck(self, available_trucks: list[TruckModel]) -> TruckModel:
-        total_weight = self.calculate_weight_at_start()
-        for truck in available_trucks:
-            if truck.status == "Available" and truck.truck_capacity >= total_weight:
-                self.assign_truck(truck)
-                return truck
-        return ValueError(Fore.RED + "No suitable truck available.")
+    # def select_truck(self, available_trucks: list[TruckModel]) -> TruckModel:
+    #     total_weight = self.calculate_weight_at_start()
+    #     for truck in available_trucks:
+    #         if truck.status == "Available" and truck.truck_capacity >= total_weight:
+    #             self.assign_truck(truck)
+    #             return truck
+    #     return ValueError(Fore.RED + "No suitable truck available.")
     
-    def calculate_weight_at_each_stop(self) -> dict:
+    def calculate_weight_at_each_stop(self) -> dict: ## ne se polzwa nikyde
         weight_at_stops = {}
         current_weight = 0
         
@@ -121,7 +125,7 @@ class DeliveryRoute:
             for package in self._packages:
                 if package.end_location == stop.location:
                     package.status = "Completed"
-
+                
     def completed_route(self,truck_id) -> list[TruckModel]:
         for stop in self._destinations:
             if stop.location == self.final_location:

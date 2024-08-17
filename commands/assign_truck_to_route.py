@@ -26,7 +26,7 @@ class AssignTruckToRoute(BaseCommand):
         suitable_trucks_by_weight = self._app_data.find_suitable_truck_by_weight(suitable_trucks, combined_weight)
         
         if not suitable_trucks_by_weight:
-            raise ValueError(Fore.RED + "No suitable truck available. BY WEIGHT")
+            raise ValueError(Fore.RED + "No suitable truck available.")
         
         final_trucks = self._app_data.show_available_trucks(suitable_trucks_by_weight)
         print(final_trucks)

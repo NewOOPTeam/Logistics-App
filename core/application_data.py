@@ -1,4 +1,4 @@
-from models.delivery_package import ASSIGNED_TO_ROUTE, ASSIGNED_TO_TRUCK, DeliveryPackage
+from models.delivery_package import DeliveryPackage, UNASSIGNED, ASSIGNED_TO_TRUCK, ASSIGNED_TO_ROUTE, IN_PROGRESS, COMPLETED
 from models.user import User
 from models.employee_roles import EmployeeRoles
 from models.employee import Employee
@@ -6,7 +6,7 @@ from Vehicles.truck_class_model import TruckConstants as tc
 from Vehicles.truck_class_model import TruckModel
 from models.route_stop import RouteStop
 from models.locations import Locations
-from models.delivery_route import DeliveryRoute
+from models.delivery_route import DeliveryRoute, IN_PROGRESS
 from date_time.date_time_functionalities import DateTime
 from csv_file.distance_calculator import DistanceCalculator as DC
 from colorama import Fore, Style
@@ -240,7 +240,7 @@ class AppData:
         route = self.get_route_by_id(route_id)
         return route.packages
 
-    def view_all_delivery_routes(self) -> str:
+    def view_all_delivery_routes(self) -> str: ### this could raise an Error is not packages
         routes_with_packages = []
         for route in self._delivery_routes:
             packages = self.get_packages_for_route(route.id)
@@ -281,9 +281,8 @@ class AppData:
             _location = Locations[location]
             route_stops.append(RouteStop(_location, previous_time, arrival_time))
 
-        return route_stops
-    
-    
+        return route_stops      
+        
     def find_valid_routes_for_package(self, package_id: int) -> list[DeliveryRoute]:
         """finds all delivery routes that contain the starting and final location of the given package
 
@@ -361,22 +360,6 @@ class AppData:
         for truck_id in range(tc.ACTROS_MIN_ID, tc.ACTROS_MAX_ID + 1)]
         self._trucks.extend(actros_trucks)
 
-    def mark_unavailable(self, truck):
-        """marks a truck unavailable
-
-        Args:
-            truck_id (int)
-        """
-        truck.status = 'Unavailable'
-
-    def mark_available(self, truck):
-        """marks a truck available
-
-        Args:
-            truck_id (int)
-        """    
-        truck.status = 'Available'
-
     def find_suitable_truck(self, km: int) -> list[TruckModel]:
         """finds all available trucks with a suitable range for the given route distance
 
@@ -412,6 +395,7 @@ class AppData:
                 suitable_trucks_by_weight.append(truck)
         return suitable_trucks_by_weight
 
+    
     # def find_suitable_truck_for_truck(self, route, suitable_trucks):
     #     time_period = [tuple(route.destinations.deparute_time, route.destinations.arrival_time) for loc in route.destinations]
     #     for truck in suitable_trucks:
@@ -425,7 +409,7 @@ class AppData:
     #                 return truck
     #     raise ValueError("There is no suitable truck for this route.")
     
-    def assign_package_to_truck(self, truck: TruckModel, package_id: int) -> DeliveryPackage:
+    def assign_package_to_truck(self, truck: TruckModel, package_id: int) -> DeliveryPackage: # tozi ne se polzwa nikyde
         """assignes the given package to the given truck
 
         Args:
@@ -441,7 +425,7 @@ class AppData:
         truck.truck_capacity -= package.weight
         return package
     
-    def assign_truck_to_route(self, truck: TruckModel, route: DeliveryRoute) -> str:
+    def assign_truck_to_route(self, truck: TruckModel, route: DeliveryRoute) -> str: # towa da se premesti w DeliveryRoute i da razkarame onzi tam
         truck.departure_time = route.departure_time
         route.assign_truck(truck)
         return  f"Truck {truck.truck_id} successfully assigned to Route #{route.id}.\nDeparture time: {truck.departure_time}"
@@ -472,5 +456,19 @@ class AppData:
         )
         
         return output + Style.RESET_ALL
-            
-        return ''.join(output) + Style.RESET_ALL
+    
+    def update_routes_status(self): # moje da se polzwa wyw view all dev routes
+        active_routes = [route for route in self._app_data._delivery_routes if route._status == IN_PROGRESS]
+             
+        for route in active_routes:
+            if DateTime.create_time_stamp_for_today() <= self.arrival_time:
+                route.complete_route()
+                active_routes.remove()    
+        return active_routes
+    
+    def update_packages_status(self):
+        packages_in_progress = [package for package in self._app_data._packages if package._status == IN_PROGRESS]
+        assigned_to_route = [package for package in self._app_data._packages if package._status == ASSIGNED_TO_ROUTE]
+        assigned_to_truck = [package for package in self._app_data._packages if package._status == ASSIGNED_TO_TRUCK]
+        
+        ### da se doizmislq

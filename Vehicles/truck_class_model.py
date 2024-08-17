@@ -94,3 +94,20 @@ class TruckModel:
     def __str__(self) -> str:
         return (Fore.LIGHTCYAN_EX + f'Truck #{self.truck_id} - {self.name}\n'
                 f'Status: {self.status}\n')
+        
+    
+    def mark_unavailable(self):
+        """marks a truck unavailable
+
+        Args:
+            truck_id (int)
+        """
+        self.status = 'Unavailable'
+
+    def mark_available(self):
+        """marks a truck available
+
+        Args:
+            truck_id (int)
+        """    
+        self.status = 'Available'
