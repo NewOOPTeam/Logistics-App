@@ -3,6 +3,7 @@ from core.application_data import AppData
 from commands.helper_methods import Validate
 from models.employee_roles import EmployeeRoles
 from colorama import Fore
+from date_time.date_time_functionalities import DateTime
 
 
 class ViewAllDevRoutes(BaseCommand):
@@ -15,11 +16,12 @@ class ViewAllDevRoutes(BaseCommand):
         if not self._app_data.logged_in_employee.role == EmployeeRoles.MANAGER:
             raise ValueError(Fore.RED + 'Only managers can view information about all delivery routes!')
         
-        ## twa da e samo za routes in progress:
-        # A manager at the company uses the system to find information about all delivery routes in progress. The system responds with information that contains each route’s stops, delivery weight, and the expected current stop based on the time of the day.
-        
-        route = self._app_data.view_all_delivery_routes() #promqna 16;55
-        return route
+        date = DateTime.create_time_stamp_for_today()
+        self._app_data.update_all_routes_status(date)
+        routes = self._app_data.view_all_delivery_routes()
+ 
+        return  routes
+
 
     def _requires_login(self) -> bool:
         return True

@@ -33,12 +33,7 @@ class TruckConstants:
 class TruckModel:
     vehicles_id = set()
 
-    def __init__(self, truck_id: int, truck_capacity: int, max_range: int, name: str, status='Available') -> None:
-        # if truck_id in TruckModel.vehicles_id:
-        #     raise ValueError(f"Truck ID {truck_id} already exists.")
-        # if not self.validate_id(truck_id):
-        #     raise ValueError(f"Truck ID {truck_id} is out of valid range.")
-        
+    def __init__(self, truck_id: int, truck_capacity: int, max_range: int, name: str, status='Available') -> None:      
         self._truck_id = truck_id
         self._truck_capacity = truck_capacity
         self._max_range = max_range
@@ -99,3 +94,20 @@ class TruckModel:
     def __str__(self) -> str:
         return (Fore.LIGHTCYAN_EX + f'Truck #{self.truck_id} - {self.name}\n'
                 f'Status: {self.status}\n')
+        
+    
+    def mark_unavailable(self):
+        """marks a truck unavailable
+
+        Args:
+            truck_id (int)
+        """
+        self.status = 'Unavailable'
+
+    def mark_available(self):
+        """marks a truck available
+
+        Args:
+            truck_id (int)
+        """    
+        self.status = 'Available'

@@ -54,12 +54,21 @@ class DeliveryPackage:
         if value <= 0:
             raise ValueError(Fore.RED + 'Weight must be positive.')
         self._weight = value
+        
+    @property    
+    def arrival_time(self):
+        if self._assigned_route is None:
+            return 'Package awaiting assignment to route'
+        for destination in self._assigned_route.destinations:
+            if destination.location == self.end_location:
+                return destination.arrival_time
 
     def __str__(self) -> str:
         return (Fore.LIGHTCYAN_EX + f'#{self.id} Package ({Fore.YELLOW + str(self.weight) + 'kg' + Fore.LIGHTCYAN_EX})\n'
-                f'From: {Fore.YELLOW + self.start_location + Fore.LIGHTCYAN_EX}\n'
-                f'To: {Fore.YELLOW + self.end_location + Fore.LIGHTCYAN_EX}\n'
+                f'From: {Fore.YELLOW + self.start_location.value + Fore.LIGHTCYAN_EX}\n'
+                f'To: {Fore.YELLOW + self.end_location.value + Fore.LIGHTCYAN_EX}\n'
                 f'-----Client-----\n'
                 f'{self._contact_info}\n'
                 f'----------------\n'
-                f'STATUS: {self.status}')
+                f'STATUS: {self.status}\n'
+                f'Expected delivery: {Fore.YELLOW + self.arrival_time + Fore.LIGHTCYAN_EX}')

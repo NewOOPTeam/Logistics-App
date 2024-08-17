@@ -4,6 +4,7 @@ from commands.helper_methods import Validate
 from commands.interaction_loops.get_weight import GetWeight
 from commands.interaction_loops.get_start_end_location import GetStartEndLocation
 from commands.interaction_loops.find_customer_by_email import GetCustomerInfo
+from commands.interaction_loops.validate_departure_time import ValidateDepartureTime
 from commands.interaction_loops.get_id import GetId
 from commands.interaction_loops.create_route import CreateRoute
 from commands.constants.constants import CANCEL, OPERATION_CANCELLED
@@ -23,7 +24,7 @@ class CreatePackage(BaseCommand):
         if package_info is None:
             return self.cancel_operation(None)
        
-        weight, route, customer, package = package_info
+        route, package = package_info
        
         valid_routes = self._app_data.find_valid_routes_for_package(package.id)
         if valid_routes:
@@ -39,17 +40,15 @@ class CreatePackage(BaseCommand):
                 return self.cancel_operation(package)
            
         package = self._app_data.assign_package_to_route(package.id, new_route.id)
-           
-           
-        # suitable_trucks = self._app_data.find_suitable_truck(new_route.total_distance)
-       
-        # if suitable_trucks:
-        #     truck = self._app_data.find_suitable_truck_by_weight(suitable_trucks, package.weight)
-           
-        # if truck:
-        #     package = self._app_data.assign_package_to_truck(truck, package.id)
-        #     return f'Delivery created for Package #{package.id}, expected arrival: ' + f'\nPackage info:\n{package}\n' + f'{truck.truck_capacity}' # tuk moje bi da ima arrival time? i mai za da stane, tr w delivery    packages wmesto locations da ima route_stops
-        return f'Delivery created for Package #{package.id}, assigned to route {new_route.id}:\n{new_route}\n\nAwaiting assignment to available truck.'
+        message = (
+                f'{Fore.GREEN}Delivery created for Package #{Fore.YELLOW}{package.id}{Fore.GREEN}, '
+                f'assigned to route #{Fore.YELLOW}{new_route.id}{Fore.GREEN}:\n{Fore.RESET}'
+                f'\n{new_route}\n\n'
+                f'{Fore.YELLOW}Awaiting assignment to available truck.{Fore.RESET}'
+            )
+            
+        return message
+
  
        
     def _requires_login(self) -> bool:
@@ -58,7 +57,7 @@ class CreatePackage(BaseCommand):
     def create_package(self):
         get_weight = GetWeight(self._app_data)
         get_start_end_location = GetStartEndLocation(self._app_data)
-        get_customer_info = GetCustomerInfo(self._app_data)
+        get_customer_info = GetCustomerInfo(self._app_data)        
  
         weight = get_weight.loop(Fore.LIGHTCYAN_EX + ' Input package weight: ')
         if weight == CANCEL:
@@ -74,7 +73,7 @@ class CreatePackage(BaseCommand):
        
         package = self._app_data.create_delivery_package(weight, route, customer)
        
-        return weight, route, customer, package
+        return route, package
        
        
     def validate_route(self, route, new_route):
@@ -109,14 +108,20 @@ class CreatePackage(BaseCommand):
    
     def create_route(self, route):
         get_route = CreateRoute(self._app_data)
-        msg = Fore.LIGHTCYAN_EX + 'No available delivery routes at the time, please create a new one!\n Input delivery route stops: '
+        get_departure_time = ValidateDepartureTime(self._app_data)
+
+        msg = Fore.RED + 'No available delivery routes at the time, please create a new one!\n' + Fore.LIGHTCYAN_EX + ' Input delivery route stops: '
        
         new_route = get_route.loop(msg)
         validated_route = self.validate_route(route, new_route)
         if validated_route == CANCEL:
             return CANCEL
-       
-        new_route = self._app_data.create_delivery_route(validated_route)
+        
+        departure_time = get_departure_time.loop(Fore.LIGHTCYAN_EX + ' Input departure time: ')
+        if departure_time == CANCEL:
+            return CANCEL
+        
+        new_route = self._app_data.create_delivery_route(validated_route, departure_time)
         return new_route
        
    

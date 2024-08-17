@@ -20,21 +20,10 @@ engine.start()
 # "supervisor_user", "password456!"
 # "manager_user", "password789!"
 # "admin_user", "password000!"
-# assigntrucktoroute 1 1 # 1 - truck id, 1 - route id
+# assigntrucktoroute 1 
 # listalltrucks
 
 # login employee_user password123!
-# Dec 12 2024 16:30h
+# Aug 17 2024 17:20h
 # login supervisor_user password456!
 # viewalldeliveryroutes
-
-
-### validate customer number for weird characters too!!
-#create delivery to check if status of paxkage is UNASSIGNED!!!
-# PER ADL MEL SYD ASP
-# MEL SYD PER ASP
-#  createdeliveryroute   nput delivery route stops:() ADL SYD MEL PER ASP SYD ,,,() ADL BRI DAR ,,() BRI SYD MEL
-
-#  Input departure time: Dec 12 2024 16:30h
-# na route 1 - package 1
-# na route 2 - package 2

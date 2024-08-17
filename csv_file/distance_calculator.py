@@ -2,7 +2,6 @@ import csv
 from pathlib import Path
 from colorama import Fore
 from Vehicles.truck_class_model import TruckConstants
-from models.locations import Locations
 
 
 class DistanceCalculator:
@@ -36,12 +35,8 @@ class DistanceCalculator:
 
         return distance_dict
 
-    def get_distance(self, starting_point: Locations.name, end_point: Locations.name) -> int:
+    def get_distance(self, starting_point, end_point) -> int:
         """calculates distance between two cities
-
-        Args:
-            starting_point (Locations.name)
-            end_point (Locations.name)
 
         Returns:
             (int)
@@ -50,11 +45,11 @@ class DistanceCalculator:
             raise ValueError(Fore.RED + f"City '{starting_point}' or '{end_point}' not found in the distance dictionary.")
         return self.distance_dict[starting_point][end_point]
 
-    def calculate_total_distance(self, route: list[Locations.name]) -> int:
+    def calculate_total_distance(self, route) -> int:
         """calculates the total distance of the given route
 
         Args:
-            route (list[Locations.name])
+            route (list)
 
         Returns:
             (int)
@@ -66,7 +61,7 @@ class DistanceCalculator:
             total_distance += self.get_distance(starting_point, end_point)
         return total_distance
 
-    def validate_route(self, route: list[Locations.name]) -> None:
+    def validate_route(self, route: list) -> None:
         if len(route) < 2:
             raise ValueError(Fore.RED + "Route must have at least two cities.")
         
@@ -100,14 +95,3 @@ class DistanceCalculator:
         if self.total_distance is not None:
             return Fore.LIGHTCYAN_EX + f"Total distance calculated: {self.total_distance} km."
         return Fore.YELLOW + "No distance calculated yet."
-
-#Example usage (can be removed in actual production code)
-# if __name__ == "__main__":
-#      calc = DistanceCalculator()  # Will use the default path
-#      try:
-#         route_input = input("Enter your route (e.g., 'CityA CityB CityC'): ")
-#         distance = calc.get_route_distance(route_input)
-#         print(f"The total distance for the route '{route_input}' is: {distance}")
-#         print(calc)  # This will use the __str__ method to print total distance
-#      except Exception as e:
-#         print(f"An error occurred: {e}")

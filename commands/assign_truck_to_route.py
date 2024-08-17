@@ -9,8 +9,6 @@ from commands.interaction_loops.get_id import GetId
 class AssignTruckToRoute(BaseCommand):
     def __init__(self, params: list[str], app_data: AppData) -> None:
         Validate.params_count(params, 1, self.__class__.__name__)
-        # self.truck_id = int(params[0])
-        # self.route_id = int(params[1])
         super().__init__(params, app_data)
         
 
@@ -18,8 +16,7 @@ class AssignTruckToRoute(BaseCommand):
         super().execute()
         get_id = GetId(self._app_data)
         
-        # truck = self._app_data.get_truck_by_id(self.truck_id)
-        self.route_id = int(self.params[0])
+        self.route_id = int(self.params[0]) 
         route = self._app_data.get_route_by_id(self.route_id)
         suitable_trucks = self._app_data.find_suitable_truck(route.total_distance)
         combined_weight = route.calculate_weight_at_start()
@@ -29,24 +26,12 @@ class AssignTruckToRoute(BaseCommand):
         suitable_trucks_by_weight = self._app_data.find_suitable_truck_by_weight(suitable_trucks, combined_weight)
         
         if not suitable_trucks_by_weight:
-            raise ValueError(Fore.RED + "No suitable truck available. BY WEIGHT")
+            raise ValueError(Fore.RED + "No suitable truck available.")
         
-        suitable_trucks_by_weight_str = [str(truck) for truck in suitable_trucks_by_weight]
-        print("\n".join(suitable_trucks_by_weight_str))
-        selected_truck = get_id.loop(Fore.LIGHTCYAN_EX + ' Input truck ID: ')
+        final_trucks = self._app_data.show_available_trucks(suitable_trucks_by_weight)
+        print(final_trucks)
+        selected_truck = get_id.loop(Fore.LIGHTCYAN_EX + ' Select truck ID to assign to route: ')
         truck = self._app_data.get_truck_by_id(selected_truck)
-
-
-        # if truck:
-        #     package = self._app_data.assign_package_to_truck(truck, package.id)
-        #     return f'Delivery created for Package #{package.id}, expected arrival: ' + f'\nPackage info:\n{package}\n' + f'{truck.truck_capacity}' # tuk moje bi da ima arrival time? i mai za da stane, tr w delivery    packages wmesto locations da ima route_stops
-        
-        # if not truck:
-        #     return Fore.RED + f'Truck with ID {self.truck_id} does not exist.'
-        
-        # if not route:
-        #     return Fore.RED + f'Route with ID {self.route_id} does not exist.'
-        
         result = self._app_data.assign_truck_to_route(truck, route)
         return Fore.GREEN + result if 'successfully' in result else Fore.RED + result
 
