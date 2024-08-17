@@ -16,7 +16,9 @@ class ViewUnassignedPackages(BaseCommand):
         if not self._app_data.logged_in_employee.role == EmployeeRoles.SUPERVISOR:
             raise ValueError(Fore.RED + 'Only supervisors can view all packages!')
         
-        return self._app_data.find_unassigned_packages()
+        packages = self._app_data.find_unassigned_packages()
+        
+        return packages if packages else 'No unassigned packages at the moment.'
     
     def _requires_login(self) -> bool:
         True

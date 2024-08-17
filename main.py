@@ -22,6 +22,8 @@ engine.start()
 # listalltrucks
 
 # login employee_user password123!
-# Aug 17 2024 13:59h
+# Aug 17 2024 16:59h
 # login supervisor_user password456!
 # viewalldeliveryroutes
+
+# update packages status when we assign truck to route

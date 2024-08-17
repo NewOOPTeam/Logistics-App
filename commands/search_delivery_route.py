@@ -17,9 +17,10 @@ class SearchRoute(BaseCommand):
         
         get_id = GetId(self._app_data)        
         id = get_id.loop(Fore.LIGHTCYAN_EX + ' Select route to view (input route ID): ')
-        route = self._app_data.get_route_by_id(id)        
-        if DateTime.create_time_stamp_for_today() <= route.arrival_time:
-            route.complete_route()
+        route = self._app_data.get_route_by_id(id)    
+        
+        date = DateTime.create_time_stamp_for_today()    
+        route.update_route_status(date)
         
         return route if route._status != COMPLETED else f'Route has been completed {route.arrival_time}'
 

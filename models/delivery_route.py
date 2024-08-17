@@ -1,9 +1,9 @@
-from models.delivery_package import DeliveryPackage
+from models.delivery_package import DeliveryPackage, ASSIGNED_TO_TRUCK
 from Vehicles.truck_class_model import TruckModel
 from models.route_stop import RouteStop
-from colorama import Fore, Style
-from Vehicles.truck_class_model import TruckModel, TruckConstants
+from colorama import Fore
 from date_time.date_time_functionalities import DateTime
+
 
 AWAITING = "Awaiting"
 IN_PROGRESS = 'In progress'
@@ -32,7 +32,8 @@ class DeliveryRoute:
         
         return (f'{Fore.CYAN}Delivery route #{self.id}\n'
                 f'{joined_locations}\n'
-                f'{Fore.CYAN}Total distance: {Fore.GREEN}{self.total_distance}km{Fore.RESET}'
+                f'{Fore.CYAN}Total distance: {Fore.GREEN}{self.total_distance}km{Fore.RESET}\n'
+                f'{Fore.CYAN}Status: {Fore.GREEN}{self._status}{Fore.RESET}'
                 )
         
     @property
@@ -85,23 +86,12 @@ class DeliveryRoute:
         self._assigned_trucks.append(truck)
         truck.status = "Unavailable"
 
-    def complete_route(self) -> bool:
+    def complete_route(self) -> bool:        
+        for truck in self._assigned_trucks:
+            truck.mark_available()
+        self._assigned_trucks.clear()
         self._status = COMPLETED
-        
-        if self._assigned_trucks:
-            for truck in self._assigned_trucks:
-                truck.mark_available()
-            self._assigned_trucks.clear()
-            
-
-    # def select_truck(self, available_trucks: list[TruckModel]) -> TruckModel:
-    #     total_weight = self.calculate_weight_at_start()
-    #     for truck in available_trucks:
-    #         if truck.status == "Available" and truck.truck_capacity >= total_weight:
-    #             self.assign_truck(truck)
-    #             return truck
-    #     return ValueError(Fore.RED + "No suitable truck available.")
-    
+                
     def calculate_weight_at_each_stop(self) -> dict: ## ne se polzwa nikyde
         weight_at_stops = {}
         current_weight = 0
@@ -121,17 +111,30 @@ class DeliveryRoute:
         total_weight = sum(package.weight for package in self._packages if package.start_location == start_location)
         return total_weight
 
-    def delivered_package(self) -> None:
+    def delivered_package(self, date) -> None:
         for stop in self._destinations:
             for package in self._packages:
-                if package.end_location == stop.location:
-                    package.status = "Completed"
+                if package.end_location == stop.location and date >= package.arrival_time and package.status == ASSIGNED_TO_TRUCK:
+                    package._status = COMPLETED
                 
-    def completed_route(self,truck_id) -> list[TruckModel]:
-        for stop in self._destinations:
-            if stop.location == self.final_location:
-                for truck in self._assigned_trucks:
-                    if truck.truck_id == truck_id:
-                        truck.mark_available()
-                        self._assigned_trucks.remove(truck)
-        return self._assigned_trucks
+    # def completed_route(self,truck_id) -> list[TruckModel]:
+    #     for stop in self._destinations:
+    #         if stop.location == self.final_location:
+    #             for truck in self._assigned_trucks:
+    #                 if truck.truck_id == truck_id:
+    #                     truck.mark_available()
+    #                     self._assigned_trucks.remove(truck)
+    #     return self._assigned_trucks
+    
+    def all_packages_delivered(self, date) -> bool:
+        self.delivered_package(date)
+        if not self._packages:
+            return False
+        for package in self._packages:
+            if package.status != COMPLETED:
+                return False
+        return True
+    
+    def update_route_status(self, date):
+        if date >= self.arrival_time and self.all_packages_delivered(date):
+            self.complete_route()

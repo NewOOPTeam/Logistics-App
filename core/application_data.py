@@ -221,7 +221,6 @@ class AppData:
         self._delivery_routes.append(delivery_route)
         return delivery_route
     
-    
     def get_route_by_id(self, id: int) -> DeliveryRoute:
         for route in self._delivery_routes:
             if route.id == id:
@@ -240,13 +239,14 @@ class AppData:
         route = self.get_route_by_id(route_id)
         return route.packages
 
-    def view_all_delivery_routes(self) -> str: ### this could raise an Error is not packages
+    def view_all_delivery_routes(self) -> str: ### this could raise an Error if not packages
         routes_with_packages = []
         for route in self._delivery_routes:
             packages = self.get_packages_for_route(route.id)
             sum_of_weights = sum([package.weight for package in packages])
             route_info = f"Route: {route}\nAssigned packages: {len(packages)}, total weight: {sum_of_weights}\n" 
             routes_with_packages.append(route_info)
+        # return '\n\n'.join(routes_with_packages)
         return '\n\n'.join(routes_with_packages)
 
     
@@ -330,7 +330,7 @@ class AppData:
             raise ValueError(Fore.RED + f'Package ID {package_id} is already assigned to a route.')
         
         package.status = ASSIGNED_TO_ROUTE
-        route._status = 'In progress'
+        # route._status = 'In progress' towa go maham, za da moje da se smenq tozi status samo ako weche ima assigned truck to it
         route._packages.append(package)
         package._assigned_route = route
 
@@ -342,7 +342,7 @@ class AppData:
         Returns:
             (str)
         """
-        unassigned_packages = [package for package in self._delivery_packages if package.status == DeliveryPackage.UNASSIGNED]
+        unassigned_packages = [package for package in self._delivery_packages if package.status == UNASSIGNED]
         return '\n\n'.join(unassigned_packages)
 
     def _create_trucks(self) -> None:
@@ -394,22 +394,8 @@ class AppData:
             if truck.truck_capacity >= weight:
                 suitable_trucks_by_weight.append(truck)
         return suitable_trucks_by_weight
-
     
-    # def find_suitable_truck_for_truck(self, route, suitable_trucks):
-    #     time_period = [tuple(route.destinations.deparute_time, route.destinations.arrival_time) for loc in route.destinations]
-    #     for truck in suitable_trucks:
-    #         time_conflict = False
-    #         for time_period in truck._assigned_time_periods:
-    #             if not (route.departure_time >= time_period[1] or route.arrival_time <= time_period[0]):
-    #                 time_conflict = True
-    #                 break
-    #             if not time_conflict:
-    #                 route.assign_truck(truck)
-    #                 return truck
-    #     raise ValueError("There is no suitable truck for this route.")
-    
-    def assign_package_to_truck(self, truck: TruckModel, package_id: int) -> DeliveryPackage: # tozi ne se polzwa nikyde
+    def assign_package_to_truck(self, truck: TruckModel, package_id: int) -> DeliveryPackage:
         """assignes the given package to the given truck
 
         Args:
@@ -428,6 +414,9 @@ class AppData:
     def assign_truck_to_route(self, truck: TruckModel, route: DeliveryRoute) -> str: # towa da se premesti w DeliveryRoute i da razkarame onzi tam
         truck.departure_time = route.departure_time
         route.assign_truck(truck)
+        route._status = IN_PROGRESS
+        for package in route._packages:
+            package.status = ASSIGNED_TO_TRUCK
         return  f"Truck {truck.truck_id} successfully assigned to Route #{route.id}.\nDeparture time: {truck.departure_time}"
 
     def get_truck_by_id(self, truck_id: int) -> TruckModel:
@@ -457,18 +446,10 @@ class AppData:
         
         return output + Style.RESET_ALL
     
-    def update_routes_status(self): # moje da se polzwa wyw view all dev routes
-        active_routes = [route for route in self._app_data._delivery_routes if route._status == IN_PROGRESS]
-             
-        for route in active_routes:
-            if DateTime.create_time_stamp_for_today() <= self.arrival_time:
-                route.complete_route()
-                active_routes.remove()    
-        return active_routes
-    
-    def update_packages_status(self):
-        packages_in_progress = [package for package in self._app_data._packages if package._status == IN_PROGRESS]
-        assigned_to_route = [package for package in self._app_data._packages if package._status == ASSIGNED_TO_ROUTE]
-        assigned_to_truck = [package for package in self._app_data._packages if package._status == ASSIGNED_TO_TRUCK]
-        
-        ### da se doizmislq
+    def update_all_routes_status(self, date): # moje da se polzwa wyw view all dev routes
+        active_routes = [route for route in self._delivery_routes if route._status == IN_PROGRESS]
+        if active_routes:     
+            for route in active_routes:
+                if date >= route.arrival_time and route.all_packages_delivered(date):
+                    route.complete_route()
+                    active_routes.remove()    
