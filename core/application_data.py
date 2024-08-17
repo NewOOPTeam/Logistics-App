@@ -329,6 +329,7 @@ class AppData:
             raise ValueError(Fore.RED + f'Package ID {package_id} is already assigned to a route.')
         
         package.status = ASSIGNED_TO_ROUTE
+        route._status = 'In progress'
         route._packages.append(package)
         package._assigned_route = route
 
