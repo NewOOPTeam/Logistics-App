@@ -4,7 +4,6 @@ from commands.create_delivery_route import CreateDeliveryRoute
 from commands.move_time_forward import MoveTimeForward
 from commands.search_delivery_route import SearchRoute
 from commands.add_customer import AddCustomer
-from commands.create_delivery import CreateDelivery
 from commands.view_unassigned_packages import ViewUnassignedPackages
 from commands.help import Help
 from commands.view_all_dev_routes import ViewAllDevRoutes
@@ -42,8 +41,6 @@ class CommandFactory:
                 return ViewAllPackages(params, self._app_data)
             case 'createdeliveryroute':
                 return CreateDeliveryRoute(params, self._app_data)
-            case 'createdelivery':
-                return CreateDelivery(params, self._app_data)
             case 'viewunassignedpackages':
                 return ViewUnassignedPackages(params, self._app_data)
             case 'viewdeliveryroute':

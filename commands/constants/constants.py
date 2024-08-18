@@ -50,3 +50,5 @@ As a Manager, you can:
 
 LOGIN_MESSAGE = Fore.YELLOW + 'Please login in order to use the system'
 EXIT_MESSAGE = Fore.RED + 'Shutting program down...'
+
+COMPLETED = 'Completed'

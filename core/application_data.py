@@ -1,4 +1,4 @@
-from models.delivery_package import DeliveryPackage, UNASSIGNED, ASSIGNED_TO_TRUCK, ASSIGNED_TO_ROUTE, IN_PROGRESS, COMPLETED
+from models.delivery_package import DeliveryPackage, UNASSIGNED, ASSIGNED_TO_TRUCK, ASSIGNED_TO_ROUTE, IN_PROGRESS
 from models.user import User
 from models.employee_roles import EmployeeRoles
 from models.employee import Employee
@@ -6,7 +6,7 @@ from Vehicles.truck_class_model import TruckConstants as tc
 from Vehicles.truck_class_model import TruckModel
 from models.route_stop import RouteStop
 from models.locations import Locations
-from models.delivery_route import DeliveryRoute
+from models.delivery_route import DeliveryRoute, COMPLETED
 from date_time.date_time_functionalities import DateTime
 from csv_file.distance_calculator import DistanceCalculator as DC
 from colorama import Fore, Style
@@ -451,4 +451,11 @@ class AppData:
             for route in active_routes:
                 if date >= route.arrival_time and route.all_packages_delivered(date):
                     route.complete_route()
-                    active_routes.remove()    
+
+    def update_all_packages(self, date):
+        assigned_packages = [package for package in self._delivery_packages if package.status == ASSIGNED_TO_TRUCK]
+        if assigned_packages:
+            for package in assigned_packages:
+                for stop in package._assigned_route:
+                    if package.end_location == stop.location and date >= package.arrival_time:
+                        package._status = COMPLETED
