@@ -89,7 +89,7 @@ class DeliveryRoute:
         for truck in self._assigned_trucks:
             truck.mark_available()
         self._assigned_trucks.clear()
-        self._status = COMPLETED
+        self._status = 'Completed'
         
     def calculate_weight_at_start(self) -> float:
         start_location = self.starting_location.location
@@ -112,5 +112,5 @@ class DeliveryRoute:
         return True
     
     def update_route_status(self, date):
-        if date >= self.arrival_time and self.all_packages_delivered(date):
+        if date >= self.arrival_time and self.all_packages_delivered(date) and self._status == IN_PROGRESS:
             self.complete_route()

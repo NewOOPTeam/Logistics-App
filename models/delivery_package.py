@@ -3,11 +3,11 @@ from models.user import User
 from colorama import Fore
 
 
-UNASSIGNED = Fore.RED + 'Unassigned' + Fore.LIGHTCYAN_EX
-ASSIGNED_TO_TRUCK = Fore.YELLOW + "Assigned to truck" + Fore.LIGHTCYAN_EX
-ASSIGNED_TO_ROUTE = Fore.YELLOW + "Assigned to route" + Fore.LIGHTCYAN_EX
-IN_PROGRESS = Fore.YELLOW + 'In progress' + Fore.LIGHTCYAN_EX
-COMPLETED = Fore.GREEN + 'Completed' + Fore.LIGHTCYAN_EX
+UNASSIGNED = 'Unassigned'
+ASSIGNED_TO_TRUCK = "Assigned to truck"
+ASSIGNED_TO_ROUTE = "Assigned to route"
+IN_PROGRESS = 'In progress'
+COMPLETED = 'Completed'
 
 
 class DeliveryPackage:
@@ -72,3 +72,7 @@ class DeliveryPackage:
                 f'----------------\n'
                 f'STATUS: {self.status}\n'
                 f'Expected delivery: {Fore.YELLOW + self.arrival_time + Fore.LIGHTCYAN_EX}')
+        
+    def update_status(self, date):
+        if date >= self.arrival_time and self.status == ASSIGNED_TO_TRUCK:
+            self.status = COMPLETED

@@ -20,7 +20,7 @@ class ViewAllDevRoutes(BaseCommand):
         self._app_data.update_all_routes_status(date)
         routes = self._app_data.view_all_delivery_routes()
  
-        return  routes
+        return routes
 
 
     def _requires_login(self) -> bool:
