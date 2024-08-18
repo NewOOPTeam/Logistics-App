@@ -13,7 +13,6 @@ class MoveTimeForward(BaseCommand):
 
     def execute(self):
         super().execute()
-        
         if not self._app_data.logged_in_employee.role == EmployeeRoles.MANAGER:
             raise ValueError(Fore.RED + 'Only managers can move time forward!')
         

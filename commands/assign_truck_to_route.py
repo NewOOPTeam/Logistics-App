@@ -17,6 +17,9 @@ class AssignTruckToRoute(BaseCommand):
         get_id = GetId(self._app_data)
         
         route_id = get_id.loop(Fore.LIGHTCYAN_EX + ' Input route ID: ')
+        if route_id == CANCEL:
+            return OPERATION_CANCELLED
+        
         route = self._app_data.get_route_by_id(route_id)
         
         if route._status == COMPLETED:

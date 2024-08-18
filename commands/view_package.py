@@ -17,9 +17,9 @@ class ViewPackage(BaseCommand):
         
         get_id = GetId(self._app_data)
         id = get_id.loop(Fore.LIGHTCYAN_EX + ' Input package ID: ')
-
         if id == CANCEL:
             return OPERATION_CANCELLED
+
         package = self._app_data.find_package_by_id(id)
         date = DateTime.create_time_stamp_for_today()    
         package.update_status(date)

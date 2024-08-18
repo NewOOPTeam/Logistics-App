@@ -22,7 +22,7 @@ class AppData:
         self._delivery_routes: list[DeliveryRoute] = list()
         self._delivery_packages: list[DeliveryPackage] = list()
 
-        self.initialize_employees() 
+        self._initialize_employees() 
         self._create_trucks() 
         
 
@@ -59,30 +59,22 @@ class AppData:
         self._logged_employee = employee
 
 
-    def initialize_employees(self):
-        self._employees.extend([
-            Employee("Employee", "EmployeeLast", EmployeeRoles.EMPLOYEE, "employee_user", "password123!"),
-            Employee("Supervisor", "SupervisorLast", EmployeeRoles.SUPERVISOR, "supervisor_user", "password456!"),
-            Employee("Manager", "ManagerLast", EmployeeRoles.MANAGER, "manager_user", "password789!"),
-            Employee("Admin", "AdminLast", EmployeeRoles.ADMIN, "admin_user", "password000!")
-        ])
+    # def add_employee(self, firstname, lastname, role: EmployeeRoles, username, password: Employee) -> Employee:
+    #     """creates an instance of the Employee class and adds it to the list of employees
 
-    def add_employee(self, firstname, lastname, role: EmployeeRoles, username, password: Employee) -> Employee:
-        """creates an instance of the Employee class and adds it to the list of employees
+    #     Args:
+    #         firstname (str): should be at least 3 characters long and no whitespace
+    #         lastname (str): should be at least 3 characters long and no whitespace
+    #         role (EmployeeRoles): employee role
+    #         username (str): should be between 3 and 20 characters long, should contain only letters, digits, and special symbols "!@#$_" and no whitespace
+    #         password (str): should be between 3 and 20 characters long and should contain only letters, digits, and special symbols "!@#$"
 
-        Args:
-            firstname (str): should be at least 3 characters long and no whitespace
-            lastname (str): should be at least 3 characters long and no whitespace
-            role (EmployeeRoles): employee role
-            username (str): should be between 3 and 20 characters long, should contain only letters, digits, and special symbols "!@#$_" and no whitespace
-            password (str): should be between 3 and 20 characters long and should contain only letters, digits, and special symbols "!@#$"
-
-        Returns:
-            (Employee)
-        """
-        employee = Employee(firstname, lastname, role, username, password)
-        self._employees.append(employee)
-        return employee
+    #     Returns:
+    #         (Employee)
+    #     """
+    #     employee = Employee(firstname, lastname, role, username, password)
+    #     self._employees.append(employee)
+    #     return employee
 
     def find_employee_by_username(self, username: str) -> Employee:
         """searches for an existing employee by username
@@ -98,17 +90,17 @@ class AppData:
                 return employee
         raise ValueError(Fore.RED + 'Employee not found!')
    
-    def view_employees(self) -> str:
-        """shows all employees
+    # def view_employees(self) -> str:
+    #     """shows all employees
 
-        Returns:
-            (str)
-        """
-        employees = [Fore.LIGHTCYAN_EX +
-            f"{employee.firstname} {employee.lastname}, Role: {employee.role}, Username: {employee.username}"
-            for employee in self._employees
-        ]
-        return '\n'.join(employees)
+    #     Returns:
+    #         (str)
+    #     """
+    #     employees = [Fore.LIGHTCYAN_EX +
+    #         f"{employee.firstname} {employee.lastname}, Role: {employee.role}, Username: {employee.username}"
+    #         for employee in self._employees
+    #     ]
+    #     return '\n'.join(employees)
    
     def login(self, employee) -> None:
         """sets the current logged user to the user that is given as argument
@@ -172,6 +164,7 @@ class AppData:
                 return True
         return False
 
+
     def create_delivery_package(self, weight: float, route: tuple, contact_info: User) -> DeliveryPackage:
         starting_location, target_location = route
         starting_location = Locations[starting_location]
@@ -209,6 +202,24 @@ class AppData:
         """
         package = self.find_package_by_id(package_id)
         return package.start_location, package.end_location
+    
+    def find_unassigned_packages(self) -> str:
+        """returns information about all packages with status UNASSIGNED
+
+        Returns:
+            (str)
+        """
+        unassigned_packages = [package for package in self._delivery_packages if package.status == UNASSIGNED]
+        return '\n\n'.join(unassigned_packages)
+
+    def update_all_packages(self, date):
+        assigned_packages = [package for package in self._delivery_packages if package.status == ASSIGNED_TO_TRUCK]
+        if assigned_packages:
+            for package in assigned_packages:
+                for stop in package._assigned_route:
+                    if package.end_location == stop.location and date >= package.arrival_time:
+                        package._status = COMPLETED
+                        
 
     def create_delivery_route(self, route, departure_time) -> DeliveryRoute:
         dc = DC()
@@ -248,6 +259,16 @@ class AppData:
             routes_with_packages.append(route_info)
         return '\n\n'.join(routes_with_packages)
 
+    def get_routes_in_progress(self):
+       active_routes = [route for route in self._delivery_routes if route._status == IN_PROGRESS]
+       return active_routes 
+    
+    def update_all_routes_status(self, date):
+        active_routes = [route for route in self._delivery_routes if route._status == IN_PROGRESS]
+        if active_routes:     
+            for route in active_routes:
+                if date >= route.arrival_time and route.all_packages_delivered(date):
+                    route.complete_route()
     
     def calculate_route_times(self, route, departure_time) -> list[RouteStop]:
         """calculates arrival and departure time at each stop for the delivery route
@@ -334,30 +355,14 @@ class AppData:
         package._assigned_route = route
 
         return package
-    
-    def find_unassigned_packages(self) -> str:
-        """returns information about all packages with status UNASSIGNED
 
-        Returns:
-            (str)
-        """
-        unassigned_packages = [package for package in self._delivery_packages if package.status == UNASSIGNED]
-        return '\n\n'.join(unassigned_packages)
-
-    def _create_trucks(self) -> None:
-        """initializes all trucks at the start of the program
-        """
-        scania_trucks = [TruckModel(truck_id, tc.SCANIA_CAPACITY, tc.SCANIA_MAX_RANGE, "Scania")
-        for truck_id in range(tc.SCANIA_MIN_ID, tc.SCANIA_MAX_ID + 1)]
-        self._trucks.extend(scania_trucks)
- 
-        man_trucks = [TruckModel(truck_id, tc.MAN_CAPACITY, tc.MAN_MAX_RANGE, "Man")
-        for truck_id in range(tc.MAN_MIN_ID, tc.MAN_MAX_ID + 1)]
-        self._trucks.extend(man_trucks)
-
-        actros_trucks = [TruckModel(truck_id, tc.ACTROS_CAPACITY, tc.ACTROS_MAX_RANGE, "Actros")
-        for truck_id in range(tc.ACTROS_MIN_ID, tc.ACTROS_MAX_ID + 1)]
-        self._trucks.extend(actros_trucks)
+    def assign_truck_to_route(self, truck: TruckModel, route: DeliveryRoute) -> str:
+        truck.departure_time = route.departure_time
+        route.assign_truck(truck)
+        route._status = IN_PROGRESS
+        for package in route._packages:
+            package.status = ASSIGNED_TO_TRUCK
+        return  f"Truck {truck.truck_id} successfully assigned to Route #{route.id}.\nDeparture time: {truck.departure_time}"
 
     def find_suitable_truck(self, km: int) -> list[TruckModel]:
         """finds all available trucks with a suitable range for the given route distance
@@ -410,13 +415,6 @@ class AppData:
         truck.truck_capacity -= package.weight
         return package
     
-    def assign_truck_to_route(self, truck: TruckModel, route: DeliveryRoute) -> str:
-        truck.departure_time = route.departure_time
-        route.assign_truck(truck)
-        route._status = IN_PROGRESS
-        for package in route._packages:
-            package.status = ASSIGNED_TO_TRUCK
-        return  f"Truck {truck.truck_id} successfully assigned to Route #{route.id}.\nDeparture time: {truck.departure_time}"
 
     def get_truck_by_id(self, truck_id: int) -> TruckModel:
         for truck in self._trucks:
@@ -444,18 +442,27 @@ class AppData:
         )
         
         return output + Style.RESET_ALL
-    
-    def update_all_routes_status(self, date):
-        active_routes = [route for route in self._delivery_routes if route._status == IN_PROGRESS]
-        if active_routes:     
-            for route in active_routes:
-                if date >= route.arrival_time and route.all_packages_delivered(date):
-                    route.complete_route()
 
-    def update_all_packages(self, date):
-        assigned_packages = [package for package in self._delivery_packages if package.status == ASSIGNED_TO_TRUCK]
-        if assigned_packages:
-            for package in assigned_packages:
-                for stop in package._assigned_route:
-                    if package.end_location == stop.location and date >= package.arrival_time:
-                        package._status = COMPLETED
+
+    def _initialize_employees(self):
+        self._employees.extend([
+            Employee("Employee", "EmployeeLast", EmployeeRoles.EMPLOYEE, "employee_user", "password123!"),
+            Employee("Supervisor", "SupervisorLast", EmployeeRoles.SUPERVISOR, "supervisor_user", "password456!"),
+            Employee("Manager", "ManagerLast", EmployeeRoles.MANAGER, "manager_user", "password789!"),
+            Employee("Admin", "AdminLast", EmployeeRoles.ADMIN, "admin_user", "password000!")
+        ])
+
+    def _create_trucks(self) -> None:
+        """initializes all trucks at the start of the program
+        """
+        scania_trucks = [TruckModel(truck_id, tc.SCANIA_CAPACITY, tc.SCANIA_MAX_RANGE, "Scania")
+        for truck_id in range(tc.SCANIA_MIN_ID, tc.SCANIA_MAX_ID + 1)]
+        self._trucks.extend(scania_trucks)
+ 
+        man_trucks = [TruckModel(truck_id, tc.MAN_CAPACITY, tc.MAN_MAX_RANGE, "Man")
+        for truck_id in range(tc.MAN_MIN_ID, tc.MAN_MAX_ID + 1)]
+        self._trucks.extend(man_trucks)
+
+        actros_trucks = [TruckModel(truck_id, tc.ACTROS_CAPACITY, tc.ACTROS_MAX_RANGE, "Actros")
+        for truck_id in range(tc.ACTROS_MIN_ID, tc.ACTROS_MAX_ID + 1)]
+        self._trucks.extend(actros_trucks)

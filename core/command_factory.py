@@ -11,6 +11,7 @@ from commands.view_package import ViewPackage
 from commands.view_all_packages import ViewAllPackages
 from commands.login_command import LoginCommand
 from commands.logout_command import LogoutCommand
+from commands.view_routes_in_progress import ViewRoutesInProgress
 from commands.done import Done
 from colorama import Fore
 from commands.list_all_trucks import ListAllTrucks
@@ -48,7 +49,7 @@ class CommandFactory:
             case 'viewalldeliveryroutes':
                 return ViewAllDevRoutes(params, self._app_data)
             case 'viewroutesinprogress':
-                pass # da se razpishe
+                return ViewRoutesInProgress(params, self._app_data)
             case 'assigntrucktoroute':
                 return AssignTruckToRoute(params, self._app_data)
             case 'timeforward':

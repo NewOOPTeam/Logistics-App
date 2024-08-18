@@ -12,7 +12,6 @@ class ViewUnassignedPackages(BaseCommand):
 
     def execute(self):
         super().execute()
-        
         if not self._app_data.logged_in_employee.role == EmployeeRoles.SUPERVISOR:
             raise ValueError(Fore.RED + 'Only supervisors can view all packages!')
         
