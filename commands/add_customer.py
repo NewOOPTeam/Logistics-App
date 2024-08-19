@@ -14,6 +14,7 @@ class AddCustomer(BaseCommand):
         super().__init__(params, app_data)
 
     def execute(self):
+        super().execute()
         
         get_name = GetCustomerName(self._app_data)
         get_email = GetEmail(self._app_data)
@@ -35,13 +36,10 @@ class AddCustomer(BaseCommand):
         if phone == CANCEL:
             return OPERATION_CANCELLED
         
-        try:
-            customer = self._app_data.add_customer(first_name, last_name, phone, email)
-        except:
-            raise ValueError(Fore.RED + 'Unexpected error occurred')
+        customer = self._app_data.add_customer(first_name, last_name, phone, email)
         
         return Fore.GREEN + f'User {customer.firstname} {customer.lastname} added'
-    
+
     def _requires_login(self) -> bool:
         return True
-        
+            

@@ -35,6 +35,9 @@
     # Assign truck - proverqva na route-a distance-a i sum of packages na tozi route. 
     # While true - add package. if package.weight <=  truck_cap - end
     # return list of unassigned ? 
+    
+     ### assigning truck to route is what triggers the departure time
+
 
 
 # route distance per -dar 10152 - actros 
@@ -57,8 +60,4 @@
 # kato suzdavame nov dev route - napr assign package ili create ako nqma takuv. 
 
 
-"""
-takes in: kwo priema kato argumenti
-kwo prawi
-kwo wryshta
-"""
+# ASSING PACKAGE TO ROUTE COMMAND pod wypros

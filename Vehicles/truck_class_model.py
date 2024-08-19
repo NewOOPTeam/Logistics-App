@@ -33,49 +33,53 @@ class TruckConstants:
 class TruckModel:
     vehicles_id = set()
 
-    def __init__(self, truck_id: int, truck_capacity: int, max_range: int, name: str, status='Available') -> None:
-        # if truck_id in TruckModel.vehicles_id:
-        #     raise ValueError(f"Truck ID {truck_id} already exists.")
-        # if not self.validate_id(truck_id):
-        #     raise ValueError(f"Truck ID {truck_id} is out of valid range.")
-        
+    def __init__(self, truck_id: int, truck_capacity: int, max_range: int, name: str, status='Available') -> None:      
         self._truck_id = truck_id
         self._truck_capacity = truck_capacity
         self._max_range = max_range
         self._status = status
         self._name = name
         self._packages = []
+        self._departure_time = None
         TruckModel.vehicles_id.add(truck_id)
 
     @property
-    def truck_id(self):
+    def truck_id(self) -> int:
         return self._truck_id
     
+    @property
+    def departure_time(self):
+        return self._departure_time
+    
+    @departure_time.setter
+    def departure_time(self, value):
+        self._departure_time = value
+
     @property
     def truck_capacity(self):
         return self._truck_capacity
     
     @truck_capacity.setter
-    def truck_capacity(self, value):
+    def truck_capacity(self, value) -> None:
         self._truck_capacity = value
     
     @property
-    def max_range(self):
+    def max_range(self) -> int:
         return self._max_range
     
     @property
-    def status(self):
+    def status(self) -> str:
         return self._status
     
     @status.setter
-    def status(self, value):
+    def status(self, value) -> None:
         if value in ['Available', 'Unavailable']:
             self._status = value
         else:
             raise ValueError(Fore.RED + "Status must be 'Available' or 'Unavailable'")
     
     @property
-    def name(self):
+    def name(self) -> str:
         return self._name
 
     def validate_id(self, truck_id: int) -> bool:
@@ -87,7 +91,23 @@ class TruckModel:
             return True
         return False
 
-    def __str__(self):
+    def __str__(self) -> str:
         return (Fore.LIGHTCYAN_EX + f'Truck #{self.truck_id} - {self.name}\n'
                 f'Status: {self.status}\n')
+        
+    
+    def mark_unavailable(self):
+        """marks a truck unavailable
 
+        Args:
+            truck_id (int)
+        """
+        self.status = 'Unavailable'
+
+    def mark_available(self):
+        """marks a truck available
+
+        Args:
+            truck_id (int)
+        """    
+        self.status = 'Available'

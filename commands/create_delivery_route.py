@@ -2,6 +2,7 @@ from commands.base_command import BaseCommand
 from core.application_data import AppData
 from commands.helper_methods import Validate
 from commands.interaction_loops.create_route import CreateRoute
+from commands.interaction_loops.validate_departure_time import ValidateDepartureTime
 from commands.constants.constants import OPERATION_CANCELLED, CANCEL
 from colorama import Fore
 
@@ -12,45 +13,17 @@ class CreateDeliveryRoute(BaseCommand):
         super().__init__(params, app_data)
         
     def execute(self): 
-        ################### UNFINISHED #####################
-
-        # Creating a delivery route – should have a unique id, and a list of locations (at least two).
-        # datetime
-        # expected delivery date
-        # route needs to be assigned an ID, so we need to create a DeliveryRoute class
+        super().execute()
         
-        # The first location is the starting location – it has a departure time.
-        # The other locations have expected arrival time.
-
-        # package = FindPackage(self._app_data).loop(' Input package ID: ') - da premahnem package- da ostavim samo route
-        # if package == OPERATION_CANCELLED:
-        #     return OPERATION_CANCELLED
-
         route = CreateRoute(self._app_data).loop(Fore.LIGHTCYAN_EX + ' Input delivery route stops: ')
         if route == CANCEL:
             return OPERATION_CANCELLED
-        
-        departure_time = input(Fore.LIGHTCYAN_EX + ' Input departure time: ') # promqnaS
-        delivery_route = self._app_data.calculate_route_times(departure_time, route)
-        ## samo destinations
-        return Fore.GREEN + f'Delivery route created: \n{str(delivery_route)}'
 
-        ### add departure time as input
-        
-        
-        # def get_arrival_time:
-            # choice 1 - asap
-            # choice 2 - input
-        
-        # package ID
-        # route
-        
-
-
-
-
-            
+        departure_time = ValidateDepartureTime(self._app_data).loop(Fore.LIGHTCYAN_EX + ' Input departure time: ')
+        if departure_time == CANCEL:
+            return OPERATION_CANCELLED
+        delivery_route = self._app_data.create_delivery_route(route, departure_time)
+        return Fore.GREEN + f'Delivery route created: \n{str(delivery_route)}'          
  
-    def get_start_date(self):
-        pass
-
+    def _requires_login(self) -> bool:
+        return True

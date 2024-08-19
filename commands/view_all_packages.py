@@ -12,9 +12,7 @@ class ViewAllPackages(BaseCommand):
 
 
     def execute(self):
-        if self._requires_login() and not self._app_data.has_logged_in_employee:
-            raise ValueError(Fore.RED + 'You are not logged in! Please login first!')
-        
+        super().execute()
         if self._app_data.logged_in_employee.role != EmployeeRoles.SUPERVISOR:
             raise ValueError(Fore.RED + 'Only supervisors can view all packages!')
         
