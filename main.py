@@ -10,20 +10,25 @@ if __name__ == "__main__":
 
     engine.start()
  
-# addcustomer Ivan Slavov 0883837373 ivan@slavov
-# createpackage 34 Sydney Melbourne ivan@slavov
-# viewpackage 1
-# createdeliveryroute BRI SYD MEL
+# login
+# logout
+# help
+# addcustomer
+# createpackage
+# viewpackage
+# viewunassignedpackages
+# viewallpackages
+# createdeliveryroute
+# viewdeliveryroute
+# assigntrucktoroute
+# viewalldeliveryroutes
+# viewroutesinprogress
+# listalltrucks
+# timeforward
 # done
+# Aug 20 2024 17:20h
 
 # "employee_user", "password123!",
 # "supervisor_user", "password456!"
 # "manager_user", "password789!"
 # "admin_user", "password000!"
-# assigntrucktoroute 1 
-# listalltrucks
-
-# login employee_user password123!
-# Aug 20 2024 17:20h
-# login supervisor_user password456!
-# viewalldeliveryroutes
