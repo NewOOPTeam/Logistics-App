@@ -39,20 +39,3 @@ class CourierCostCalculator:
                 f"Weight Cost per KG: ${self._weight_cost_per_kg:.2f}\n"
                 f"Distance Cost per KM: ${self._distance_cost_per_km:.2f}\n"
                 f"Insurance Percentage: {self._insurance_percentage}%")
-
-# if __name__ == "__main__":
-#     distance_calculator = DistanceCalculator()
-
-#     cost_calculator = CourierCostCalculator(distance_calculator)
-    
-#     start_location = "SYD"  
-#     end_location = "MEL"
-#     contact_info = "Customer Info" 
-#     package = DeliveryPackage(weight=5.0, start_location=start_location, end_location=end_location, contact_info=contact_info)
-
-#     try:
-#         total_cost = cost_calculator.calculate_cost(package)
-#         print(f"The total cost for the package is: ${total_cost:.2f}")
-#         print(cost_calculator) 
-#     except ValueError as e:
-#         print(f"An error occurred: {e}")

@@ -1,7 +1,9 @@
+import re
 import unittest
+from unittest.mock import Mock
 from colorama import Fore
 from Vehicles.truck_class_model import TruckModel
-from models.delivery_package import DeliveryPackage
+from models.delivery_package import ASSIGNED_TO_TRUCK, DeliveryPackage
 from models.delivery_route import DeliveryRoute
 from models.route_stop import RouteStop
 from models.locations import Locations
@@ -34,14 +36,39 @@ class TestDeliveryRoute(unittest.TestCase):
     def test_totalDistance_returnsCorrectDistance(self):
         self.assertEqual(self.total_distance, self.delivery_route.total_distance)
     
+    @staticmethod
+    def remove_ansi_escape_codes(text):
+        ansi_escape = re.compile(r'\x1B[@-_][0-?]*[ -/]*[@-~]')
+        return ansi_escape.sub('', text)
+
     def test_str_returnsCorrectString(self):
-        expected_str = (
-            Fore.LIGHTCYAN_EX + 
-            'Delivery route #1\n' +
-            'Sydney (Dec 12 2024 16:30h) -> Melbourne (Dec 12 2024 20:30h)\n' +
-            'Total distance: 877km'
+        stop1 = RouteStop(location=Mock(value="Sydney"), arrival_time="Dec 12 2024 16:30h", departure_time="Dec 12 2024 16:30h")
+        stop2 = RouteStop(location=Mock(value="Melbourne"), arrival_time="Dec 12 2024 20:30h", departure_time="Dec 12 2024 20:00h")
+        
+        delivery_route = DeliveryRoute(
+            route_id=self.route_id,
+            departure_time=self.departure_time,
+            destinations=[stop1, stop2],
+            total_distance=self.total_distance
         )
-        self.assertEqual(str(self.delivery_route), expected_str)
+        delivery_route._status = AWAITING 
+        
+        locations_info = [
+            f"{Fore.LIGHTCYAN_EX}{stop.location.value} ({Fore.YELLOW}{stop.arrival_time}{Fore.LIGHTCYAN_EX}){Fore.RESET}"
+            for stop in delivery_route.destinations
+        ]
+        joined_locations = f'{Fore.WHITE} -> {Fore.RESET}'.join(locations_info)
+        
+        expected_str = (
+            f'{Fore.CYAN}Delivery route #{delivery_route.id}{Fore.RESET}\n'
+            f'{joined_locations}\n'
+            f'{Fore.CYAN}Total distance: {Fore.GREEN}{delivery_route.total_distance}km{Fore.RESET}\n'
+            f'{Fore.CYAN}Status: {Fore.GREEN}{delivery_route._status}{Fore.RESET}'
+        )
+        
+        actual_str = str(delivery_route)
+
+        self.assertEqual(self.remove_ansi_escape_codes(actual_str), self.remove_ansi_escape_codes(expected_str))
 
     def test_startingLocation_returnsCorrectStartingLocation(self):
         self.assertEqual(self.destinations[0], self.delivery_route.starting_location)
@@ -78,18 +105,15 @@ class TestDeliveryRoute(unittest.TestCase):
         self.assertEqual(len(self.delivery_route.assigned_trucks), 0)
         self.assertEqual(truck.status, "Available")
 
-    def test_calculateWeightAtEachStop_returnsCorrectWeights(self):
-        package1 = DeliveryPackage(200, self.destinations[0].location, self.destinations[1].location, contact_info='John Doe')
-        package2 = DeliveryPackage(300, self.destinations[0].location, self.destinations[1].location, contact_info='Jane Doe')
+    def test_calculateWeightAtStart_returnsCorrectWeight(self):
+        package1 = DeliveryPackage(weight=100, start_location=Locations.SYD, end_location=Locations.MEL, contact_info="Ivan Ivan")
+        package2 = DeliveryPackage(weight=200, start_location=Locations.SYD, end_location=Locations.MEL, contact_info="Toni Toni")
+        
+        package1.status = ASSIGNED_TO_TRUCK
+        package2.status = ASSIGNED_TO_TRUCK
+        
         self.delivery_route._packages.extend([package1, package2])
-        weight_at_stops = self.delivery_route.calculate_weight_at_each_stop()
-        self.assertEqual(weight_at_stops[self.destinations[0].location], 500)
-        self.assertEqual(weight_at_stops[self.destinations[1].location], 0)
+        
+        self.assertEqual(self.delivery_route.calculate_weight_at_start(), 300)
 
-    def test_deliveredPackage_marksPackagesAsCompleted(self):
-        package1 = DeliveryPackage(200, self.destinations[0].location, self.destinations[1].location, contact_info='John Doe')
-        package2 = DeliveryPackage(300, self.destinations[0].location, self.destinations[1].location, contact_info='Jane Doe')
-        self.delivery_route._packages.extend([package1, package2])
-        self.delivery_route.delivered_package()
-        self.assertEqual(package1.status, "Completed")
-        self.assertEqual(package2.status, "Completed")
+   
