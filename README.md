@@ -1,18 +1,21 @@
 # Logistics-App
-Design and implement a Logistics console application.  The application will be used by employees of a large Australian company aiming to expand its activities to the freight industry. The app will be used to manage the delivery of packages between hubs in major Australian cities.
+Welcome to our Logistics console application!
+
+The application will be used by employees of a large Australian company aiming to expand its activities to the freight industry. 
+
+The app will be used to manage the delivery of packages between hubs in major Australian cities.
 
 ## Project Description
 
-### Design and implement a Logistics console application.
+The application will be used by employees of a large Australian company aiming to expand its activities to the freight industry. The app will be used to manage the delivery of packages between hubs in major Australian cities.
 
-The application will be used by employees of a large Australian company aiming to expand its activities to the freight industry. The app will be used to manage the delivery of packages between hubs in major Australian cities. An employee of the company must be able to record the details of a delivery package, create or search for suitable delivery routes, and inspect the current state of delivery packages, transport vehicles and delivery routes.
+## Available functionalities
 
-### Functional Requirements
+### The application supports the following operations:
 
-#### The application must support the following operations:
+#### Creating a delivery package
 
-* Creating a delivery package
-* unique id
+* each package has a unique id
 * start location
 * end location
 * weight in kg
