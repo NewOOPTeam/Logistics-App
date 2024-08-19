@@ -57,24 +57,7 @@ class AppData:
     @logged_in_employee.setter
     def logged_in_employee(self, employee):
         self._logged_employee = employee
-
-
-    # def add_employee(self, firstname, lastname, role: EmployeeRoles, username, password: Employee) -> Employee:
-    #     """creates an instance of the Employee class and adds it to the list of employees
-
-    #     Args:
-    #         firstname (str): should be at least 3 characters long and no whitespace
-    #         lastname (str): should be at least 3 characters long and no whitespace
-    #         role (EmployeeRoles): employee role
-    #         username (str): should be between 3 and 20 characters long, should contain only letters, digits, and special symbols "!@#$_" and no whitespace
-    #         password (str): should be between 3 and 20 characters long and should contain only letters, digits, and special symbols "!@#$"
-
-    #     Returns:
-    #         (Employee)
-    #     """
-    #     employee = Employee(firstname, lastname, role, username, password)
-    #     self._employees.append(employee)
-    #     return employee
+        
 
     def find_employee_by_username(self, username: str) -> Employee:
         """searches for an existing employee by username
@@ -89,18 +72,6 @@ class AppData:
             if employee.username == username:
                 return employee
         raise ValueError(Fore.RED + 'Employee not found!')
-   
-    # def view_employees(self) -> str:
-    #     """shows all employees
-
-    #     Returns:
-    #         (str)
-    #     """
-    #     employees = [Fore.LIGHTCYAN_EX +
-    #         f"{employee.firstname} {employee.lastname}, Role: {employee.role}, Username: {employee.username}"
-    #         for employee in self._employees
-    #     ]
-    #     return '\n'.join(employees)
    
     def login(self, employee) -> None:
         """sets the current logged user to the user that is given as argument

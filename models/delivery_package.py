@@ -87,5 +87,3 @@ class DeliveryPackage:
         total_cost = calculator.calculate_cost(self)
         
         return total_cost
-        
-        
