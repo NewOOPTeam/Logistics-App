@@ -333,6 +333,7 @@ class AppData:
         route._status = IN_PROGRESS
         for package in route._packages:
             package.status = ASSIGNED_TO_TRUCK
+            truck._packages.append(truck)
         return  f"Truck {truck.truck_id} successfully assigned to Route #{route.id}.\nDeparture time: {truck.departure_time}"
 
     def find_suitable_truck(self, km: int) -> list[TruckModel]:
@@ -370,21 +371,21 @@ class AppData:
                 suitable_trucks_by_weight.append(truck)
         return suitable_trucks_by_weight
     
-    def assign_package_to_truck(self, truck: TruckModel, package_id: int) -> DeliveryPackage:
-        """assignes the given package to the given truck
+    # def assign_package_to_truck(self, truck: TruckModel, package_id: int) -> DeliveryPackage:
+    #     """assignes the given package to the given truck
 
-        Args:
-            truck (TruckModel)
-            package_id (int)
+    #     Args:
+    #         truck (TruckModel)
+    #         package_id (int)
 
-        Returns:
-            (DeliveryPackage)
-        """
-        package = self.find_package_by_id(package_id)
-        truck._packages.append(package)
-        package.status = ASSIGNED_TO_TRUCK
-        truck.truck_capacity -= package.weight
-        return package
+    #     Returns:
+    #         (DeliveryPackage)
+    #     """
+    #     package = self.find_package_by_id(package_id)
+    #     truck._packages.append(package)
+    #     package.status = ASSIGNED_TO_TRUCK
+    #     truck.truck_capacity -= package.weight
+    #     return package
     
 
     def get_truck_by_id(self, truck_id: int) -> TruckModel:
