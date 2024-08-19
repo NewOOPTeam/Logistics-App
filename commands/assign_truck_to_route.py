@@ -21,6 +21,7 @@ class AssignTruckToRoute(BaseCommand):
             return OPERATION_CANCELLED
         
         route = self._app_data.get_route_by_id(route_id)
+        # da se oprawi da se syzdawa now route ako sme abore truck capacity za tozi route
         
         if route._status == COMPLETED:
             raise ValueError(Fore.RED + "Cannot create delivery for a completed route.")        

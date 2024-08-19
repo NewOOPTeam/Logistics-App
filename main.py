@@ -24,6 +24,6 @@ if __name__ == "__main__":
 # listalltrucks
 
 # login employee_user password123!
-# Aug 19 2024 17:20h
+# Aug 29 2024 21:20h
 # login supervisor_user password456!
 # viewalldeliveryroutes

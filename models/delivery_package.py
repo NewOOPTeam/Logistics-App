@@ -75,7 +75,7 @@ class DeliveryPackage:
                 f'----------------\n'
                 f'STATUS: {self.status}\n'
                 f'Expected delivery: {Fore.YELLOW + self.arrival_time + Fore.LIGHTCYAN_EX}\n'
-                f'Suggested cost: {self._total_cost:.2f}AUSD'
+                f'Suggested cost: {self._total_cost:.2f} AUSD'
                 )
         
     def update_status(self, date):

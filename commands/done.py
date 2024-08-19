@@ -11,6 +11,7 @@ class Done(BaseCommand):
     def execute(self):
         self._throw_if_user_logged_in()
         exit = BaseLoop(self._app_data)
+        # self._app_data.save_state()
         exit.exit_system(EXIT_MESSAGE)
         
     def _requires_login(self) -> bool:

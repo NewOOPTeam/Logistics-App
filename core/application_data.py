@@ -10,6 +10,8 @@ from models.delivery_route import DeliveryRoute, COMPLETED
 from date_time.date_time_functionalities import DateTime
 from csv_file.distance_calculator import DistanceCalculator as DC
 from colorama import Fore, Style
+import pickle
+import os
 
 
 class AppData:
@@ -58,6 +60,34 @@ class AppData:
     def logged_in_employee(self, employee):
         self._logged_employee = employee
         
+    def save_state(self):
+        data = {
+            'routes': self._delivery_routes,
+            'packages': self._delivery_packages,
+            'customers': self._users,
+            'trucks': self._trucks,
+            'employees': self._employees
+        }
+        
+        file_path = 'data/appdata.pickle'
+        if not os.path.exists(os.path.dirname(file_path)):
+              os.mkdir(os.path.dirname(file_path)) 
+        
+        with open(file_path, 'wb') as file:
+            pickle.dump(data, file)
+            
+    def load_state(self):
+        file_path = 'data/appdata.pickle'
+        if os.path.isfile(file_path):
+            with open(file_path, 'rb') as file:
+                data = pickle.load(file)
+                self._delivery_routes = data['routes']
+                self._delivery_packages = data['packages']
+                self._users = data['customers']
+                self._trucks = data['trucks']
+                self._employees = data['employees']
+           
+    
 
     def find_employee_by_username(self, username: str) -> Employee:
         """searches for an existing employee by username
@@ -321,7 +351,6 @@ class AppData:
             raise ValueError(Fore.RED + f'Package ID {package_id} is already assigned to a route.')
         
         package.status = ASSIGNED_TO_ROUTE
-        route._status = 'In progress'
         route._packages.append(package)
         package._assigned_route = route
 

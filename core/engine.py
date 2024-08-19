@@ -12,6 +12,7 @@ class Engine:
         
     def start(self):
         output = []
+        # self._app_data.load_state()
         try:
             print(LOGIN_MESSAGE)
             login = Login(self._app_data)
