@@ -26,7 +26,7 @@ class CreatePackage(BaseCommand):
        
         route, package = package_info
        
-        valid_routes = self._app_data.find_valid_routes_for_package(package.id)
+        valid_routes = self._app_data.find_valid_routes_for_package(package)
         if valid_routes:
             routes = self.display_delivery_routes(valid_routes)
             print(routes)
@@ -113,6 +113,8 @@ class CreatePackage(BaseCommand):
         msg = Fore.RED + 'No available delivery routes at the time, please create a new one!\n' + Fore.LIGHTCYAN_EX + ' Input delivery route stops: '
        
         new_route = get_route.loop(msg)
+        if new_route == CANCEL:
+            return CANCEL
         validated_route = self.validate_route(route, new_route)
         if validated_route == CANCEL:
             return CANCEL

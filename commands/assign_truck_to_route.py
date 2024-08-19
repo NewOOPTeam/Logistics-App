@@ -21,15 +21,16 @@ class AssignTruckToRoute(BaseCommand):
             return OPERATION_CANCELLED
         
         route = self._app_data.get_route_by_id(route_id)
-        
+        # da se oprawi da se syzdawa now route ako sme abore truck capacity za tozi route
+
         if route._status == COMPLETED:
             raise ValueError(Fore.RED + "Cannot create delivery for a completed route.")        
-        suitable_trucks = self._app_data.find_suitable_truck(route.total_distance)
-        combined_weight = route.calculate_weight_at_start()
-       
+        suitable_trucks = self._app_data.find_suitable_truck_by_distance(route.total_distance)
+        
         if not suitable_trucks:
             raise ValueError(Fore.RED + "No suitable truck available for this route distance.")
-        suitable_trucks_by_weight = self._app_data.find_suitable_truck_by_weight(suitable_trucks, combined_weight)
+        
+        suitable_trucks_by_weight = self._app_data.find_suitable_trucks_by_weight(suitable_trucks, route)
         
         if not suitable_trucks_by_weight:
             raise ValueError(Fore.RED + "No suitable truck available for package(s) weight.")
@@ -37,6 +38,7 @@ class AssignTruckToRoute(BaseCommand):
         final_trucks = self._app_data.show_available_trucks(suitable_trucks_by_weight)
         print(final_trucks)
         selected_truck = get_id.loop(Fore.LIGHTCYAN_EX + ' Select truck ID to assign to route: ')
+        
         truck = self._app_data.get_truck_by_id(selected_truck)
         result = self._app_data.assign_truck_to_route(truck, route)
         return Fore.GREEN + result if 'successfully' in result else Fore.RED + result

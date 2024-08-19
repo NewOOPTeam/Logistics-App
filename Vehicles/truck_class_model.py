@@ -111,3 +111,4 @@ class TruckModel:
             truck_id (int)
         """    
         self.status = 'Available'
+    
