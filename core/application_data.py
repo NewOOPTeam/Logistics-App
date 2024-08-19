@@ -274,7 +274,7 @@ class AppData:
 
         return route_stops      
         
-    def find_valid_routes_for_package(self, package_id: int) -> list[DeliveryRoute]:
+    def find_valid_routes_for_package(self, package: DeliveryPackage) -> list[DeliveryRoute]:
         """finds all delivery routes that contain the starting and final location of the given package
 
         Args:
@@ -283,7 +283,7 @@ class AppData:
         Returns:
             list[DeliveryRoute]
         """
-        start_location, end_location = self.get_package_locations(package_id)
+        start_location, end_location = self.get_package_locations(package.id)
         
         if not isinstance(start_location, Locations):
             start_location = Locations[start_location]
@@ -293,6 +293,10 @@ class AppData:
         suitable_routes = [route for route in self._delivery_routes if route._status != COMPLETED]
         valid_routes = []
         for route in suitable_routes:
+            weight_at_start_location = route.calculate_weight_at_stop(start_location)
+            if weight_at_start_location + package.weight > tc.SCANIA_CAPACITY:
+                continue
+            
             destinations = [stop.location for stop in route.destinations]
             if start_location in destinations and end_location in destinations:
                 start_index = destinations.index(start_location)
@@ -333,9 +337,10 @@ class AppData:
         route._status = IN_PROGRESS
         for package in route._packages:
             package.status = ASSIGNED_TO_TRUCK
+            truck._packages.append(package)
         return  f"Truck {truck.truck_id} successfully assigned to Route #{route.id}.\nDeparture time: {truck.departure_time}"
 
-    def find_suitable_truck(self, km: int) -> list[TruckModel]:
+    def find_suitable_truck_by_distance(self, km: int) -> list[TruckModel]:
         """finds all available trucks with a suitable range for the given route distance
 
         Args:
@@ -351,7 +356,7 @@ class AppData:
         
         return suitable_trucks           
     
-    def find_suitable_truck_by_weight(self, suitable_trucks, weight: float) -> list[TruckModel]:
+    def find_suitable_trucks_by_weight(self, suitable_trucks, route: DeliveryRoute) -> list[TruckModel]:
         """iterates through a list of trucks suitable for the total distance of the route
         and returns the first with a mathing capacity for the total weight
         of the assigned packages
@@ -366,11 +371,13 @@ class AppData:
         suitable_trucks_by_weight = []
 
         for truck in suitable_trucks:
-            if truck.truck_capacity >= weight:
+            if route.truck_suitable_for_packages_in_route(truck):
                 suitable_trucks_by_weight.append(truck)
+                
         return suitable_trucks_by_weight
+        
     
-    def assign_package_to_truck(self, truck: TruckModel, package_id: int) -> DeliveryPackage:
+    def assign_package_to_truck(self, truck: TruckModel, package_id: int) -> DeliveryPackage:  ## tozi ne se polzwa nikyde
         """assignes the given package to the given truck
 
         Args:

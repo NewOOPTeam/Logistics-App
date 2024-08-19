@@ -2,6 +2,7 @@ from models.delivery_package import DeliveryPackage, ASSIGNED_TO_TRUCK
 from Vehicles.truck_class_model import TruckModel
 from models.route_stop import RouteStop
 from colorama import Fore
+from models.locations import Locations
 
 
 AWAITING = "Awaiting"
@@ -95,6 +96,15 @@ class DeliveryRoute:
         start_location = self.starting_location.location
         total_weight = sum(package.weight for package in self._packages if package.start_location == start_location)
         return total_weight
+    
+    def calculate_weight_at_stop(self, location: Locations) -> float:
+        total_weight = 0
+        for package in self._packages:
+            if location == package.start_location:
+                total_weight += package.weight
+        
+        return total_weight
+                
 
     def delivered_package(self, date) -> None:
         for stop in self._destinations:
@@ -114,3 +124,25 @@ class DeliveryRoute:
     def update_route_status(self, date):
         if date >= self.arrival_time and self.all_packages_delivered(date) and self._status == IN_PROGRESS:
             self.complete_route()
+            
+    def truck_suitable_for_packages_in_route(self, truck: TruckModel) -> bool:
+        truck_capacity_for_route = truck.truck_capacity
+        weight_at_start = self.calculate_weight_at_start()
+        truck_capacity_for_route -= weight_at_start
+        
+        weight_to_pickup, weight_to_unload = {}, {}
+        for stop in self.destinations:
+            packages_weight_to_pickup = sum([package.weight for package in self.packages if package.start_location == stop.location])
+            weight_to_pickup[stop.location] = packages_weight_to_pickup
+            
+            packages_weight_to_unload = sum([package.weight for package in self.packages if package.end_location == stop.location])
+            weight_to_unload[stop.location] = packages_weight_to_unload
+            
+        for stop in self.destinations:
+            truck_capacity_for_route += weight_to_unload[stop.location]
+            truck_capacity_for_route -= weight_to_pickup[stop.location]
+        
+        if truck_capacity_for_route >= truck.truck_capacity:
+            return False       
+        
+        return True

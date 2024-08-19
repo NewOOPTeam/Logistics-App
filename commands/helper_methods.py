@@ -36,6 +36,6 @@ class Parse:
 class AcceptInput:
     @staticmethod
     def retry_or_cancel(input_message):
-        if (_ := input(input_message).strip().lower()) != 'cancel':
+        if (_ := input(input_message).strip().lower()) != CANCEL:
             return None
         return CANCEL
