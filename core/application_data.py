@@ -183,7 +183,12 @@ class AppData:
         unassigned_packages = [package for package in self._delivery_packages if package.status == UNASSIGNED]
         return '\n\n'.join(unassigned_packages)
 
-    def update_all_packages(self, date):
+    def update_all_packages(self, date: str):
+        """updates the status of all delivery packages given the date
+
+        Args:
+            date (_type_)
+        """
         assigned_packages = [package for package in self._delivery_packages if package.status == ASSIGNED_TO_TRUCK]
         if assigned_packages:
             for package in assigned_packages:
@@ -234,7 +239,12 @@ class AppData:
        active_routes = [route for route in self._delivery_routes if route._status == IN_PROGRESS]
        return active_routes 
     
-    def update_all_routes_status(self, date):
+    def update_all_routes_status(self, date: str):
+        """updates the status of all delivery routes based on the given date
+
+        Args:
+            date (str)
+        """
         active_routes = [route for route in self._delivery_routes if route._status == IN_PROGRESS]
         if active_routes:     
             for route in active_routes:
@@ -377,7 +387,7 @@ class AppData:
         return suitable_trucks_by_weight
         
     
-    def assign_package_to_truck(self, truck: TruckModel, package_id: int) -> DeliveryPackage:  ## tozi ne se polzwa nikyde
+    def assign_package_to_truck(self, truck: TruckModel, package_id: int) -> DeliveryPackage:  ## not used
         """assignes the given package to the given truck
 
         Args:
