@@ -1,5 +1,4 @@
 from csv_file.distance_calculator import DistanceCalculator
-from models.delivery_package import DeliveryPackage
 from colorama import Fore
 
 
@@ -16,11 +15,10 @@ class CourierCostCalculator:
         self._insurance_percentage = CourierCostCalculator.INSURANCE_PERCENTAGE
         self._distance_calculator = distance_calculator
 
-    def calculate_cost(self, package: DeliveryPackage):
-        if package.weight <= 0:
-            raise ValueError(Fore.RED + "Weight must be positive.")
-        
-        distance = self._distance_calculator.get_distance(package._start_location, package._end_location)
+    def calculate_cost(self, package):
+        start_location = package.start_location.name
+        end_location = package.end_location.name
+        distance = self._distance_calculator.get_distance(start_location, end_location)
         
         if distance < 0:
             raise ValueError(Fore.RED + "Distance cannot be negative.")
@@ -32,27 +30,3 @@ class CourierCostCalculator:
         total_cost = initial_cost + insurance_cost
 
         return total_cost
-
-    def __str__(self):
-        return (Fore.LIGHTCYAN_EX + f"Courier Cost Calculator\n"
-                f"Base Rate: ${self._base_rate:.2f}\n"
-                f"Weight Cost per KG: ${self._weight_cost_per_kg:.2f}\n"
-                f"Distance Cost per KM: ${self._distance_cost_per_km:.2f}\n"
-                f"Insurance Percentage: {self._insurance_percentage}%")
-
-# if __name__ == "__main__":
-#     distance_calculator = DistanceCalculator()
-
-#     cost_calculator = CourierCostCalculator(distance_calculator)
-    
-#     start_location = "SYD"  
-#     end_location = "MEL"
-#     contact_info = "Customer Info" 
-#     package = DeliveryPackage(weight=5.0, start_location=start_location, end_location=end_location, contact_info=contact_info)
-
-#     try:
-#         total_cost = cost_calculator.calculate_cost(package)
-#         print(f"The total cost for the package is: ${total_cost:.2f}")
-#         print(cost_calculator) 
-#     except ValueError as e:
-#         print(f"An error occurred: {e}")

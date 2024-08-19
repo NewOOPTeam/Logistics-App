@@ -1,6 +1,8 @@
 from models.locations import Locations
 from models.user import User
 from colorama import Fore
+from models.courier_cost_calculator import CourierCostCalculator
+from csv_file.distance_calculator import DistanceCalculator
 
 
 UNASSIGNED = 'Unassigned'
@@ -22,6 +24,7 @@ class DeliveryPackage:
         DeliveryPackage.id_implementer += 1
         self._status = UNASSIGNED
         self._assigned_route = None
+        self._total_cost = self.total_cost()
 
     @property
     def id(self) -> int:
@@ -64,15 +67,23 @@ class DeliveryPackage:
                 return destination.arrival_time
 
     def __str__(self) -> str:
-        return (Fore.LIGHTCYAN_EX + f'#{self.id} Package ({Fore.YELLOW + str(self.weight) + 'kg' + Fore.LIGHTCYAN_EX})\n'
+        return (Fore.LIGHTCYAN_EX + f'#{self.id} Package ' + Fore.YELLOW + f'{self.weight:.2f}kg' + Fore.LIGHTCYAN_EX + '\n'
                 f'From: {Fore.YELLOW + self.start_location.value + Fore.LIGHTCYAN_EX}\n'
                 f'To: {Fore.YELLOW + self.end_location.value + Fore.LIGHTCYAN_EX}\n'
                 f'-----Client-----\n'
                 f'{self._contact_info}\n'
                 f'----------------\n'
                 f'STATUS: {self.status}\n'
-                f'Expected delivery: {Fore.YELLOW + self.arrival_time + Fore.LIGHTCYAN_EX}')
+                f'Expected delivery: {Fore.YELLOW + self.arrival_time + Fore.LIGHTCYAN_EX}\n'
+                f'Suggested cost: {self._total_cost:.2f}AUSD'
+                )
         
     def update_status(self, date):
         if date >= self.arrival_time and self.status == ASSIGNED_TO_TRUCK:
             self.status = COMPLETED
+            
+    def total_cost(self):
+        calculator = CourierCostCalculator(DistanceCalculator())
+        total_cost = calculator.calculate_cost(self)
+        
+        return total_cost
