@@ -1,5 +1,4 @@
 from csv_file.distance_calculator import DistanceCalculator
-from models.delivery_package import DeliveryPackage
 from colorama import Fore
 
 
@@ -16,11 +15,10 @@ class CourierCostCalculator:
         self._insurance_percentage = CourierCostCalculator.INSURANCE_PERCENTAGE
         self._distance_calculator = distance_calculator
 
-    def calculate_cost(self, package: DeliveryPackage):
-        if package.weight <= 0:
-            raise ValueError(Fore.RED + "Weight must be positive.")
-        
-        distance = self._distance_calculator.get_distance(package._start_location, package._end_location)
+    def calculate_cost(self, package):
+        start_location = package.start_location.name
+        end_location = package.end_location.name
+        distance = self._distance_calculator.get_distance(start_location, end_location)
         
         if distance < 0:
             raise ValueError(Fore.RED + "Distance cannot be negative.")
@@ -33,12 +31,6 @@ class CourierCostCalculator:
 
         return total_cost
 
-    def __str__(self):
-        return (Fore.LIGHTCYAN_EX + f"Courier Cost Calculator\n"
-                f"Base Rate: ${self._base_rate:.2f}\n"
-                f"Weight Cost per KG: ${self._weight_cost_per_kg:.2f}\n"
-                f"Distance Cost per KM: ${self._distance_cost_per_km:.2f}\n"
-                f"Insurance Percentage: {self._insurance_percentage}%")
 
 # if __name__ == "__main__":
 #     distance_calculator = DistanceCalculator()
