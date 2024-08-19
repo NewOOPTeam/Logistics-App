@@ -11,10 +11,8 @@ from models.user import User
 
 class TestAddCustomer(unittest.TestCase):
     def setUp(self):
-        # Set up the necessary components for the test
         self.app_data = AppData()
 
-        # Simulate logging in as an employee by providing login credentials
         sys.stdin = StringIO('employee_user\npassword123!\n')
         login_command = LoginCommand([], self.app_data)
         login_command.execute()

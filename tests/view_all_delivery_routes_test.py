@@ -9,7 +9,7 @@ from models.delivery_package import DeliveryPackage
 from Vehicles.truck_class_model import TruckModel
 from models.route_stop import RouteStop
 from models.delivery_route import DeliveryRoute, AWAITING, IN_PROGRESS, COMPLETED
-from models.locations import Locations  # Ensure Locations Enum is imported
+from models.locations import Locations  
 
 class TestViewAllDevRoutes(unittest.TestCase):
     def setUp(self):

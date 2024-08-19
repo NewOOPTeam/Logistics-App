@@ -35,6 +35,3 @@ class TestEmployee(unittest.TestCase):
         with self.assertRaises(ValueError):
             Employee("John", "Doe", EmployeeRoles.ADMIN, "johndoe", "password123*")
 
-
-if __name__ == '__main__':
-    unittest.main()

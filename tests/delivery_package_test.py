@@ -8,7 +8,7 @@ class TestDeliveryPackage(unittest.TestCase):
     def setUp(self):
         self.start_location = Locations.ADL.value
         self.end_location = Locations.MEL.value
-        self.contact_info = User("John", "Doe", "0888888888", "john@example.com")
+        self.contact_info = User("Ivan", "Ivan", "0888888888", "ivan@ivan")
         self.package = DeliveryPackage(10.0, self.start_location, self.end_location, self.contact_info)
 
     def test_id(self):
@@ -51,6 +51,3 @@ class TestDeliveryPackage(unittest.TestCase):
             f'STATUS: {self.package.status}'
         )
         self.assertEqual(str(self.package), expected_output)
-
-if __name__ == '__main__':
-    unittest.main()
