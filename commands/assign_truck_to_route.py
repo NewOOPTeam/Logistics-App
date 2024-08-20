@@ -11,7 +11,6 @@ class AssignTruckToRoute(BaseCommand):
         Validate.params_count(params, 0, self.__class__.__name__)
         super().__init__(params, app_data)
         
-
     def execute(self): 
         super().execute()
         get_id = GetId(self._app_data)
@@ -23,7 +22,8 @@ class AssignTruckToRoute(BaseCommand):
         route = self._app_data.get_route_by_id(route_id)
 
         if route._status == COMPLETED:
-            raise ValueError(Fore.RED + "Cannot create delivery for a completed route.")        
+            raise ValueError(Fore.RED + "Cannot create delivery for a completed route.")
+        
         suitable_trucks = self._app_data.find_suitable_truck_by_distance(route.total_distance)
         
         if not suitable_trucks:
@@ -34,6 +34,14 @@ class AssignTruckToRoute(BaseCommand):
         if not suitable_trucks_by_weight:
             raise ValueError(Fore.RED + "No suitable truck available for package(s) weight.")
         
+        # Validate truck capacity against total weight of packages
+        for truck in suitable_trucks_by_weight:
+            if route.calculate_weight_at_start() > truck.truck_capacity:
+                suitable_trucks_by_weight.remove(truck)
+        
+        if not suitable_trucks_by_weight:
+            raise ValueError(Fore.RED + "No truck with sufficient capacity for the weight of packages.")
+        
         final_trucks = self._app_data.show_available_trucks(suitable_trucks_by_weight)
         print(final_trucks)
         selected_truck = get_id.loop(Fore.LIGHTCYAN_EX + ' Select truck ID to assign to route: ')
@@ -41,6 +49,10 @@ class AssignTruckToRoute(BaseCommand):
             return OPERATION_CANCELLED
         
         truck = self._app_data.get_truck_by_id(selected_truck)
+        
+        if truck not in suitable_trucks_by_weight:
+            raise ValueError(Fore.RED + "Selected truck is not suitable for this route.")
+        
         result = self._app_data.assign_truck_to_route(truck, route)
         return Fore.GREEN + result if 'successfully' in result else Fore.RED + result
 

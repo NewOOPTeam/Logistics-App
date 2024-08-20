@@ -11,30 +11,27 @@ class TestEmployee(unittest.TestCase):
         self.assertEqual(emp.username, "johndoe")
         self.assertEqual(emp.password, "password123")
 
-    def test_invalid_firstname(self):
+    def test_raisesValueError_whenInvalidFirstName(self):
         with self.assertRaises(ValueError):
             Employee("J", "Doe", EmployeeRoles.ADMIN, "johndoe", "password123")
 
-    def test_invalid_lastname(self):
+    def test_raisesValueError_whenInvalidLastName(self):
         with self.assertRaises(ValueError):
             Employee("John", "D", EmployeeRoles.ADMIN, "johndoe", "password123")
 
-    def test_invalid_username_length(self):
+    def test_raisesValueError_whenUsernameLengthIsInvalid(self):
         with self.assertRaises(ValueError):
             Employee("John", "Doe", EmployeeRoles.ADMIN, "jd", "password123")
 
-    def test_invalid_username_characters(self):
+    def test_raisesValuerError_whenUsernameContainsInvalidCharacters(self):
         with self.assertRaises(ValueError):
             Employee("John", "Doe", EmployeeRoles.ADMIN, "johndoe*", "password123!")
 
-    def test_invalid_password_length(self):
+    def test_raisesValueError_whenPasswordLengthIsInvalid(self):
         with self.assertRaises(ValueError):
             Employee("John", "Doe", EmployeeRoles.ADMIN, "johndoe", "pw")
 
-    def test_invalid_password_characters(self):
+    def test_raisesValuerError_whenPasswordContainsInvalidCharacters(self):
         with self.assertRaises(ValueError):
             Employee("John", "Doe", EmployeeRoles.ADMIN, "johndoe", "password123*")
 
-
-if __name__ == '__main__':
-    unittest.main()

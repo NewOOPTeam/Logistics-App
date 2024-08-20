@@ -17,12 +17,12 @@ class TestViewAllPackages(unittest.TestCase):
         self.mock_packages = "Package 1 details\n\nPackage 2 details\n\nPackage 3 details"
         self.app_data.view_packages.return_value = self.mock_packages
 
-    def test_initialization(self):
+    def test_initialization_successful(self):
         command = ViewAllPackages([], self.app_data)
         self.assertIsInstance(command, ViewAllPackages)
         self.assertEqual(command._app_data, self.app_data)
 
-    def test_execute_non_supervisor(self):
+    def test_raisesValueError_whenExecuteNonSupervisor(self):
         self.app_data.logged_in_employee.role = EmployeeRoles.EMPLOYEE
 
         command = ViewAllPackages([], self.app_data)
@@ -30,7 +30,7 @@ class TestViewAllPackages(unittest.TestCase):
             command.execute()
         self.assertEqual(str(context.exception), Fore.RED + 'Only supervisors can view all packages!')
 
-    def test_execute_success(self):
+    def test_executeWhenSupervisor_returnsCorrect(self):
         self.app_data.logged_in_employee.role = EmployeeRoles.SUPERVISOR
 
         command = ViewAllPackages([], self.app_data)

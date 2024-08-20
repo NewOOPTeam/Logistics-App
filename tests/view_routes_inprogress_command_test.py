@@ -25,7 +25,7 @@ class TestViewRoutesInProgress(unittest.TestCase):
         self.mock_route_3._status = 'Completed'
         self.mock_route_3.__str__.return_value = "Route 3: Details"
 
-    def test_execute_success(self):
+    def test_executeViewRoutesInProggress_returnsCorrect(self):
         self.mock_employee.role = EmployeeRoles.MANAGER
 
         self.app_data.get_routes_in_progress.return_value = [
@@ -41,7 +41,7 @@ class TestViewRoutesInProgress(unittest.TestCase):
         expected_output = "Route 1: Details\nRoute 2: Details"
         self.assertEqual(result, expected_output)
 
-    def test_execute_fail_not_manager(self):
+    def test_raisesValueError_whenNotManager(self):
         self.mock_employee.role = EmployeeRoles.SUPERVISOR
 
         command = ViewRoutesInProgress([], self.app_data)
@@ -50,7 +50,7 @@ class TestViewRoutesInProgress(unittest.TestCase):
 
     @patch('commands.view_routes_in_progress.AppData', autospec=True)
     
-    def test_execute_no_routes_in_progress(self, app_data_class_mock):
+    def test_noRoutesInProgress_returnsEmptyStr(self, app_data_class_mock):
         self.mock_employee.role = EmployeeRoles.MANAGER
 
         app_data_mock = app_data_class_mock.return_value

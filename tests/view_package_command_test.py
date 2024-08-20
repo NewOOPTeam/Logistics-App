@@ -45,7 +45,8 @@ class TestViewPackage(unittest.TestCase):
 
     @patch('commands.view_package.DateTime', autospec=True)
     @patch('commands.view_package.GetId', autospec=True)
-    def test_execute_success(self, get_id_mock, date_time_mock):
+
+    def test_viewPackage_returnsCorrect(self, get_id_mock, date_time_mock):
 
         get_id_mock.return_value = self.get_id_mock
         self.get_id_mock.loop.return_value = 1
@@ -72,7 +73,8 @@ class TestViewPackage(unittest.TestCase):
         self.assertEqual(result, expected_str)
 
     @patch('commands.view_package.GetId', autospec=True)
-    def test_execute_cancel(self, get_id_mock):
+
+    def test_executeCancel_cancelateSuccessful(self, get_id_mock):
         get_id_mock.return_value = self.get_id_mock
         self.get_id_mock.loop.return_value = CANCEL
 
@@ -81,7 +83,6 @@ class TestViewPackage(unittest.TestCase):
 
         self.assertEqual(result, OPERATION_CANCELLED)
 
-    def tearDown(self):
-        pass
+
 
 

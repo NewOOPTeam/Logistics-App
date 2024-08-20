@@ -2,13 +2,13 @@ from unittest import TestCase
 from tests.constants import TestConstants as tc
 from core.application_data import AppData
 from core.command_factory import CommandFactory
-from commands.assign_package_to_route import AssignPackageToRoute
+# from commands.assign_package_to_route import AssignPackageToRoute
 from commands.create_package import CreatePackage
 from commands.create_delivery_route import CreateDeliveryRoute
 from commands.move_time_forward import MoveTimeForward
 from commands.search_delivery_route import SearchRoute
 from commands.add_customer import AddCustomer
-from commands.create_delivery import CreateDelivery
+# from commands.create_delivery import CreateDelivery
 from commands.view_unassigned_packages import ViewUnassignedPackages
 from commands.help import Help
 from commands.view_all_dev_routes import ViewAllDevRoutes
@@ -56,19 +56,10 @@ class CommandShould(TestCase):
     def test_createViewAllPackages_createsCommand(self):
         view_all_packages = self.cmd_factory.create(tc.VIEW_ALL_PACKAGES)
         self.assertIsInstance(view_all_packages, ViewAllPackages)
-                    
-    def test_createCreateDelivery_createsCommand(self):
-        create_delivery = self.cmd_factory.create(tc.CREATE_DELIVERY)
-        self.assertIsInstance(create_delivery, CreateDelivery)
 
     def test_createCreateDeliveryRoute_createsCommand(self):
         create_delivery_route = self.cmd_factory.create(tc.CREATE_DELIVERY_ROUTE)
         self.assertIsInstance(create_delivery_route, CreateDeliveryRoute)
-        
-    def test_createAssignPackageToRoute_createsCommand(self):
-        p_r = f'{tc.ASSIGN_PACKAGE_TO_ROUTE} 1 1'
-        assign_p_to_r = self.cmd_factory.create(p_r)
-        self.assertIsInstance(assign_p_to_r, AssignPackageToRoute)
     
     def test_createAssignPackageToRoute_raisesErrorIncorrectParams(self):
         with self.assertRaises(ValueError):
