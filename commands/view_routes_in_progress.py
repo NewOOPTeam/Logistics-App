@@ -3,6 +3,7 @@ from core.application_data import AppData
 from commands.helper_methods import Validate
 from models.employee_roles import EmployeeRoles
 from colorama import Fore
+from date_time.date_time_functionalities import DateTime
 
 
 class ViewRoutesInProgress(BaseCommand):
@@ -14,6 +15,9 @@ class ViewRoutesInProgress(BaseCommand):
         super().execute()
         if not self._app_data.logged_in_employee.role == EmployeeRoles.MANAGER:
             raise ValueError(Fore.RED + 'Only managers can view information about routes in progress!') 
+        
+        date = DateTime.create_time_stamp_for_today()
+        self._app_data.update_all_routes_status(date)
         
         routes_in_progress = self._app_data.get_routes_in_progress()
         return '\n'.join(routes_in_progress)

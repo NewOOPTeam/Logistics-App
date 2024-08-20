@@ -20,7 +20,7 @@ class AssignTruckToRoute(BaseCommand):
             return OPERATION_CANCELLED
         
         route = self._app_data.get_route_by_id(route_id)
-        
+
         if route._status == COMPLETED:
             raise ValueError(Fore.RED + "Cannot create delivery for a completed route.")
         
@@ -45,6 +45,8 @@ class AssignTruckToRoute(BaseCommand):
         final_trucks = self._app_data.show_available_trucks(suitable_trucks_by_weight)
         print(final_trucks)
         selected_truck = get_id.loop(Fore.LIGHTCYAN_EX + ' Select truck ID to assign to route: ')
+        if selected_truck == CANCEL:
+            return OPERATION_CANCELLED
         
         truck = self._app_data.get_truck_by_id(selected_truck)
         
