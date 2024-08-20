@@ -236,7 +236,7 @@ class AppData:
         return '\n\n'.join(routes_with_packages)
 
     def get_routes_in_progress(self):
-       active_routes = [route for route in self._delivery_routes if route._status == IN_PROGRESS]
+       active_routes = [str(route) for route in self._delivery_routes if route._status == IN_PROGRESS]
        return active_routes 
     
     def update_all_routes_status(self, date: str):
