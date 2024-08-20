@@ -17,7 +17,7 @@ class TestAddCustomer(unittest.TestCase):
         login_command = LoginCommand([], self.app_data)
         login_command.execute()
 
-    def test_add_customer_successful(self):
+    def test_addCustomerSuccessful(self):
         sys.stdin = StringIO('Ivan\nIvan\nivan@ivan\n099999999\n')
 
         command = AddCustomer([], self.app_data)

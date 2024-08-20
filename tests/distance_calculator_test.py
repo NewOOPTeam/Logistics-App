@@ -7,7 +7,7 @@ class TestDistanceCalculator(unittest.TestCase):
     def setUp(self):
         self.calculator = DistanceCalculator()
 
-    def test_load_distance_data(self):
+    def test_loadDistanceData_successful(self):
         distance_dict = self.calculator.load_distance_data()
         self.assertIsInstance(distance_dict, dict)
         self.assertEqual(len(distance_dict), 7)  # Updated to match the actual number of cities
@@ -25,7 +25,7 @@ class TestDistanceCalculator(unittest.TestCase):
         self.assertEqual(distance_dict['MEL']['ASP'], 2255)
         self.assertEqual(distance_dict['ADL']['ASP'], 1530)
 
-    def test_get_distance(self):
+    def test_getDistance_returnsCorrect(self):
         distance = self.calculator.get_distance('SYD', 'MEL')
         self.assertEqual(distance, 877)
 
@@ -35,7 +35,7 @@ class TestDistanceCalculator(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.calculator.get_distance('SYD', 'XYZ')
 
-    def test_calculate_total_distance(self):
+    def test_calculateTotalDistance_successful(self):
         route = ['SYD', 'MEL', 'ADL']
         total_distance = self.calculator.calculate_total_distance(route)
         self.assertEqual(total_distance, 877 + 725)
@@ -44,7 +44,7 @@ class TestDistanceCalculator(unittest.TestCase):
         total_distance = self.calculator.calculate_total_distance(route)
         self.assertEqual(total_distance, 2762 + 2481)
 
-    def test_validate_route(self):
+    def test_raisesValueError_whenRouteIsNotCorrect(self):
         route = ['SYD', 'MEL', 'ADL']
         self.calculator.validate_route(route)
 
@@ -60,7 +60,7 @@ class TestDistanceCalculator(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.calculator.validate_route(route)
 
-    def test_get_route_distance(self):
+    def test_getRouteDistance_returnsCorrect(self):
         route_input = 'SYD MEL ADL'
         distance = self.calculator.get_route_distance(route_input)
         self.assertEqual(distance, 877 + 725)

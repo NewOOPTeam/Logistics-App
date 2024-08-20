@@ -18,7 +18,7 @@ class TestCourierCostCalculator(unittest.TestCase):
             contact_info="Customer Info"
         )
     
-    def test_calculate_cost_positive_weight(self):
+    def test_calculateCostPositiveWeight_returnsCorrect(self):
         self.mock_distance_calculator.get_distance.return_value = 100.0
         
         base_cost = 10.0 + (2.00 * self.package.weight) + (0.075 * self.mock_distance_calculator.get_distance(self.package.start_location.name, self.package.end_location.name))
@@ -29,13 +29,13 @@ class TestCourierCostCalculator(unittest.TestCase):
         
         self.assertAlmostEqual(result, expected_cost, places=2)
     
-    def test_calculate_cost_negative_distance(self):
+    def test_raisesValueError_when_CalculateCostNegativeDistance(self):
         self.mock_distance_calculator.get_distance.return_value = -100.0
         
         with self.assertRaises(ValueError):
             self.cost_calculator.calculate_cost(self.package)
     
-    def test_calculate_cost_zero_distance(self):
+    def test_calculateCostZeroDistance(self):
         self.mock_distance_calculator.get_distance.return_value = 0.0
         
         base_cost = 10.0 + (2.00 * self.package.weight) + (0.075 * self.mock_distance_calculator.get_distance(self.package.start_location.name, self.package.end_location.name))

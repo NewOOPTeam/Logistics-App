@@ -26,14 +26,14 @@ class TestViewUnassignedPackages(unittest.TestCase):
         self.assertIsInstance(command, ViewUnassignedPackages)
         self.assertEqual(command._app_data, self.app_data)
 
-    def test_execute_non_supervisor(self):
+    def test_raisesValueError_whenExecuteNonSupervisor(self):
         self.app_data.logged_in_employee = self.non_supervisor_employee
         command = ViewUnassignedPackages([], self.app_data)
         with self.assertRaises(ValueError) as context:
             command.execute()
         self.assertEqual(str(context.exception), Fore.RED + 'Only supervisors can view all packages!')
 
-    def test_execute_success(self):
+    def test_executeSuccess_whenSupervisorLogedIn(self):
         self.app_data.logged_in_employee = self.supervisor_employee
 
         command = ViewUnassignedPackages([], self.app_data)
