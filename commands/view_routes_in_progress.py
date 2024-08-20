@@ -20,7 +20,7 @@ class ViewRoutesInProgress(BaseCommand):
         self._app_data.update_all_routes_status(date)
         
         routes_in_progress = self._app_data.get_routes_in_progress()
-        return '\n'.join(routes_in_progress)
+        return '\n'.join(routes_in_progress) if routes_in_progress else Fore.YELLOW + 'No routes in progress'
     
     def _requires_login(self) -> bool:
         True
