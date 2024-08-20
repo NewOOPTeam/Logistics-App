@@ -6,7 +6,7 @@ from Vehicles.truck_class_model import TruckConstants as tc
 from Vehicles.truck_class_model import TruckModel
 from models.route_stop import RouteStop
 from models.locations import Locations
-from models.delivery_route import DeliveryRoute, COMPLETED
+from models.delivery_route import DeliveryRoute, COMPLETED, AWAITING
 from date_time.date_time_functionalities import DateTime
 from csv_file.distance_calculator import DistanceCalculator as DC
 from colorama import Fore, Style
@@ -180,7 +180,7 @@ class AppData:
         Returns:
             (str)
         """
-        unassigned_packages = [package for package in self._delivery_packages if package.status == UNASSIGNED or package.status == ASSIGNED_TO_ROUTE]#added
+        unassigned_packages = [package for package in self._delivery_packages if package.status == ASSIGNED_TO_ROUTE or package.status == UNASSIGNED]
         return '\n\n'.join(unassigned_packages)
 
     def update_all_packages(self, date: str):
@@ -300,7 +300,7 @@ class AppData:
         if not isinstance(end_location, Locations):
             end_location = Locations[end_location]
         
-        suitable_routes = [route for route in self._delivery_routes if route._status != COMPLETED]
+        suitable_routes = [route for route in self._delivery_routes if route._status == AWAITING]
         valid_routes = []
         for route in suitable_routes:
             weight_at_start_location = route.calculate_weight_at_stop(start_location)
