@@ -128,7 +128,7 @@ class DeliveryRoute:
     def truck_suitable_for_packages_in_route(self, truck: TruckModel) -> bool:
         truck_capacity_for_route = truck.truck_capacity
         weight_at_start = self.calculate_weight_at_start()
-        if truck_capacity_for_route <= weight_at_start:
+        if truck_capacity_for_route < weight_at_start:
             return False
         
         weight_to_pickup, weight_to_unload = {}, {}
@@ -145,7 +145,7 @@ class DeliveryRoute:
             truck_capacity_for_route += weight_to_unload[stop.location]
             truck_capacity_for_route -= weight_to_pickup[stop.location]
         
-        if truck_capacity_for_route >= truck.truck_capacity:
+        if truck_capacity_for_route > truck.truck_capacity:
             return False       
         
         return True
