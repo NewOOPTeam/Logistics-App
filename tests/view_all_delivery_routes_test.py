@@ -9,7 +9,7 @@ from models.delivery_package import DeliveryPackage
 from Vehicles.truck_class_model import TruckModel
 from models.route_stop import RouteStop
 from models.delivery_route import DeliveryRoute, AWAITING, IN_PROGRESS, COMPLETED
-from models.locations import Locations  # Ensure Locations Enum is imported
+from models.locations import Locations  
 
 class TestViewAllDevRoutes(unittest.TestCase):
     def setUp(self):
@@ -39,12 +39,12 @@ class TestViewAllDevRoutes(unittest.TestCase):
             [f"Route: {route}\nAssigned packages: 0, total weight: 0\n" for route in self.mock_routes]
         )
 
-    def test_initialization(self):
+    def test_initialization_successful(self):
         command = ViewAllDevRoutes([], self.app_data)
         self.assertIsInstance(command, ViewAllDevRoutes)
         self.assertEqual(command._app_data, self.app_data)
 
-    def test_execute_non_manager(self):
+    def test_raisesValueError_whenExecuteNonManager(self):
         self.app_data.logged_in_employee.role = EmployeeRoles.EMPLOYEE
 
         command = ViewAllDevRoutes([], self.app_data)
@@ -52,7 +52,7 @@ class TestViewAllDevRoutes(unittest.TestCase):
             command.execute()
         self.assertEqual(str(context.exception), Fore.RED + 'Only managers can view information about all delivery routes!')
 
-    def test_execute_success(self):
+    def test_executeSuccess_returnsCorrect(self):
         self.app_data.logged_in_employee.role = EmployeeRoles.MANAGER
 
         command = ViewAllDevRoutes([], self.app_data)
